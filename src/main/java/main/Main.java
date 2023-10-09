@@ -4,19 +4,18 @@
 package main;
 
 import entities.Menu;
-import entities.Peregrino;
+import entities.Sesion;
 
 /**
  * 
  */
 public class Main {
 
-	private static Peregrino peregrinoLogeado;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Menu();
+		new Main();
 	}
 
 }

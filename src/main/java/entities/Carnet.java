@@ -16,7 +16,7 @@ public class Carnet {
 	private double distancia = 0.0;
 	private int nvips = 0;
 	
-	private ArrayList <Parada> paradas;
+	private Parada paradaInicial;
 	
 	
 	
@@ -55,13 +55,15 @@ public class Carnet {
 		this.nvips = nvips;
 	}
 
-	public ArrayList<Parada> getParadas() {
-		return paradas;
+	public Parada getParadaInicial() {
+		return paradaInicial;
 	}
 
-	public void setParadas(ArrayList<Parada> paradas) {
-		this.paradas = paradas;
+	public void setParadaInicial(Parada paradaInicial) {
+		this.paradaInicial = paradaInicial;
 	}
+
+
 	
 	
 

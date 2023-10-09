@@ -6,16 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static entities.Sesion.perfil;
+
 public class Validation {
     private static Map<String, String> validUsers = new HashMap<>();
 
-    public static boolean userValidator(String username, String password) {
+    public static String userValidator(String username, String password) {
         leerCredenciales();
         if (validUsers.containsKey(username)) {
             String storedPass = validUsers.get(username);
-            return storedPass.equals(password);
+            if (storedPass.equals(password)) {
+            	return validUsers.get(perfil);
+            }            
         }
-        return false;
+        return null;
     }
 
     public static void leerCredenciales() {

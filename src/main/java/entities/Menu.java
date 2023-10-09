@@ -9,8 +9,11 @@ public class Menu {
 
     Scanner sc = new Scanner(System.in);
     public Menu() {
+        menuInvitado();
+    }
 
-        int opcion = -1;
+	private void menuInvitado() {
+		int opcion = -1;
         do {
             System.out.println("Menu:");
             System.out.println("1. Iniciar sesión");
@@ -31,7 +34,7 @@ public class Menu {
                     System.out.println("Saliendo del programa.");
                     break;
                 case 1:
-                    login();
+                    Login login = new Login();
                     break;
                 case 2:
                     createUser();
@@ -41,21 +44,35 @@ public class Menu {
                     break;
             }
         } while (opcion != 0);
-    }
+	}
 
-    private void login() {
-        System.out.println("Introduzca su nombre de usuario");
-        String user = sc.nextLine();
-        System.out.println("Introduzca su contraseña");
-        String pass = sc.nextLine();
-        if (userValidator(user, pass)) {
-            System.out.println("Iniciando sesión...");
-        } else {
-            System.out.println("Usuario o contraseña incorrectos.");
-        }
-    }
+//    private void login() {
+//        System.out.println("Introduzca su nombre de usuario");
+//        String user = sc.nextLine();
+//        System.out.println("Introduzca su contraseña");
+//        String pass = sc.nextLine();
+//        if (userValidator(user, pass)) {
+//            System.out.println("Iniciando sesión...");
+//        } else {
+//            System.out.println("Usuario o contraseña incorrectos.");
+//        }
+//    }
+    
     private void createUser() {
         System.out.println("Creando nuevo usuario...");
+        // nombre, contraseña, nacionalidad(paises.xml) y parada inicial(disponibles en paradas.dat)
+    }
+    
+    protected void menuPeregrino() {
+    	
+    }
+    
+    protected void menuAdminParadas() {
+    	
+    }
+    
+    protected void menuAdmin() {
+    	
     }
 }
 
