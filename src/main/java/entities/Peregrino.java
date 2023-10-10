@@ -8,54 +8,22 @@ import java.util.ArrayList;
 /**
  * 
  */
-public class Peregrino {
+public class Peregrino extends Usuario {
 
-	private long id;
-	private String nombre;
 	private String nacionalidad;
-	private final Perfil perfil = Perfil.PEREGRINO;
-
 	private Carnet carnet;
 	private ArrayList<Parada> paradas;
 	private ArrayList<Estancia> estancias;
 
 	public Peregrino() {
-		super();
 	}
 
-	public Peregrino(long id, String nombre, String nacionalidad, Carnet carnet) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.nacionalidad = nacionalidad;
-		this.carnet = carnet;
-	}
-
-	public Peregrino(long id, String nombre, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas,
-			ArrayList<Estancia> estancias) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
+	public Peregrino(String nombre, String password, Perfil perfil, long id, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas, ArrayList<Estancia> estancias) {
+		super(nombre, password, perfil, id);
 		this.nacionalidad = nacionalidad;
 		this.carnet = carnet;
 		this.paradas = paradas;
 		this.estancias = estancias;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getNacionalidad() {
@@ -90,12 +58,14 @@ public class Peregrino {
 		this.estancias = estancias;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Peregrino [id=" + id + ", nombre=" + nombre + ", nacionalidad=" + nacionalidad + ", carnet=" + carnet
-				+ ", paradas=" + paradas + ", estancias=" + estancias + "]";
+		return "Peregrino{" +
+				"nacionalidad='" + nacionalidad + '\'' +
+				", carnet=" + carnet +
+				", paradas=" + paradas +
+				", estancias=" + estancias +
+				'}';
 	}
-	
-	
-
 }

@@ -1,46 +1,27 @@
 /**
- * 
+ *
  */
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * 
- */
-public class Parada {
+public class Parada extends Usuario implements Serializable {
 
-
-    private long id;
-    private String nombre;
     private char region;
-    private final Perfil perfil = Perfil.PARADA;
-
-    private ArrayList<Peregrino> peregrinos;
+    private ArrayList<Peregrino> peregrinos = null;
 
     public Parada() {
     }
 
-    public Parada(long id, String nombre, char region) {
-        this.id = id;
-        this.nombre = nombre;
+    public Parada(String nombre, String password, Perfil perfil, long id, char region, ArrayList<Peregrino> peregrinos) {
+        super(nombre, password, perfil, id);
         this.region = region;
+        this.peregrinos = peregrinos;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public ArrayList<Peregrino> getPeregrinos() {
+        return peregrinos;
     }
 
     public char getRegion() {
@@ -51,12 +32,15 @@ public class Parada {
         this.region = region;
     }
 
+    public void setPeregrinos(ArrayList<Peregrino> peregrinos) {
+        this.peregrinos = peregrinos;
+    }
+
+
     @Override
     public String toString() {
         return "Parada{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", region=" + region +
+                "peregrinos=" + peregrinos +
                 '}';
     }
 }

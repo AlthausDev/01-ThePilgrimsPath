@@ -26,7 +26,6 @@ public class Estancia {
         this.peregrinos = peregrinos;
     }
 
-
     public long getId() {
         return id;
     }

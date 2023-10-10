@@ -17,11 +17,7 @@ public class Carnet {
 	private int nvips = 0;
 	
 	private Parada paradaInicial;
-	
-	
-	
-	
-	
+
 
 	public long getIdPeregrino() {
 		return idPeregrino;
