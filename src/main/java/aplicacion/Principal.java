@@ -1,15 +1,14 @@
 /**
  * 
  */
-package main;
+package aplicacion;
 
-import entities.Menu;
-import entities.Sesion;
+import controllers.Menu;
 
 /**
  * 
  */
-public class Main {
+public class Principal {
 
 	private static Sesion sesion;
 	/**
@@ -17,5 +16,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		new Menu();
+
+
+
 	}
 }

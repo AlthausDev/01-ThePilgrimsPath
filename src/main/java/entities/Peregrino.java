@@ -3,12 +3,13 @@
  */
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * 
  */
-public class Peregrino extends Usuario {
+public class Peregrino extends Usuario implements Serializable {
 
 	private String nacionalidad;
 	private Carnet carnet;

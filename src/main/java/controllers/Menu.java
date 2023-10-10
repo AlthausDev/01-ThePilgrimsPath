@@ -1,9 +1,6 @@
-package entities;
-
+package controllers;
 import java.util.Scanner;
 import java.util.InputMismatchException;
-
-import static validation.Validation.userValidator;
 
 public class Menu {
 

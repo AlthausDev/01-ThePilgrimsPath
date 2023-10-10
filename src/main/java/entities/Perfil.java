@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Perfil {
 
-    private int id;
+    private Long id;
     private String nombre;
     private String perfil;
     private static List<Usuario> listaUsuarios;
@@ -14,11 +14,11 @@ public class Perfil {
     public Perfil() {
     }
 
-    public Perfil(int id, String nombre, String perfil, List<Usuario> listaUsuarios) {
+    public Perfil(Long id, String nombre, String perfil) {
         this.id = id;
         this.nombre = nombre;
         this.perfil = perfil;
-        Perfil.listaUsuarios = listaUsuarios;
+        //Perfil.listaUsuarios = listaUsuarios;
     }
 
     public List<Usuario> getListaUsuarios() {
@@ -29,11 +29,11 @@ public class Perfil {
         Perfil.listaUsuarios = listaUsuarios;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
