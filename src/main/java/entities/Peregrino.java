@@ -13,6 +13,7 @@ public class Peregrino {
 	private long id;
 	private String nombre;
 	private String nacionalidad;
+	private final Perfil perfil = Perfil.PEREGRINO;
 
 	private Carnet carnet;
 	private ArrayList<Parada> paradas;

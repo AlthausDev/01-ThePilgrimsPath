@@ -1,25 +1,23 @@
 package validation;
 
+import entities.Perfil;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import static entities.Sesion.perfil;
-
 public class Validation {
     private static Map<String, String> validUsers = new HashMap<>();
 
-    public static String userValidator(String username, String password) {
+    public static boolean userValidator(String username, String password) {
         leerCredenciales();
         if (validUsers.containsKey(username)) {
             String storedPass = validUsers.get(username);
-            if (storedPass.equals(password)) {
-            	return validUsers.get(perfil);
-            }            
+            return storedPass.equals(password);
         }
-        return null;
+        return false;
     }
 
     public static void leerCredenciales() {

@@ -14,6 +14,7 @@ public class Parada {
     private long id;
     private String nombre;
     private char region;
+    private final Perfil perfil = Perfil.PARADA;
 
     private ArrayList<Peregrino> peregrinos;
 
