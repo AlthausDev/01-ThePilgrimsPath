@@ -10,6 +10,7 @@
 
 package aplicacion;
 
+import entities.Peregrino;
 import entities.Perfil;
 import  entities.Parada;
 import entities.Usuario;
@@ -27,27 +28,30 @@ public class Sesion {
 	private static Usuario user = null;
 	private static ArrayList<Parada> listaParadas;
 	private HashMap <String, String> nacionalidades;
-	private static HashMap <Long, Usuario> listaUsuarios;
+	private static HashMap <Long, Peregrino> listaPeregrinos;
 	public static Perfil perfil = null;
 
 
 
 	public Sesion() {
 		importarParadas();
-		//importarUsuarios()
+		importarPeregrinos();
+		importarNacionalidades();
 		new Menu();
-
 	}
 
-	public static void iniciarSesion(Long validId) {			
-			user = ((Usuario) listaUsuarios).constainKey(validId);
-			perfil = user.getPerfil();			
-			System.out.println("Iniciando sesión... Bienvenido " + user + "\n");		
-		
+
+	public static void iniciarSession(String username) {
+			//Usuario user = recoverUser(username);
+			System.out.println("Iniciando sesión... Bienvenido " + user + "\n");
 		
 	}
 
-	public static void cerrarSesion() {
+	private static Usuario recoverUser(String username) {
+		return null;
+	}
+
+	public static void cerrarSession() {
 		user = null;
 		perfil = null;
 	}
@@ -76,4 +80,11 @@ public class Sesion {
 			throw new RuntimeException(e);
 		}
 	}
+
+	private void importarPeregrinos() {
+	}
+
+	private void importarNacionalidades() {
+	}
+
 }
