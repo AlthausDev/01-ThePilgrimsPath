@@ -3,23 +3,19 @@ package entities;
 import java.io.Serializable;
 
 public abstract class Usuario implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    private String nombre;
-    private String password;
-    private Perfil perfil;
     private long id;
+    private String nombre;
+    private Perfil perfil;
 
 
     public Usuario() {
 
     }
 
-    public Usuario(String nombre, String password, Perfil perfil, long id) {
-        this.nombre = nombre;
-        this.password = password;
-        this.perfil = perfil;
+    public Usuario(long id, String nombre, Perfil perfil) {
         this.id = id;
+        this.nombre = nombre;
+        this.perfil = perfil;
     }
 
     public long getId() {
@@ -47,11 +43,10 @@ public abstract class Usuario implements Serializable {
     }
 
     @Override
-    public String
-    toString() {
+    public java.lang.String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", nombre='" + nombre + '\'' +
+                ", nombre=" + nombre +
                 ", perfil=" + perfil +
                 '}';
     }

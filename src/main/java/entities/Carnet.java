@@ -6,11 +6,26 @@ public class Carnet {
 
     private long idPeregrino;
     private LocalDate fechaExp;
+    private Parada paradaInicial;
     private double distancia = 0.0;
     private int nvips = 0;
 
-    private Parada paradaInicial;
+    public Carnet() {
+    }
 
+    public Carnet(long idPeregrino, LocalDate fechaExp, Parada paradaInicial) {
+        this.idPeregrino = idPeregrino;
+        this.fechaExp = fechaExp;
+        this.paradaInicial = paradaInicial;
+    }
+
+    public Carnet(long idPeregrino, LocalDate fechaExp, Parada paradaInicial, double distancia, int nvips) {
+        this.idPeregrino = idPeregrino;
+        this.fechaExp = fechaExp;
+        this.distancia = distancia;
+        this.paradaInicial = paradaInicial;
+        this.nvips = nvips;
+    }
 
     public long getIdPeregrino() {
         return idPeregrino;

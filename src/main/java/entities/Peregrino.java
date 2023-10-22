@@ -6,12 +6,13 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static entities.Perfil.PEREGRINO;
+
 /**
  * 
  */
 public class Peregrino extends Usuario implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	private String nacionalidad;
 	private Carnet carnet;
 	private ArrayList<Parada> paradas;
@@ -20,8 +21,14 @@ public class Peregrino extends Usuario implements Serializable {
 	public Peregrino() {
 	}
 
-	public Peregrino(String nombre, String password, Perfil perfil, long id, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas, ArrayList<Estancia> estancias) {
-		super(nombre, password, perfil, id);
+	public Peregrino(String nombre, String nacionalidad) {
+		super(33, nombre, PEREGRINO);
+		this.nacionalidad = nacionalidad;
+	}
+
+	public Peregrino(long id, String nombre, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas, ArrayList<Estancia> estancias) {
+
+		super(id, nombre, PEREGRINO);
 		this.nacionalidad = nacionalidad;
 		this.carnet = carnet;
 		this.paradas = paradas;
@@ -60,9 +67,8 @@ public class Peregrino extends Usuario implements Serializable {
 		this.estancias = estancias;
 	}
 
-
 	@Override
-	public String toString() {
+	public java.lang.String toString() {
 		return "Peregrino{" +
 				"nacionalidad='" + nacionalidad + '\'' +
 				", carnet=" + carnet +

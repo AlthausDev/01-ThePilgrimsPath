@@ -35,7 +35,7 @@ public class Menu {
                     login.login();
                     break;
                 case 2:
-                    Registrar user = new Registrar();
+                    Registro user = new Registro();
                     user.registrar();
                     break;
                 default:

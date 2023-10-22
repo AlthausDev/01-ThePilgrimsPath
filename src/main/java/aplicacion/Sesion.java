@@ -11,80 +11,69 @@
 package aplicacion;
 
 import entities.Peregrino;
-import entities.Perfil;
 import  entities.Parada;
+import entities.Perfil;
 import entities.Usuario;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import controllers.Menu;
 
-import static utilidades.Constantes.PATH_STOPS;
+import controllers.Menu;
+import io.Lector;
 
 public class Sesion {
 	
 	private static Parada paradaActual =  null;
 	private static Usuario user = null;
-	private static ArrayList<Parada> listaParadas;
-	private HashMap <String, String> nacionalidades;
-	private static HashMap <Long, Peregrino> listaPeregrinos;
-	public static Perfil perfil = null;
+	private static Perfil perfil;
+	private static HashMap <Long, Parada> paradas;
+	private static HashMap <java.lang.String, java.lang.String> nacionalidades;
 
 
 
 	public Sesion() {
-		importarParadas();
-		importarPeregrinos();
-		importarNacionalidades();
+		paradas = Lector.readParadas();
+		nacionalidades = Lector.readPaises();
 		new Menu();
 	}
 
 
-	public static void iniciarSession(String username) {
-			//Usuario user = recoverUser(username);
-			System.out.println("Iniciando sesión... Bienvenido " + user + "\n");
-		
+	public static Parada getParadaActual() {
+		return paradaActual;
 	}
 
-	private static Usuario recoverUser(String username) {
-		return null;
+	public static void setParadaActual(Parada paradaActual) {
+		Sesion.paradaActual = paradaActual;
 	}
 
-	public static void cerrarSession() {
-		user = null;
-		perfil = null;
+	public static Usuario getUser() {
+		return user;
+	}
+
+	public static void setUser(Usuario user) {
+		Sesion.user = user;
+	}
+
+	public static HashMap<Long, Parada> getParadas() {
+		return paradas;
+	}
+
+	public static void setParadas(HashMap<Long, Parada> paradas) {
+		Sesion.paradas = paradas;
+	}
+
+	public static HashMap<String, String> getNacionalidades() {
+		return nacionalidades;
+	}
+
+	public static void setNacionalidades(HashMap<String, String> nacionalidades) {
+		Sesion.nacionalidades = nacionalidades;
 	}
 
 	public static Perfil getPerfil() {
 		return perfil;
 	}
 
-	public static void importarParadas() {
-		try {
-			File archivo = new File(PATH_STOPS);
-			FileInputStream fis = new FileInputStream(archivo);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-
-			Parada parada;
-			while ((parada = (Parada) ois.readObject()) != null) {
-				listaParadas.add(parada);			}
-
-			ois.close();
-			fis.close();
-		} catch (FileNotFoundException e){
-				System.out.println("No se encuentra el archivo");
-		} catch (EOFException e) {
-				System.out.println("Fin del archivo");
-		} catch (IOException | ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+	public static void setPerfil(Perfil perfil) {
+		Sesion.perfil = perfil;
 	}
-
-	private void importarPeregrinos() {
-	}
-
-	private void importarNacionalidades() {
-	}
-
 }

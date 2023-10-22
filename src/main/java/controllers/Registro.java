@@ -45,21 +45,16 @@ import entities.Estancia;
 import entities.Parada;
 import entities.Peregrino;
 import aplicacion.Sesion;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Registrar {
+public class Registro {
 
     private Scanner sc = new Scanner(System.in);
 
     public void registrar() {
-        if (Sesion.perfil == null) {
+        if (Sesion.getPerfil() == null) {
             nuevoPeregrino();
         } else {
             nuevaParada();
@@ -73,53 +68,23 @@ public class Registrar {
         System.out.println("Indique una contraseña");
         String pass = sc.nextLine();
 
-        String nacionalidad = obtenerNacionalidad(); 
+        String nacionalidad = null;
 
         ArrayList<Parada> paradas = new ArrayList<>(); 
         ArrayList<Estancia> estancias = new ArrayList<>(); 
 
         Carnet carnet = new Carnet();
 
-        Peregrino nuevoPeregrino = new Peregrino(nombre, pass, Sesion.perfil, 0, nacionalidad, carnet, paradas, estancias);
-        Controller.mapaUsuarios.put(Controller.count++, nuevoPeregrino);
+        Peregrino nuevoPeregrino = new Peregrino(nombre, nacionalidad);
+
     }
 
-
-
-    private String seleccionarNacionalidad() {
-        
-        return "España";
-    }
-
-    private String seleccionarParadaInicial() {
-        
-        return "ParadaA"; 
-    }
 
     private void nuevaParada() {
 
     }
 
-    public String obtenerNacionalidad() {
-        String nacionalidad = "Desconocido"; 
 
-        try {
-            File xmlFile = new File("src/main/resources/paises.xml"); 
-
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-
-            doc.getDocumentElement().normalize();
-
-            NodeList nodeList = doc.getElementsByTagName("pais");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return nacionalidad;
-    }
 
 }
 
