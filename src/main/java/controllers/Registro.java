@@ -1,6 +1,7 @@
 package controllers;
 
 import aplicacion.Sesion;
+import entities.AdminParada;
 import entities.Carnet;
 import entities.Parada;
 import entities.Peregrino;
@@ -8,12 +9,12 @@ import entities.Peregrino;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static entities.Perfil.ADMIN_PARADA;
 import static entities.Perfil.PEREGRINO;
-import static io.Escritor.writeCarnet;
-import static io.Escritor.writeCredencial;
+import static io.Escritor.*;
 
 public class Registro {
-    private Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
 
 
     public void registrar() {
@@ -53,7 +54,42 @@ public class Registro {
         }
     }
 
-    private String obtenerNombre() {
+    public static void nuevaParada() {
+        try {
+            System.out.println("Agregar nueva parada");
+            long id = Sesion.getLastId() + 1;
+
+            System.out.print("Nombre de la nueva parada: ");
+            String nombreParada = obtenerNombre();
+
+            if (paradaExiste(nombreParada)) {
+                System.err.println("La parada ya existe en el sistema.");
+                return;
+            }
+
+            System.out.print("Región de la nueva parada: ");
+            char regionParada = obtenerRegion();
+
+            System.out.print("Nombre del Administrador de Parada: ");
+            String nombreAdminParada = obtenerNombre();
+
+            System.out.print("Contraseña del Administrador de Parada: ");
+            String passAdminParada = obtenerPassword();
+
+            AdminParada adminParada = new AdminParada(id, nombreAdminParada);
+            Parada nuevaParada = new Parada(id, nombreParada, regionParada, adminParada);
+
+            writeCredencial(nombreAdminParada, passAdminParada, ADMIN_PARADA, id);
+            writeParada(nuevaParada);
+
+            System.out.println("Nueva parada agregada con éxito.");
+            Sesion.setLastId(id);
+        } catch (Exception e) {
+            System.err.println("Error al agregar la nueva parada: " + e.getMessage());
+        }
+    }
+
+    private static String obtenerNombre() {
         while (true) {
             System.out.print("Indique su nombre (mínimo 3 caracteres): ");
             String nombre = sc.nextLine().trim();
@@ -66,7 +102,7 @@ public class Registro {
         }
     }
 
-    private String obtenerPassword() {
+    private static String obtenerPassword() {
         while (true) {
             System.out.print("Indique una contraseña (mínimo 3 caracteres): ");
             String pass = sc.nextLine().trim();
@@ -92,11 +128,25 @@ public class Registro {
         }
     }
 
-
-
-    private void nuevaParada() {
-
+    private static char obtenerRegion() {
+        while (true) {
+            String input = sc.nextLine();
+            if (input.length() == 1) {
+                char region = input.charAt(0);
+                if (Character.isLetter(region)) {
+                    return Character.toUpperCase(region);
+                }
+            }
+            System.err.println("Ingrese una región válida (un solo carácter). Intente de nuevo.");
+        }
     }
+
+    private static boolean paradaExiste(String nombreParada) {
+        return Sesion.getParadas().values().stream()
+                .anyMatch(parada -> parada.getNombre().equalsIgnoreCase(nombreParada));
+    }
+
+
 
 }
 

@@ -1,15 +1,6 @@
-//package aplicacion;
-
-//import entities.Perfil;
-//
-//public class Sesion {
-//
-//	private static long id;
-//	public static Perfil perfil = null;
-//}
-
 package aplicacion;
 import  entities.Parada;
+import entities.Peregrino;
 import entities.Perfil;
 import entities.Usuario;
 
@@ -22,22 +13,29 @@ import static entities.Perfil.INVITADO;
 public class Sesion {
 	
 	private static Parada paradaActual;
-	private static Usuario user = null;
+	private static Peregrino user = null;
 	private static Perfil perfil = INVITADO;
 	private static HashMap <Long, Parada> paradas;
 	private static HashMap <String, String> nacionalidades;
 	private static HashMap<String, String> validUsers;
 	private static long lastId = 0L;
+	private static long lastIdParada =  0L;
+
+	private static boolean continuar = true;
 
 
 	public Sesion() {
-		run();
-		new Menu();
+		do {
+			run();
+			new Menu(perfil);
+		}while (continuar) ;
+
 	}
 
 	public void run(){
 		paradas = Lector.readParadas();
 		nacionalidades = Lector.readPaises();
+
 		long paradaAleatoria = (long) (Math.random() * (paradas.size() + 1)) + 1L;
 		paradaActual = paradas.get(paradaAleatoria);
 		validUsers = Lector.readCredenciales();
@@ -52,11 +50,11 @@ public class Sesion {
 		Sesion.paradaActual = paradaActual;
 	}
 
-	public static Usuario getUser() {
+	public static Peregrino getUser() {
 		return user;
 	}
 
-	public static void setUser(Usuario user) {
+	public static void setUser(Peregrino user) {
 		Sesion.user = user;
 	}
 
@@ -97,5 +95,21 @@ public class Sesion {
 
 	public static void setLastId(long lastId) {
 		Sesion.lastId = lastId;
+	}
+
+	public static long getLastIdParada() {
+		return lastIdParada;
+	}
+
+	public static void setLastIdParada(long lastIdParada) {
+		Sesion.lastIdParada = lastIdParada;
+	}
+
+	public static boolean isContinuar() {
+		return continuar;
+	}
+
+	public static void setContinuar(boolean continuar) {
+		Sesion.continuar = continuar;
 	}
 }

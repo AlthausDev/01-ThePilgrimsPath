@@ -7,6 +7,7 @@ import validacion.Validation;
 
 import java.util.Scanner;
 
+import static entities.Perfil.INVITADO;
 import static entities.Perfil.PEREGRINO;
 import static io.Lector.readCarnet;
 
@@ -28,14 +29,19 @@ public class Login {
 	}
 
 	public static void iniciarSession(String username) {
-		/*Usuario user = readCarnet(username);
+		Usuario user = readCarnet(username);
 		if (user.getPerfil() == PEREGRINO){
 			Sesion.setUser(readCarnet(username));
 		} else {
 			//Recuperar los datos de credenciales y generar nuevo usuario.
-		}*/
-
-		//Sesion.setPerfil(user.getPerfil());
+		}
+		Sesion.setPerfil(user.getPerfil());
 		System.out.println("Iniciando sesión... Bienvenido " + username + "\n");
+	}
+
+	public static void cerrarSesion(){
+		Sesion.setUser(null);
+		Sesion.setPerfil(INVITADO);
+		System.out.println("Cierre de sesion exitoso.");
 	}
 }

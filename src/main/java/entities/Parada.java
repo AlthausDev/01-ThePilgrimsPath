@@ -13,15 +13,17 @@ public class Parada implements Serializable, Comparable<Parada> {
     private String nombre;
     private char region;
     private ArrayList<Peregrino> peregrinos = new ArrayList<>();
+    private AdminParada adminParada;
 
     public Parada() {
     }
 
-    public Parada(long id, String nombre, char region) {
+    public Parada(long id, String nombre, char region, AdminParada adminParada) {
         this.id = id;
         this.nombre = nombre;
         this.region = region;
         this.peregrinos = new ArrayList<>();
+        this.adminParada = adminParada;
     }
 
     public long getId() {

@@ -67,4 +67,14 @@ public class Carnet {
     }
 
 
+    @Override
+    public String toString() {
+        return "Carnet{" +
+                "idPeregrino=" + idPeregrino +
+                ", fechaExp=" + fechaExp +
+                ", paradaInicial=" + paradaInicial +
+                ", distancia=" + distancia +
+                ", nvips=" + nvips +
+                '}';
+    }
 }

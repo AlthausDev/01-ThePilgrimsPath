@@ -1,4 +1,4 @@
-
+admin admin ADMIN_GENERAL 0
 manolo 123 PEREGRINO 1
 Pepe 456 PEREGRINO 2
 maria 234 PEREGRINO 3
