@@ -1,90 +1,59 @@
-//package controllers;
-//
-//import entities.Parada;
-//import entities.Peregrino;
-//import aplicacion.Sesion;
-//
-//import java.util.Scanner;
-//
-//public class Registrar {
-//
-//    private Scanner sc = new Scanner(System.in);
-//    public void registrar() {
-//        if (Sesion.perfil == null) {
-//            nuevoPeregrino();
-//        } else {
-//            nuevaParada();
-//        }
-//    }
-//
-//
-//    public void nuevoPeregrino() {
-////        System.out.println("Registrar nuevo usuario");
-////        System.out.println("Indique su nombre");
-////        String nombre = sc.nextLine();
-////
-////        System.out.println("Indique una contraseña");
-////        String pass = sc.nextLine();
-////        do {
-////            System.out.println("Repita su contraseña");
-////        } while (!sc.nextLine().equals(pass));
-//        Controller.mapaUsuarios.put(Controller.count++, new Peregrino());
-//    }
-//
-//    private void nuevaParada() {
-//    	FileImputStream file = new FileImputStream();
-//        Controller.mapaUsuarios.put(Controller.count++, new Parada());
-//
-//    }
-//}
-
 package controllers;
 
+import aplicacion.Sesion;
 import entities.Carnet;
-import entities.Estancia;
 import entities.Parada;
 import entities.Peregrino;
-import aplicacion.Sesion;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Registro {
+import static entities.Perfil.PEREGRINO;
+import static io.Escritor.writeCarnet;
+import static io.Escritor.writeCredencial;
 
+public class Registro {
     private Scanner sc = new Scanner(System.in);
 
+    private String nombre;
+    private String pass;
+    private String nacionalidad;
+    private Parada paradaInicial;
+
+    private boolean valid  =  false;
+
+
     public void registrar() {
-        if (Sesion.getPerfil() == null) {
-            nuevoPeregrino();
-        } else {
-            nuevaParada();
-        }
+
     }
 
     public void nuevoPeregrino() {
         System.out.println("Registrar nuevo usuario - Peregrino");
-        System.out.println("Indique su nombre");
-        String nombre = sc.nextLine();
-        System.out.println("Indique una contraseña");
-        String pass = sc.nextLine();
+        System.out.println("Indique su nombre\n");
+        nombre = sc.nextLine();
+        System.out.println("Indique una contraseña\n");
+        pass = sc.nextLine();
 
-        String nacionalidad = null;
+        System.out.println("CODIGO - PAIS");
+        Sesion.getNacionalidades().forEach((k, v) -> System.out.println(k + " - " + v));
 
-        ArrayList<Parada> paradas = new ArrayList<>(); 
-        ArrayList<Estancia> estancias = new ArrayList<>(); 
+        System.out.println("Inserte el código de su país\n");
+        String codNacionalidad = sc.nextLine();
+        nacionalidad = Sesion.getNacionalidades().get(codNacionalidad).toUpperCase();
 
-        Carnet carnet = new Carnet();
+        ArrayList<Parada> paradaActual = new ArrayList<Parada>();
+        paradaActual.add(Sesion.getParadaActual());
 
-        Peregrino nuevoPeregrino = new Peregrino(nombre, nacionalidad);
+        Carnet carnet = new Carnet(Sesion.getLastId()+1L, Sesion.getParadaActual());
+        Peregrino nuevoPeregrino = new Peregrino(Sesion.getLastId(), nombre, nacionalidad, carnet, paradaActual);
 
+        writeCarnet(nuevoPeregrino);
+        writeCredencial(nombre, pass, PEREGRINO, Sesion.getLastId());
     }
-
 
     private void nuevaParada() {
 
     }
-
-
 
 }
 

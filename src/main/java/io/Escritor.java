@@ -3,6 +3,7 @@ package io;
 import entities.Estancia;
 import entities.Parada;
 import entities.Peregrino;
+import entities.Perfil;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,27 +16,32 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static utilidades.Constantes.DATE_FORMAT;
-import static utilidades.Constantes.PATH_EXPORTS;
+import static utilidades.Constantes.*;
 
 public class Escritor {
 
-    public static void  writeCredencial(Peregrino pilgrim){
+    public static void writeCredencial(String nombre, String pass, Perfil perfil, long lastId){
 
+        String str = nombre + " " + pass + " " + perfil + " " + lastId + "\n";
 
-
+        try (FileWriter fileWriter = new FileWriter(PATH_CREDENTIALS, true)) {
+            fileWriter.write(str);
+            System.out.println("Contenido agregado al archivo.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
     public static void writeParada (Parada parada){
+
 
     }
 
     public static void writeCarnet(Peregrino pilgrim) {
-
-
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

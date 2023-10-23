@@ -21,9 +21,11 @@ public class Peregrino extends Usuario implements Serializable {
 	public Peregrino() {
 	}
 
-	public Peregrino(String nombre, String nacionalidad) {
-		super(33, nombre, PEREGRINO);
+	public Peregrino(long id, String nombre, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas) {
+		super(id, nombre, PEREGRINO);
 		this.nacionalidad = nacionalidad;
+		this.carnet = carnet;
+		this.paradas = paradas;
 	}
 
 	public Peregrino(long id, String nombre, String nacionalidad, Carnet carnet, ArrayList<Parada> paradas, ArrayList<Estancia> estancias) {

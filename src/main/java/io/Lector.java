@@ -1,5 +1,6 @@
 package io;
 
+import aplicacion.Sesion;
 import entities.Carnet;
 import entities.Estancia;
 import entities.Parada;
@@ -17,7 +18,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 import static utilidades.Constantes.*;
@@ -25,8 +25,8 @@ import static utilidades.Constantes.*;
 public class Lector {
 
 
-    public static Map<String, String> readCredenciales() {
-        Map<String, String> credenciales = new HashMap<>();
+    public static HashMap<String, String> readCredenciales() {
+        HashMap<String, String> credenciales = new HashMap<>();
 
         File credentialsFile = new File(PATH_CREDENTIALS);
 
@@ -38,7 +38,11 @@ public class Lector {
                 if (userDataFields.length >= 4) {
                     String name = userDataFields[0];
                     String storedPass = userDataFields[1];
+                    long id = Long.parseLong(userDataFields[3]);
 
+                    if (Sesion.getLastId() < id) {
+                        Sesion.setLastId(id);
+                    }
                     credenciales.put(name, storedPass);
                 }
             }
@@ -178,6 +182,7 @@ public class Lector {
                 }
             }
 
+            return paises;
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
@@ -185,8 +190,6 @@ public class Lector {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            return paises;
         }
     }
 }

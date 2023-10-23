@@ -35,8 +35,8 @@ public class Menu {
                     login.login();
                     break;
                 case 2:
-                    Registro user = new Registro();
-                    user.registrar();
+                    Registro registro = new Registro();
+                    registro.nuevoPeregrino();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");

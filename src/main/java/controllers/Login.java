@@ -1,11 +1,13 @@
 package controllers;
 
 import aplicacion.Sesion;
+import entities.Perfil;
 import entities.Usuario;
 import validacion.Validation;
 
 import java.util.Scanner;
 
+import static entities.Perfil.PEREGRINO;
 import static io.Lector.readCarnet;
 
 public class Login {
@@ -13,9 +15,9 @@ public class Login {
 
 	public void login() {
 		System.out.println("Introduzca su nombre de usuario");
-		java.lang.String username = sc.nextLine().toLowerCase();
+		String username = sc.nextLine().toLowerCase();
 		System.out.println("Introduzca su contraseña");
-		java.lang.String pass = sc.nextLine();
+		String pass = sc.nextLine();
 
 		if (Validation.userValidator(username, pass)) {
 			iniciarSession(username);
@@ -25,9 +27,9 @@ public class Login {
 		}
 	}
 
-	public static void iniciarSession(java.lang.String username) {
+	public static void iniciarSession(String username) {
 		Usuario user = readCarnet(username);
-		if (user.getPerfil().equals("peregrino")){
+		if (user.getPerfil() == PEREGRINO){
 			Sesion.setUser(readCarnet(username));
 		} else {
 			//Recuperar los datos de credenciales y generar nuevo usuario.

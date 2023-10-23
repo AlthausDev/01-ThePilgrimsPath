@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Carnet {
 
     private long idPeregrino;
-    private LocalDate fechaExp;
+    private LocalDate fechaExp = LocalDate.now();
     private Parada paradaInicial;
     private double distancia = 0.0;
     private int nvips = 0;
@@ -13,17 +13,16 @@ public class Carnet {
     public Carnet() {
     }
 
-    public Carnet(long idPeregrino, LocalDate fechaExp, Parada paradaInicial) {
+    public Carnet(long idPeregrino, Parada paradaInicial) {
         this.idPeregrino = idPeregrino;
-        this.fechaExp = fechaExp;
         this.paradaInicial = paradaInicial;
     }
 
     public Carnet(long idPeregrino, LocalDate fechaExp, Parada paradaInicial, double distancia, int nvips) {
         this.idPeregrino = idPeregrino;
         this.fechaExp = fechaExp;
-        this.distancia = distancia;
         this.paradaInicial = paradaInicial;
+        this.distancia = distancia;
         this.nvips = nvips;
     }
 

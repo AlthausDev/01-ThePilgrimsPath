@@ -9,31 +9,40 @@
 //}
 
 package aplicacion;
-
-import entities.Peregrino;
 import  entities.Parada;
 import entities.Perfil;
 import entities.Usuario;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import controllers.Menu;
 import io.Lector;
 
+import static entities.Perfil.INVITADO;
+
 public class Sesion {
 	
-	private static Parada paradaActual =  null;
+	private static Parada paradaActual;
 	private static Usuario user = null;
-	private static Perfil perfil;
+	private static Perfil perfil = INVITADO;
 	private static HashMap <Long, Parada> paradas;
-	private static HashMap <java.lang.String, java.lang.String> nacionalidades;
-
+	private static HashMap <String, String> nacionalidades;
+	private static HashMap<String, String> validUsers;
+	private static long lastId = 0L;
 
 
 	public Sesion() {
+		run();
+		new Menu();
+	}
+
+	public void run(){
 		paradas = Lector.readParadas();
 		nacionalidades = Lector.readPaises();
-		new Menu();
+		long paradaAleatoria = (long) (Math.random() * (paradas.size() + 1)) + 1L;
+		paradaActual = paradas.get(paradaAleatoria);
+		validUsers = Lector.readCredenciales();
 	}
 
 
@@ -68,12 +77,27 @@ public class Sesion {
 	public static void setNacionalidades(HashMap<String, String> nacionalidades) {
 		Sesion.nacionalidades = nacionalidades;
 	}
-
 	public static Perfil getPerfil() {
 		return perfil;
 	}
 
 	public static void setPerfil(Perfil perfil) {
 		Sesion.perfil = perfil;
+	}
+
+	public static HashMap<String, String> getValidUsers() {
+		return validUsers;
+	}
+
+	public static void setValidUsers(HashMap<String, String> validUsers) {
+		Sesion.validUsers = validUsers;
+	}
+
+	public static long getLastId() {
+		return lastId;
+	}
+
+	public static void setLastId(long lastId) {
+		Sesion.lastId = lastId;
 	}
 }
