@@ -53,33 +53,31 @@ public class Lector {
         }
     }
 
-
     public static HashMap<Long, Parada> readParadas() {
         HashMap<Long, Parada> paradas = new HashMap<>();
+        Parada parada;
+
         try {
             File archivo = new File(PATH_STOPS);
             FileInputStream fis = new FileInputStream(archivo);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            Parada parada;
-            while ((parada = (Parada) ois.readObject()) != null) {
+            while (true) {
+                try {
+                    parada = (Parada) ois.readObject();
+                } catch (EOFException e) {
+                   break;
+                }
                 paradas.put(parada.getId(), parada);
             }
-
-            ois.close();
             fis.close();
+            ois.close();
         } catch (FileNotFoundException e) {
             System.out.println("No se encuentra el archivo");
-            return paradas;
-        } catch (EOFException e) {
-            System.out.println("Fin del archivo");
-            return paradas;
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        } finally {
-            return paradas;
         }
-
+        return paradas;
     }
 
     public static Peregrino readCarnet(String name) {

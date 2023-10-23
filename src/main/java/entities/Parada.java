@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Parada implements Serializable, Comparable<Parada> {
 
+    private static final long serialVersionUID = 1L;
     private long id = 1L;
     private String nombre;
     private char region;
@@ -16,11 +17,11 @@ public class Parada implements Serializable, Comparable<Parada> {
     public Parada() {
     }
 
-    public Parada(long id, String nombre, char region, ArrayList<Peregrino> peregrinos) {
+    public Parada(long id, String nombre, char region) {
         this.id = id;
         this.nombre = nombre;
         this.region = region;
-        this.peregrinos = peregrinos;
+        this.peregrinos = new ArrayList<>();
     }
 
     public long getId() {
@@ -57,11 +58,12 @@ public class Parada implements Serializable, Comparable<Parada> {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "ID: " + id + "\nNombre: " + nombre + "\nRegión: " + region;
     }
+
 
     @Override
     public int compareTo(Parada o) {
-        return 0;
+        return Long.compare(this.id, o.id);
     }
 }

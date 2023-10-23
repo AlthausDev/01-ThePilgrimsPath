@@ -14,8 +14,6 @@ import entities.Perfil;
 import entities.Usuario;
 
 import java.util.HashMap;
-import java.util.Map;
-
 import controllers.Menu;
 import io.Lector;
 

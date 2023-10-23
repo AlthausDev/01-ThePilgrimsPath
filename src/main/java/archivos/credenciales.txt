@@ -1,5 +1,4 @@
-manolo 123 peregrino 1
-paco 653 peregrino 2
-juan 443 parada 3
-paqui 002 parada 4
-maria 245 parada 5
+
+manolo 123 PEREGRINO 1
+Pepe 456 PEREGRINO 2
+maria 234 PEREGRINO 3

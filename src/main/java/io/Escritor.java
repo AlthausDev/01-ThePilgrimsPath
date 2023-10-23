@@ -8,6 +8,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+import utilidades.AppendableObjectOutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,9 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -36,17 +35,28 @@ public class Escritor {
             e.printStackTrace();
         }
     }
-    public static void writeParada (Parada parada){
 
 
+    public static void writeParada(Parada parada) {
+
+        try {
+            FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
+            AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, true);
+            oos.writeObject(parada);
+
+            System.out.println("Se ha agregado una nueva parada con éxito");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void writeCarnet(Peregrino pilgrim) {
 
+
+    public static void writeCarnet(Peregrino pilgrim) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-
             DOMImplementation implementation = dBuilder.getDOMImplementation();
             Document doc = implementation.createDocument(PATH_EXPORTS, "Carnet", null);
             Element root = doc.getDocumentElement();
@@ -56,14 +66,14 @@ public class Escritor {
             createEstanciasElement(doc, root, pilgrim);
 
             Source src = new DOMSource(doc);
-            File fileXML =  new File(PATH_EXPORTS + pilgrim.getNombre() + ".xml");
-            Result rslt  = new StreamResult(fileXML);
+            File fileXML = new File(PATH_EXPORTS + pilgrim.getNombre() + ".xml");
+            Result rslt = new StreamResult(fileXML);
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(src, rslt);
 
             System.out.println("Fichero exportado con éxito");
         } catch (ParserConfigurationException | TransformerException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -71,25 +81,21 @@ public class Escritor {
         Element peregrino = doc.createElement("peregrino");
         root.appendChild(peregrino);
 
-        newElementXML("id", String.valueOf(pilgrim.getId()), root, doc);
-        newElementXML("fechaexp", pilgrim.getNombre(), root, doc);
-        newElementXML("expedidoen", DATE_FORMAT.format(pilgrim.getCarnet().getFechaExp()), root, doc);
-
+        newElementXML("id", String.valueOf(pilgrim.getId()), peregrino, doc);
         newElementXML("nombre", pilgrim.getNombre(), peregrino, doc);
         newElementXML("nacionalidad", pilgrim.getNacionalidad(), peregrino, doc);
-        newElementXML("hoy", DATE_FORMAT.format(LocalDate.now()), peregrino, doc);
+        newElementXML("hoy", LocalDate.now().format(DATE_TIME_FORMATTER), peregrino, doc);
         newElementXML("distanciaTotal", String.valueOf(pilgrim.getCarnet().getDistancia()), peregrino, doc);
-
     }
 
     private static void createParadasElement(Document doc, Element root, Peregrino pilgrim) {
         Element paradas = doc.createElement("paradas");
         root.appendChild(paradas);
 
-        Element parada = doc.createElement("parada");
-        ArrayList <Parada> listaParadas = pilgrim.getParadas();
-        int clock =  1;
+        ArrayList<Parada> listaParadas = pilgrim.getParadas();
+        int clock = 1;
         for (Parada stand : listaParadas) {
+            Element parada = doc.createElement("parada");
             paradas.appendChild(parada);
             newElementXML("orden", String.valueOf(clock++), parada, doc);
             newElementXML("nombre", stand.getNombre(), parada, doc);
@@ -98,22 +104,21 @@ public class Escritor {
     }
 
     private static void createEstanciasElement(Document doc, Element root, Peregrino pilgrim) {
-
+        if (pilgrim.getEstancias() != null) {
             Element estancias = doc.createElement("estancias");
             root.appendChild(estancias);
+            int clock = 1;
 
-            Element estancia = doc.createElement("estancia");
-            if(pilgrim.getEstancias() != null) {
-                ArrayList<Estancia> listaEstancias = pilgrim.getEstancias();
-                for (Estancia stay : listaEstancias) {
-                    estancias.appendChild(estancia);
-                    newElementXML("id", String.valueOf(stay.getId()), estancia, doc);
-                    newElementXML("fecha", DATE_FORMAT.format(stay.getFecha()), estancia, doc);
-                    newElementXML("parada", stay.getParada().getNombre(), estancia, doc);
-                    newElementXML("vip", String.valueOf(stay.isVIP()), estancia, doc);
-
-                }
+            ArrayList<Estancia> listaEstancias = pilgrim.getEstancias();
+            for (Estancia stay : listaEstancias) {
+                Element estancia = doc.createElement("estancia");
+                estancias.appendChild(estancia);
+                newElementXML("id", String.valueOf(stay.getId()), estancia, doc);
+                newElementXML("fecha", DATE_FORMAT.format(stay.getFecha()), estancia, doc);
+                newElementXML("parada", stay.getParada().getNombre(), estancia, doc);
+                newElementXML("vip", String.valueOf(stay.isVIP()), estancia, doc);
             }
+        }
     }
 
     private static void newElementXML(String tag, String value, Element root, Document doc) {
@@ -122,4 +127,5 @@ public class Escritor {
         element.appendChild(text);
         root.appendChild(element);
     }
+
 }
