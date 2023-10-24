@@ -70,12 +70,13 @@ public class Peregrino extends Usuario implements Serializable {
 	}
 
 	@Override
-	public java.lang.String toString() {
-		return "Peregrino{" +
-				"nacionalidad='" + nacionalidad + '\'' +
-				", carnet=" + carnet +
-				", paradas=" + paradas +
-				", estancias=" + estancias +
-				'}';
+	public String toString() {
+		return "Peregrino:" +
+				"\nNombre: "+ getNombre() +
+				"\nNacionalidad: " + nacionalidad +
+				"\n\nCarnet:\n" + carnet +
+				"\n\nParadas:\n" + paradas +
+				"\n\nEstancias:\n" + estancias;
 	}
+
 }

@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -81,62 +82,83 @@ public class Lector {
     }
 
     public static Peregrino readCarnet(String name) {
-
-        int contVip = 0;
         Peregrino peregrino = new Peregrino();
-        Carnet carnet;
+        Carnet carnet = new Carnet();
         ArrayList<Parada> paradas = new ArrayList<>();
         ArrayList<Estancia> estancias = new ArrayList<>();
 
-        File xmlFile = new File(PATH_EXPORTS + name + ".xml");
-
         try {
+            File xmlFile = new File(PATH_EXPORTS + name + ".xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
-
             doc.getDocumentElement().normalize();
-            Element rootElement = doc.getDocumentElement();
 
-            Element peregrinoElement = (Element) rootElement.getElementsByTagName("peregrino").item(0);
+            Element root = doc.getDocumentElement();
 
-            Long id = Long.parseLong(getTagValue(peregrinoElement, "id"));
-            LocalDate fechaexp = LocalDate.parse(getTagValue(peregrinoElement, "fechaexp"));
-            String expedidoen = getTagValue(peregrinoElement, "expedidoen");
+            // Elementos de <carnet>
+            String id = getTagValue(root, "id");
+            String fechaExp = getTagValue(root, "fechaexp");
+            String expedidoen = getTagValue(root, "expedidoen");
+
+            // Elemento <peregrino>
+            Element peregrinoElement = (Element) root.getElementsByTagName("peregrino").item(0);
             String nombre = getTagValue(peregrinoElement, "nombre");
             String nacionalidad = getTagValue(peregrinoElement, "nacionalidad");
-            String hoy = getTagValue(peregrinoElement, "hoy");
-            double distanciaTotal = Double.parseDouble(getTagValue(peregrinoElement, "distanciaTotal"));
 
-            NodeList paradasNodeList = rootElement.getElementsByTagName("parada");
+            // Elementos restantes
+            String hoy = getTagValue(root, "hoy");
+            String distanciaTotal = getTagValue(root, "distanciatotal");
+
+            // Recorrer las paradas
+            NodeList paradasNodeList = root.getElementsByTagName("parada");
             for (int i = 0; i < paradasNodeList.getLength(); i++) {
                 Element paradaElement = (Element) paradasNodeList.item(i);
-
-                int orden = Integer.parseInt(getTagValue(paradaElement, "orden"));
+                String orden = getTagValue(paradaElement, "orden");
                 String paradaNombre = getTagValue(paradaElement, "nombre");
-                int region = Integer.parseInt(getTagValue(paradaElement, "region"));
+                String region = getTagValue(paradaElement, "region");
 
-                //Parada parada = new Parada(orden, paradaNombre, region);
-                //paradas.add(parada);
+                // Crea el objeto Parada y agrégalo a la lista de paradas
+                Parada parada = new Parada(Long.parseLong(orden), paradaNombre, region.charAt(0), null);
+                paradas.add(parada);
             }
 
-            NodeList estanciasNodeList = rootElement.getElementsByTagName("estancia");
-            for (int i = 0; i < estanciasNodeList.getLength(); i++) {
-
-                Element estanciaElement = (Element) estanciasNodeList.item(i);
-                int estanciaId = Integer.parseInt(getTagValue(estanciaElement, "id"));
-                LocalDate estanciaFecha = LocalDate.parse(getTagValue(estanciaElement, "fecha"));
-                String estanciaParada = getTagValue(estanciaElement, "parada");
-                boolean vip = Boolean.parseBoolean(getTagValue(estanciaElement, "vip"));
-                //Estancia estancia = new Estancia(estanciaId, estanciaFecha, estanciaParada, vip);
-                //estancias.add(estancia);
+            // Elementos de <estancias>
+            if (root.getElementsByTagName("estancia").getLength() > 0) {
+                NodeList estanciasNodeList = root.getElementsByTagName("estancia");
+                for (int i = 0; i < estanciasNodeList.getLength(); i++) {
+                    Element estanciaElement = (Element) estanciasNodeList.item(i);
+                    String estanciaId = getTagValue(estanciaElement, "id");
+                    String estanciaFecha = getTagValue(estanciaElement, "fecha");
+                    String estanciaParada = getTagValue(estanciaElement, "parada");
+                    String vip = getTagValue(estanciaElement, "vip");
+                    // Crea el objeto Estancia y agrégalo a la lista de estancias
+                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha, DateTimeFormatter.ofPattern("dd-MM-yyyy")), Boolean.parseBoolean(vip), paradas.get(i));
+                    estancias.add(estancia);
+                }
             }
 
-            carnet = new Carnet(id, fechaexp, paradas.get(0), distanciaTotal, contVip);
-            //peregrino = new Peregrino(id, nombre, nacionalidad, hoy, carnet, paradas, estancias);
+            // Configura el objeto Carnet
+            carnet.setIdPeregrino(Long.parseLong(id));
+            carnet.setFechaExp(LocalDate.parse(fechaExp, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            carnet.setParadaInicial(paradas.get(0));
+            /**
+             * carnet.setDistancia(Double.parseDouble(distanciaTotal));
+             * Intentar parsear un String en Double, genera un NumberFormatException
+             * Pendiente de revisión futura para ver cómo se puede abordar el problema.
+             */
+            carnet.setNvips(estancias.size());
+
+            // Configura el objeto Peregrino
+            peregrino.setId(carnet.getIdPeregrino());
+            peregrino.setNombre(nombre);
+            peregrino.setNacionalidad(nacionalidad);
+            peregrino.setCarnet(carnet);
+            peregrino.setParadas(paradas);
+            peregrino.setEstancias(estancias);
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return peregrino;
@@ -144,11 +166,10 @@ public class Lector {
 
     private static String getTagValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList.getLength() > 0) {
-            Node node = nodeList.item(0);
-            return node.getTextContent();
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
         }
-        return null;
+        return "";
     }
 
 

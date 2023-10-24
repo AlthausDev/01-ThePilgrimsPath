@@ -4,11 +4,13 @@
 package aplicacion;
 
 import entities.Parada;
+import entities.Peregrino;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static io.Escritor.writeParada;
+import static io.Lector.readCarnet;
 import static io.Lector.readParadas;
 
 /**
@@ -16,7 +18,11 @@ import static io.Lector.readParadas;
  */
 public class Principal {
 	public static void main(String[] args) {
-		new Sesion();
+
+		Peregrino peregrino = readCarnet("manolo");
+
+		System.out.println(peregrino.toString());
+		//new Sesion();
 		/*Parada nuevaParada1 = new Parada(1, "Parada 1", 'A');
 		Parada nuevaParada2 = new Parada(2, "Parada 2", 'B');
 		String fileName = "paradas.dat";

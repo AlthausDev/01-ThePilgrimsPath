@@ -20,6 +20,13 @@ public class Estancia  implements Comparable<Estancia>  {
     public Estancia() {
     }
 
+    public Estancia(long id, LocalDate fecha, boolean vip, Parada parada) {
+        this.id = id;
+        this.fecha = fecha;
+        this.vip = vip;
+        this.parada = parada;
+    }
+
     public Estancia(long id, LocalDate fecha, boolean vip, ArrayList<Peregrino> peregrinos, Parada parada) {
         this.id = id;
         this.fecha = fecha;
@@ -54,13 +61,8 @@ public class Estancia  implements Comparable<Estancia>  {
 
     @Override
     public String toString() {
-        return "Estancia{" +
-                "id=" + id +
-                ", fecha=" + fecha +
-                ", vip=" + vip +
-                '}';
+        return "ID: " + id + "\nFecha: " + fecha + "\nVIP: " + vip;
     }
-
 
     public ArrayList<Peregrino> getPeregrinos() {
         return peregrinos;

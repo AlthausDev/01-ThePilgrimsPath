@@ -59,10 +59,18 @@ public class Escritor {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             DOMImplementation implementation = dBuilder.getDOMImplementation();
             Document doc = implementation.createDocument(PATH_EXPORTS, "Carnet", null);
+
             Element root = doc.getDocumentElement();
+            newElementXML("id", String.valueOf(pilgrim.getId()), root, doc);
+            newElementXML("fechaexp", pilgrim.getCarnet().getFechaExp().format(DATE_TIME_FORMATTER), root, doc);
+            newElementXML("expedidoen", pilgrim.getCarnet().getParadaInicial().getNombre(), root, doc);
 
             createPeregrinoElement(doc, root, pilgrim);
+            newElementXML("hoy", LocalDate.now().format(DATE_TIME_FORMATTER), root, doc);
+            newElementXML("distanciaTotal", String.valueOf(pilgrim.getCarnet().getDistancia()), root, doc);
+
             createParadasElement(doc, root, pilgrim);
+
             createEstanciasElement(doc, root, pilgrim);
 
             Source src = new DOMSource(doc);
@@ -80,12 +88,8 @@ public class Escritor {
     private static void createPeregrinoElement(Document doc, Element root, Peregrino pilgrim) {
         Element peregrino = doc.createElement("peregrino");
         root.appendChild(peregrino);
-
-        newElementXML("id", String.valueOf(pilgrim.getId()), peregrino, doc);
         newElementXML("nombre", pilgrim.getNombre(), peregrino, doc);
         newElementXML("nacionalidad", pilgrim.getNacionalidad(), peregrino, doc);
-        newElementXML("hoy", LocalDate.now().format(DATE_TIME_FORMATTER), peregrino, doc);
-        newElementXML("distanciaTotal", String.valueOf(pilgrim.getCarnet().getDistancia()), peregrino, doc);
     }
 
     private static void createParadasElement(Document doc, Element root, Peregrino pilgrim) {
@@ -114,7 +118,7 @@ public class Escritor {
                 Element estancia = doc.createElement("estancia");
                 estancias.appendChild(estancia);
                 newElementXML("id", String.valueOf(stay.getId()), estancia, doc);
-                newElementXML("fecha", DATE_FORMAT.format(stay.getFecha()), estancia, doc);
+                newElementXML("fecha",stay.getFecha().format(DATE_TIME_FORMATTER), estancia, doc);
                 newElementXML("parada", stay.getParada().getNombre(), estancia, doc);
                 newElementXML("vip", String.valueOf(stay.isVIP()), estancia, doc);
             }

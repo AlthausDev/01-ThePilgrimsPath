@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Carnet xmlns="src\main\java\archivos\xml\"><peregrino><id>1</id><nombre>manolo</nombre><nacionalidad>España</nacionalidad><hoy>23-10-2023</hoy><distanciaTotal>0.0</distanciaTotal></peregrino><paradas><parada><orden>1</orden><nombre>Parada 1</nombre><region>A</region></parada></paradas></Carnet>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Carnet xmlns="src\main\java\archivos\xml\">
+    <id>4</id>
+    <fechaexp>24-10-2023</fechaexp>
+    <expedidoen>Parada 1</expedidoen>
+    <peregrino>
+        <nombre>manolo</nombre>
+        <nacionalidad>España</nacionalidad>
+    </peregrino>
+    <hoy>24-10-2023</hoy>
+    <distanciaTotal>0</distanciaTotal>
+    <paradas>
+        <parada>
+            <orden>1</orden>
+            <nombre>Parada 1</nombre>
+            <region>A</region>
+        </parada>
+    </paradas>
+</Carnet>
