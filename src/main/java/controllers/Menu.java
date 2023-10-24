@@ -48,6 +48,7 @@ public class Menu {
 	private void menuInvitado() {
 		int opcion = -1;
         do {
+            System.out.println("Bienvenido al sistema de Gestión de peregrinos!");
             System.out.println("Menu:");
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Crear nuevo usuario");

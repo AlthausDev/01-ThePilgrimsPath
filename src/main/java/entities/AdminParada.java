@@ -11,6 +11,8 @@ import static entities.Perfil.ADMIN_PARADA;
  * @author S.Althaus
  */
 public class AdminParada extends Usuario implements Serializable {
+
+    private static final long serialVersionUID = 6863080677157059753L;
     /**
      * Constructor para crear un nuevo administrador de parada.
      *

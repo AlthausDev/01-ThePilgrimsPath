@@ -18,7 +18,7 @@ import static entities.Perfil.*;
  */
 public class Sesion {
 
-    private static Parada paradaActual =  null;
+    private static Parada paradaActual;
     private static Peregrino user = null;
     private static Perfil perfil = INVITADO;
     private static HashMap<Long, Parada> paradas;
