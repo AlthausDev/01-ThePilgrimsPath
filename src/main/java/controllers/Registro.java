@@ -16,7 +16,6 @@ import static io.Escritor.*;
 public class Registro {
     private static Scanner sc = new Scanner(System.in);
 
-
     public void registrar() {
 
     }
@@ -27,17 +26,43 @@ public class Registro {
 
             System.out.println("Registrar nuevo usuario - Peregrino");
 
-            System.out.print("Indique su nombre: ");
-            String nombre = obtenerNombre();
+            String nombre;
+            String pass;
 
-            System.out.print("Indique una contraseña: ");
-            String pass = obtenerPassword();
+            do {
+                // Solicitar y validar el nombre
+                nombre = obtenerNombre();
+                if (nombre.length() < 3) {
+                    System.err.println("El nombre debe tener al menos 3 caracteres.");
+                }
+            } while ( nombre.length() < 3);
+
+            if (nombreExiste(nombre)) {
+                System.err.println("El nombre ya existe en el sistema.");
+                return;
+            }
+
+            do {
+                // Solicitar y validar la contraseña
+                pass = obtenerPassword();
+                if (pass.length() < 3) {
+                    System.err.println("La contraseña debe tener al menos 3 caracteres.");
+                }
+            } while (pass.length() < 3);
 
             System.out.println("CODIGO - PAIS");
             Sesion.getNacionalidades().forEach((k, v) -> System.out.println(k + " - " + v));
 
-            String codNacionalidad = obtenerCodigoNacionalidad();
-            String nacionalidad = Sesion.getNacionalidades().get(codNacionalidad);
+            // Solicitar y validar el código de nacionalidad
+            String codNacionalidad;
+            String nacionalidad;
+            do {
+                codNacionalidad = obtenerCodigoNacionalidad();
+                nacionalidad = Sesion.getNacionalidades().get(codNacionalidad);
+                if (nacionalidad == null) {
+                    System.err.println("Código de nacionalidad inválido.");
+                }
+            } while (nacionalidad == null);
 
             ArrayList<Parada> paradaActual = new ArrayList<>();
             paradaActual.add(Sesion.getParadaActual());
@@ -53,6 +78,8 @@ public class Registro {
             System.err.println("Error al registrar el nuevo peregrino: " + e.getMessage());
         }
     }
+
+
 
     public static void nuevaParada() {
         try {
@@ -71,7 +98,7 @@ public class Registro {
             char regionParada = obtenerRegion();
 
             System.out.print("Nombre del Administrador de Parada: ");
-            String nombreAdminParada = obtenerNombre();
+            String nombreAdminParada = obtenerNombre().toLowerCase();
 
             System.out.print("Contraseña del Administrador de Parada: ");
             String passAdminParada = obtenerPassword();
@@ -92,7 +119,7 @@ public class Registro {
     private static String obtenerNombre() {
         while (true) {
             System.out.print("Indique su nombre (mínimo 3 caracteres): ");
-            String nombre = sc.nextLine().trim();
+            String nombre = sc.nextLine().trim().toLowerCase();
 
             if (nombre.length() >= 3) {
                 return nombre;
@@ -131,22 +158,24 @@ public class Registro {
     private static char obtenerRegion() {
         while (true) {
             String input = sc.nextLine();
-            if (input.length() == 1) {
+            if (input.length() == 2) {
                 char region = input.charAt(0);
                 if (Character.isLetter(region)) {
                     return Character.toUpperCase(region);
                 }
             }
-            System.err.println("Ingrese una región válida (un solo carácter). Intente de nuevo.");
+            System.err.println("Ingrese una región válida (2 caracteres). Intente de nuevo.");
         }
     }
+
+    private static boolean nombreExiste(String nombre) {
+        return Sesion.validUsers.containsKey(nombre);
+    }
+
 
     private static boolean paradaExiste(String nombreParada) {
         return Sesion.getParadas().values().stream()
                 .anyMatch(parada -> parada.getNombre().equalsIgnoreCase(nombreParada));
     }
-
-
-
 }
 

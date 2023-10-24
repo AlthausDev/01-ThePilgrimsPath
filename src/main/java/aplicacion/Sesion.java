@@ -7,6 +7,7 @@ import entities.Usuario;
 import java.util.HashMap;
 import controllers.Menu;
 import io.Lector;
+import org.javatuples.Pair;
 
 import static entities.Perfil.INVITADO;
 
@@ -17,7 +18,8 @@ public class Sesion {
 	private static Perfil perfil = INVITADO;
 	private static HashMap <Long, Parada> paradas;
 	private static HashMap <String, String> nacionalidades;
-	private static HashMap<String, String> validUsers;
+
+	public static HashMap<String, Pair<String, Perfil>> validUsers;
 	private static long lastId = 0L;
 	private static long lastIdParada =  0L;
 
@@ -25,6 +27,9 @@ public class Sesion {
 
 
 	public Sesion() {
+		long paradaAleatoria = (long) (Math.random() * (paradas.size() + 1)) + 1L;
+		paradaActual = paradas.get(paradaAleatoria);
+
 		do {
 			run();
 			new Menu(perfil);
@@ -35,9 +40,6 @@ public class Sesion {
 	public void run(){
 		paradas = Lector.readParadas();
 		nacionalidades = Lector.readPaises();
-
-		long paradaAleatoria = (long) (Math.random() * (paradas.size() + 1)) + 1L;
-		paradaActual = paradas.get(paradaAleatoria);
 		validUsers = Lector.readCredenciales();
 	}
 
@@ -81,13 +83,13 @@ public class Sesion {
 		Sesion.perfil = perfil;
 	}
 
-	public static HashMap<String, String> getValidUsers() {
-		return validUsers;
-	}
-
-	public static void setValidUsers(HashMap<String, String> validUsers) {
-		Sesion.validUsers = validUsers;
-	}
+//	public static HashMap<String, String> getValidUsers() {
+//		return validUsers;
+//	}
+//
+//	public static void setValidUsers(HashMap<String, String> validUsers) {
+//		Sesion.validUsers = validUsers;
+//	}
 
 	public static long getLastId() {
 		return lastId;

@@ -1,10 +1,8 @@
 package io;
 
 import aplicacion.Sesion;
-import entities.Carnet;
-import entities.Estancia;
-import entities.Parada;
-import entities.Peregrino;
+import entities.*;
+import org.javatuples.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,18 +14,16 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
 import static utilidades.Constantes.*;
 
 public class Lector {
 
 
-    public static HashMap<String, String> readCredenciales() {
-        HashMap<String, String> credenciales = new HashMap<>();
+    public static  HashMap<String, Pair<String, Perfil>> readCredenciales() {
+        HashMap<String, Pair<String, Perfil>> credenciales = new HashMap<>();
 
         File credentialsFile = new File(PATH_CREDENTIALS);
 
@@ -39,19 +35,20 @@ public class Lector {
                 if (userDataFields.length >= 4) {
                     String name = userDataFields[0];
                     String storedPass = userDataFields[1];
+                    Perfil perfil = Perfil.valueOf(userDataFields[2]);
                     long id = Long.parseLong(userDataFields[3]);
 
                     if (Sesion.getLastId() < id) {
                         Sesion.setLastId(id);
                     }
-                    credenciales.put(name, storedPass);
+                    credenciales.put(name, new Pair<>(storedPass, perfil));
                 }
             }
         } catch (FileNotFoundException e) {
             System.err.println("No se encuentra el archivo de credenciales");
-        } finally {
-            return credenciales;
         }
+        return credenciales;
+
     }
 
     public static HashMap<Long, Parada> readParadas() {
@@ -132,15 +129,15 @@ public class Lector {
                     String estanciaFecha = getTagValue(estanciaElement, "fecha");
                     String estanciaParada = getTagValue(estanciaElement, "parada");
                     String vip = getTagValue(estanciaElement, "vip");
-                    // Crea el objeto Estancia y agrégalo a la lista de estancias
-                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha, DateTimeFormatter.ofPattern("dd-MM-yyyy")), Boolean.parseBoolean(vip), paradas.get(i));
+                    // Crea el objeto Estancia y se agrega a la lista de estancias
+                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha,DATE_TIME_FORMATTER), Boolean.parseBoolean(vip), paradas.get(i));
                     estancias.add(estancia);
                 }
             }
 
             // Configura el objeto Carnet
             carnet.setIdPeregrino(Long.parseLong(id));
-            carnet.setFechaExp(LocalDate.parse(fechaExp, DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            carnet.setFechaExp(LocalDate.parse(fechaExp, DATE_TIME_FORMATTER));
             carnet.setParadaInicial(paradas.get(0));
             /**
              * carnet.setDistancia(Double.parseDouble(distanciaTotal));

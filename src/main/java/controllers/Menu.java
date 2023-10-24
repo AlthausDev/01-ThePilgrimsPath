@@ -10,7 +10,6 @@ import java.util.InputMismatchException;
 import static controllers.Login.cerrarSesion;
 
 public class Menu {
-
     Scanner sc = new Scanner(System.in);
     public Menu(Perfil perfil) {
         switch (perfil) {
@@ -18,6 +17,9 @@ public class Menu {
                 menuPeregrino();
                 break;
             case ADMIN_PARADA:
+                menuAdminParada();
+                break;
+            case ADMIN_GENERAL:
                 menuAdmin();
                 break;
             case INVITADO:
@@ -52,6 +54,7 @@ public class Menu {
                 case 1:
                     Login login = new Login();
                     login.login();
+                    opcion = 0;
                     break;
                 case 2:
                     Registro registro = new Registro();
@@ -134,6 +137,7 @@ public class Menu {
                 case 3:
                     cerrarSesion();
                     opcion = 0;
+                    break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
                     break;
@@ -170,6 +174,7 @@ public class Menu {
                 case 2:
                     cerrarSesion();
                     opcion = 0;
+                    break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
                     break;

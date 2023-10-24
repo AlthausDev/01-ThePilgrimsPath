@@ -50,6 +50,14 @@ public class Parada implements Serializable, Comparable<Parada> {
         this.region = region;
     }
 
+    public AdminParada getAdminParada() {
+        return adminParada;
+    }
+
+    public void setAdminParada(AdminParada adminParada) {
+        this.adminParada = adminParada;
+    }
+
     public ArrayList<Peregrino> getPeregrinos() {
         return peregrinos;
     }
@@ -62,8 +70,6 @@ public class Parada implements Serializable, Comparable<Parada> {
     public String toString() {
         return "ID: " + id + "\nNombre: " + nombre + "\nRegión: " + region;
     }
-
-
     @Override
     public int compareTo(Parada o) {
         return Long.compare(this.id, o.id);

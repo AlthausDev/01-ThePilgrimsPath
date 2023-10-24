@@ -6,8 +6,18 @@
 	<artifactId>GestorPeregrinos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
-
-	</dependencies>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>11</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>

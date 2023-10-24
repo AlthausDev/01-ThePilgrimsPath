@@ -19,10 +19,9 @@ import static io.Lector.readParadas;
 public class Principal {
 	public static void main(String[] args) {
 
-		Peregrino peregrino = readCarnet("manolo");
-
-		System.out.println(peregrino.toString());
-		//new Sesion();
+		//Peregrino peregrino = readCarnet("manolo");
+		//System.out.println(peregrino.toString());
+		new Sesion();
 		/*Parada nuevaParada1 = new Parada(1, "Parada 1", 'A');
 		Parada nuevaParada2 = new Parada(2, "Parada 2", 'B');
 		String fileName = "paradas.dat";
