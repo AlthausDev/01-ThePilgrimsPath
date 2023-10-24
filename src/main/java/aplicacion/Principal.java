@@ -1,41 +1,20 @@
-/**
- * 
- */
 package aplicacion;
 
-import entities.Parada;
-import entities.Peregrino;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static io.Escritor.writeParada;
-import static io.Lector.readCarnet;
-import static io.Lector.readParadas;
-
 /**
- * 
- */
+ * Esta es la clase principal de la aplicación. Aquí se inicia la ejecución del programa.
+ *
+ * @author S.Althaus
+ *
+ * */
 public class Principal {
+	/**
+	 * El método principal de la aplicación. Se llama al iniciar la ejecución del programa.
+	 *
+	 * @param args Los argumentos de la línea de comandos (no se utilizan en esta aplicación).
+	 */
 	public static void main(String[] args) {
-
-		//Peregrino peregrino = readCarnet("manolo");
-		//System.out.println(peregrino.toString());
+		// Creamos una nueva instancia de la clase Sesion para iniciar la aplicación
 		new Sesion();
-		/*Parada nuevaParada1 = new Parada(1, "Parada 1", 'A');
-		Parada nuevaParada2 = new Parada(2, "Parada 2", 'B');
-		String fileName = "paradas.dat";
-
-		writeParada(nuevaParada1);
-		writeParada(nuevaParada2);
-
-		HashMap<Long, Parada> paradas = readParadas();
-
-		System.out.println("Lista de paradas:");
-		paradas.values().forEach(parada -> {
-			System.out.println(parada.toString());
-			System.out.println();
-		});*/
 	}
 }
 

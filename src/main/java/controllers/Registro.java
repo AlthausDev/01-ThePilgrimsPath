@@ -8,18 +8,20 @@ import entities.Peregrino;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static entities.Perfil.ADMIN_PARADA;
-import static entities.Perfil.PEREGRINO;
+import static entities.Perfil.*;
 import static io.Escritor.*;
 
+/**
+ * Esta clase proporciona métodos para registrar nuevos usuarios (peregrinos y administradores de parada).
+ *
+ * @author S.Althaus
+ */
 public class Registro {
     private static Scanner sc = new Scanner(System.in);
 
-    public void registrar() {
-
-    }
-
+    /**
+     * Registra un nuevo peregrino en el sistema.
+     */
     public void nuevoPeregrino() {
         try {
             long id = Sesion.getLastId() + 1;
@@ -35,7 +37,7 @@ public class Registro {
                 if (nombre.length() < 3) {
                     System.err.println("El nombre debe tener al menos 3 caracteres.");
                 }
-            } while ( nombre.length() < 3);
+            } while (nombre.length() < 3);
 
             if (nombreExiste(nombre)) {
                 System.err.println("El nombre ya existe en el sistema.");
@@ -79,8 +81,9 @@ public class Registro {
         }
     }
 
-
-
+    /**
+     * Registra una nueva parada en el sistema.
+     */
     public static void nuevaParada() {
         try {
             System.out.println("Agregar nueva parada");
@@ -116,6 +119,11 @@ public class Registro {
         }
     }
 
+    /**
+     * Obtiene un nombre válido del usuario.
+     *
+     * @return Nombre válido ingresado por el usuario.
+     */
     private static String obtenerNombre() {
         while (true) {
             System.out.print("Indique su nombre (mínimo 3 caracteres): ");
@@ -128,6 +136,12 @@ public class Registro {
             }
         }
     }
+
+    /**
+     * Obtiene una contraseña válida del usuario.
+     *
+     * @return Contraseña válida ingresada por el usuario.
+     */
 
     private static String obtenerPassword() {
         while (true) {
@@ -142,6 +156,11 @@ public class Registro {
         }
     }
 
+    /**
+     * Solicita al usuario que ingrese el código de su país y verifica que tenga 2 caracteres y sea válido.
+     *
+     * @return El código de nacionalidad ingresado por el usuario.
+     */
     private String obtenerCodigoNacionalidad() {
         while (true) {
             System.out.print("Inserte el código de su país (2 caracteres): ");
@@ -155,6 +174,11 @@ public class Registro {
         }
     }
 
+    /**
+     * Solicita al usuario que ingrese una región y verifica que tenga 2 caracteres y sea una letra.
+     *
+     * @return La región ingresada por el usuario en mayúscula.
+     */
     private static char obtenerRegion() {
         while (true) {
             String input = sc.nextLine();
@@ -168,14 +192,24 @@ public class Registro {
         }
     }
 
+    /**
+     * Verifica si un nombre de usuario existe en la colección de usuarios válidos.
+     *
+     * @param nombre El nombre de usuario a verificar.
+     * @return true si el nombre de usuario existe, de lo contrario false.
+     */
     private static boolean nombreExiste(String nombre) {
         return Sesion.validUsers.containsKey(nombre);
     }
 
-
+    /**
+     * Verifica si un nombre de parada existe en la colección de paradas.
+     *
+     * @param nombreParada El nombre de la parada a verificar.
+     * @return true si el nombre de parada existe, de lo contrario false.
+     */
     private static boolean paradaExiste(String nombreParada) {
         return Sesion.getParadas().values().stream()
                 .anyMatch(parada -> parada.getNombre().equalsIgnoreCase(nombreParada));
     }
 }
-

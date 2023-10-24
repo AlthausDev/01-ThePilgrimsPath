@@ -1,5 +1,3 @@
 admin admin ADMIN_GENERAL 0
 manolo 123 PEREGRINO 1
-pepe 456 PEREGRINO 2
-maria 234 ADMIN_PARADA 3
-perico mengano ADMIN_PARADA 4
+

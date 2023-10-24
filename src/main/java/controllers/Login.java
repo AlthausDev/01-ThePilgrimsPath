@@ -3,74 +3,86 @@ package controllers;
 import aplicacion.Sesion;
 import entities.Parada;
 import entities.Perfil;
-import io.Lector;
 import validacion.Validation;
-
-import java.util.Map;
 import java.util.Scanner;
-
-import static entities.Perfil.INVITADO;
+import static entities.Perfil.*;
 import static io.Lector.readCarnet;
 
+/**
+ * La clase `Login` se encarga de gestionar el inicio de sesión de usuarios.
+ *
+ * @author S.Althaus
+ */
 public class Login {
-	private final Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
-	public void login() {
+    /**
+     * Permite a los usuarios iniciar sesión proporcionando su nombre de usuario y contraseña.
+     */
+    public void login() {
+        String username;
+        String password;
 
-		String username;
-		String password;
+        // Solicitar el nombre de usuario y validar que no esté vacío
+        do {
+            System.out.println("Introduzca su nombre de usuario:");
+            username = sc.nextLine().trim().toLowerCase();
+            if (username.isEmpty()) {
+                System.err.println("Por favor, introduzca su nombre de usuario");
+            } else {
+                break;
+            }
+        } while (true);
 
-		do {
-			System.out.println("Introduzca su nombre de usuario:");;
-			username = sc.nextLine().trim().toLowerCase();
+        // Solicitar la contraseña y validar que no esté vacía
+        do {
+            System.out.println("Introduzca su contraseña:");
+            password = sc.nextLine().trim().toLowerCase();
+            if (password.isEmpty()) {
+                System.err.println("Por favor, introduzca su contraseña de usuario");
+            } else {
+                break;
+            }
+        } while (true);
 
-			if (username.isEmpty()) {
-				System.err.println("Por favor. Introduzca su nombre de usuario");
-			} else {
-				break;
-			}
-		} while (true);
+        // Validar las credenciales del usuario
+        if (Validation.userValidator(username, password) != null) {
+            Perfil perfil = Validation.userValidator(username, password);
+            iniciarSesion(username, perfil);
+        } else {
+            System.out.println("Usuario o contraseña incorrectos.\n");
+        }
+    }
 
-		do {
-			System.out.println("Introduzca su contraseña:");
-			password = sc.nextLine().trim().toLowerCase();
+    /**
+     * Inicia la sesión del usuario con el nombre de usuario proporcionado y su perfil.
+     * Si es un peregrino, se asocia con un carnet; si es un administrador de parada, se asocia con la parada correspondiente.
+     *
+     * @param username Nombre de usuario.
+     * @param perfil   Perfil del usuario.
+     */
+    public static void iniciarSesion(String username, Perfil perfil) {
+        Sesion.setPerfil(perfil);
+        System.out.println("Iniciando sesión... Bienvenido " + username + "\n");
 
-			if (password.isEmpty()) {
-				System.err.println("Por favor. Introduzca su  contraseña de usuario");
-			} else {
-				break;
-			}
-		} while (true);
+        if (perfil == Perfil.PEREGRINO) {
+            Sesion.setUser(readCarnet(username));
+        } else if (perfil == Perfil.ADMIN_PARADA) {
+            for (Parada parada : Sesion.getParadas().values()) {
+                if (parada.getAdminParada() != null && parada.getAdminParada().getName().equals(username)) {
+                    Sesion.setParadaActual(parada);
+                    break;
+                }
+            }
+        }
+    }
 
-		if (Validation.userValidator(username, password) != null) {
-			Perfil perfil = Validation.userValidator(username, password);
-			iniciarSesion(username, perfil);
-		} else {
-			System.out.println("Usuario o contraseña incorrectos.\n");
-		}
-
-	}
-
-	public static void iniciarSesion(String username, Perfil perfil) {
-
-		Sesion.setPerfil(perfil);
-		System.out.println("Iniciando sesión... Bienvenido " + username + "\n");
-
-		if (perfil == Perfil.PEREGRINO) {
-			Sesion.setUser(readCarnet(username));
-		} else if (perfil  == Perfil.ADMIN_PARADA){
-			for (Parada parada : Sesion.getParadas().values()) {
-				if (parada.getAdminParada() != null && parada.getAdminParada().getName().equals(username)) {
-					Sesion.setParadaActual(parada);
-					break;
-				}
-			}
-		}
-	}
-
-	public static void cerrarSesion(){
-		Sesion.setUser(null);
-		Sesion.setPerfil(INVITADO);
-		System.out.println("Cierre de sesion exitoso.");
-	}
+    /**
+     * Cierra la sesión del usuario actual.
+     */
+    public static void cerrarSesion() {
+        Sesion.setUser(null);
+        Sesion.setPerfil(INVITADO);
+        System.out.println("Cierre de sesión exitoso.");
+    }
 }

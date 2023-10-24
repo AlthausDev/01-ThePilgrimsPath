@@ -1,16 +1,28 @@
 package controllers;
+
 import aplicacion.Sesion;
-import entities.Peregrino;
 import entities.Perfil;
 import io.Escritor;
-
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
 import static controllers.Login.cerrarSesion;
 
+
+/**
+ * La clase `Menu` se encarga de gestionar los menús y las opciones disponibles para diferentes perfiles de usuario.
+ * Dependiendo del perfil de usuario, se muestra un menú específico con opciones personalizadas.
+ *
+ * @author S.Althaus
+ */
 public class Menu {
     Scanner sc = new Scanner(System.in);
+
+    /**
+     * Constructor de la clase `Menu` que muestra el menú correspondiente al perfil de usuario.
+     *
+     * @param perfil El perfil de usuario que determina qué menú se mostrará.
+     */
     public Menu(Perfil perfil) {
         switch (perfil) {
             case PEREGRINO:
@@ -29,6 +41,10 @@ public class Menu {
         }
     }
 
+    /**
+     * Menú para usuarios invitados (perfil INVITADO).
+     * Permite iniciar sesión, crear un nuevo usuario o salir del programa.
+     */
 	private void menuInvitado() {
 		int opcion = -1;
         do {
@@ -67,6 +83,10 @@ public class Menu {
         } while (opcion != 0);
 	}
 
+    /**
+     * Menú para peregrinos (perfil PEREGRINO).
+     * Permite visualizar y exportar datos del carnet, así como cerrar sesión o salir del programa.
+     */
     protected void menuPeregrino() {
         int opcion = -1;
         do {
@@ -106,11 +126,16 @@ public class Menu {
         } while (opcion != 0);
     }
 
+    /**
+     * Menú para administradores de parada (perfil ADMIN_PARADA).
+     * Permite visualizar, exportar datos de parada, cerrar sesión y salir del programa.
+     */
+
     protected void menuAdminParada() {
         int opcion = -1;
         do {
             System.out.println("Menu Administrador de Parada:");
-            //System.out.println("1. Visualizar datos del carnet");
+            System.out.println("1. Visualizar datos de parada");
             System.out.println("2. Exportar datos de parada");
             System.out.println("3. Cerrar Sesion");
             System.out.println("0. Salir");
@@ -130,7 +155,8 @@ public class Menu {
                     Sesion.setContinuar(false);
                     break;
                 case 1:
-                     break;
+                    System.out.println(Sesion.getParadaActual().toString());
+                    break;
                 case 2:
                     Escritor.writeParada(Sesion.getParadaActual());
                      break;
@@ -145,7 +171,10 @@ public class Menu {
         } while (opcion != 0);
     }
 
-
+    /**
+     * Menú para administradores generales (perfil ADMIN_GENERAL).
+     * Permite registrar una nueva parada, cerrar sesión o salir del programa.
+     */
     protected void menuAdmin() {
         int opcion = -1;
         do {

@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Carnet xmlns="src\main\java\archivos\xml\"><peregrino><id>3</id><nombre>maria</nombre><nacionalidad>Holanda</nacionalidad><hoy>23-10-2023</hoy><distanciaTotal>0.0</distanciaTotal></peregrino><paradas><parada><orden>1</orden><nombre>Parada 1</nombre><region>A</region></parada></paradas></Carnet>

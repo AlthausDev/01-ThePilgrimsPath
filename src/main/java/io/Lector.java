@@ -17,22 +17,37 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
 import static utilidades.Constantes.*;
 
+/**
+ * Esta clase proporciona métodos para leer información desde archivos y XML, y cargarla en la aplicación.
+ * Se utiliza principalmente para cargar credenciales de usuarios, datos de paradas, países y carnets de peregrinos.
+ *
+ * @author S.Althaus
+ */
 public class Lector {
 
-
-    public static  HashMap<String, Pair<String, Perfil>> readCredenciales() {
+    /**
+     * Lee las credenciales de los usuarios desde un archivo y las almacena en un HashMap.
+     *
+     * @return Un HashMap que contiene las credenciales de los usuarios (nombre de usuario, contraseña y perfil).
+     */
+    public static HashMap<String, Pair<String, Perfil>> readCredenciales() {
+        // Inicializa un HashMap para almacenar las credenciales.
         HashMap<String, Pair<String, Perfil>> credenciales = new HashMap<>();
 
+        // Crea un objeto File para el archivo de credenciales.
         File credentialsFile = new File(PATH_CREDENTIALS);
 
         try (Scanner scanner = new Scanner(credentialsFile)) {
+            // Lee el archivo línea por línea.
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
                 String[] userDataFields = linea.split(" ");
 
                 if (userDataFields.length >= 4) {
+                    // Extrae los campos de datos de la línea.
                     String name = userDataFields[0];
                     String storedPass = userDataFields[1];
                     Perfil perfil = Perfil.valueOf(userDataFields[2]);
@@ -41,6 +56,8 @@ public class Lector {
                     if (Sesion.getLastId() < id) {
                         Sesion.setLastId(id);
                     }
+
+                    // Agrega las credenciales al HashMap.
                     credenciales.put(name, new Pair<>(storedPass, perfil));
                 }
             }
@@ -48,9 +65,13 @@ public class Lector {
             System.err.println("No se encuentra el archivo de credenciales");
         }
         return credenciales;
-
     }
 
+    /**
+     * Lee datos de paradas desde un archivo binario y los almacena en un HashMap.
+     *
+     * @return Un HashMap que contiene las paradas identificadas por su ID.
+     */
     public static HashMap<Long, Parada> readParadas() {
         HashMap<Long, Parada> paradas = new HashMap<>();
         Parada parada;
@@ -64,7 +85,7 @@ public class Lector {
                 try {
                     parada = (Parada) ois.readObject();
                 } catch (EOFException e) {
-                   break;
+                    break;
                 }
                 paradas.put(parada.getId(), parada);
             }
@@ -78,13 +99,23 @@ public class Lector {
         return paradas;
     }
 
+    /**
+     * Este método lee datos de un archivo XML que contiene información de un carnet de peregrino, como el ID, la fecha de expedición,
+     * el lugar de expedición, el nombre del peregrino, la nacionalidad, la fecha actual, la distancia total, paradas y estancias.
+     * Luego, crea un objeto Peregrino y configura un carnet, paradas y estancias basado en la información del archivo XML.
+     *
+     * @param name El nombre del peregrino cuyo carnet se va a cargar desde el archivo XML.
+     * @return Un objeto Peregrino que contiene información del carnet, paradas y estancias del peregrino.
+     */
     public static Peregrino readCarnet(String name) {
+        // Crea objetos para almacenar la información del carnet, paradas y estancias.
         Peregrino peregrino = new Peregrino();
         Carnet carnet = new Carnet();
         ArrayList<Parada> paradas = new ArrayList<>();
         ArrayList<Estancia> estancias = new ArrayList<>();
 
         try {
+            // Crea un archivo XML para leer los datos del carnet.
             File xmlFile = new File(PATH_EXPORTS + name + ".xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -129,8 +160,8 @@ public class Lector {
                     String estanciaFecha = getTagValue(estanciaElement, "fecha");
                     String estanciaParada = getTagValue(estanciaElement, "parada");
                     String vip = getTagValue(estanciaElement, "vip");
-                    // Crea el objeto Estancia y se agrega a la lista de estancias
-                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha,DATE_TIME_FORMATTER), Boolean.parseBoolean(vip), paradas.get(i));
+                    // Crea el objeto Estancia y agrégalo a la lista de estancias
+                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha, DATE_TIME_FORMATTER), Boolean.parseBoolean(vip), paradas.get(i));
                     estancias.add(estancia);
                 }
             }
@@ -139,11 +170,6 @@ public class Lector {
             carnet.setIdPeregrino(Long.parseLong(id));
             carnet.setFechaExp(LocalDate.parse(fechaExp, DATE_TIME_FORMATTER));
             carnet.setParadaInicial(paradas.get(0));
-            /**
-             * carnet.setDistancia(Double.parseDouble(distanciaTotal));
-             * Intentar parsear un String en Double, genera un NumberFormatException
-             * Pendiente de revisión futura para ver cómo se puede abordar el problema.
-             */
             carnet.setNvips(estancias.size());
 
             // Configura el objeto Peregrino
@@ -161,51 +187,66 @@ public class Lector {
         return peregrino;
     }
 
+    /**
+     * Obtiene el valor de una etiqueta (tag) de un elemento XML.
+     *
+     * @param element El elemento XML del que se extraerá el valor.
+     * @param tagName El nombre de la etiqueta de la que se extraerá el valor.
+     * @return El valor contenido en la etiqueta especificada.
+     */
     private static String getTagValue(Element element, String tagName) {
         NodeList nodeList = element.getElementsByTagName(tagName);
-        if (nodeList != null && nodeList.getLength() > 0) {
+        if (nodeList.getLength() > 0) {
             return nodeList.item(0).getTextContent();
         }
         return "";
     }
 
-
+    /**
+     * Este método lee datos de países desde un archivo XML y los almacena en un HashMap.
+     *
+     * @return Un HashMap que contiene los países identificados por su ID y su nombre.
+     * @throws RuntimeException Si ocurren errores de lectura o parseo del archivo XML.
+     */
     public static HashMap<String, String> readPaises() {
-
+        // Inicializa un HashMap para almacenar los países.
         HashMap<String, String> paises = new HashMap<>();
         File xmlFile = new File(PATH_COUNTRIES);
 
-
         try {
+            // Configura el parser para procesar el archivo XML.
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);
 
+            // Normaliza el documento para asegurarse de que esté correctamente estructurado.
             doc.getDocumentElement().normalize();
+
+            // Obtiene la lista de nodos "pais" del documento.
             NodeList nodeList = doc.getElementsByTagName("pais");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
-
                 Node node = nodeList.item(i);
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-
                     Element element = (Element) node;
 
+                    // Obtiene el ID y el nombre del país.
                     String id = element.getElementsByTagName("id").item(0).getTextContent();
                     String nombre = element.getElementsByTagName("nombre").item(0).getTextContent();
+
+                    // Almacena el país en el HashMap con el ID como clave y el nombre como valor.
                     paises.put(id, nombre);
                 }
             }
 
             return paises;
 
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            // Maneja cualquier error que pueda ocurrir durante la lectura o el parseo del archivo.
             throw new RuntimeException(e);
         }
     }
+
 }
+

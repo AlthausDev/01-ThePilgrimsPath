@@ -22,61 +22,93 @@ import java.util.ArrayList;
 
 import static utilidades.Constantes.*;
 
+/**
+ * Clase que proporciona métodos para escribir datos en diferentes formatos y almacenarlos en archivos.
+ * Incluye métodos para escribir credenciales, paradas y carnet de peregrinos, así como exportar datos a archivos XML.
+ *
+ * @author S.Althaus
+ */
 public class Escritor {
 
-    public static void writeCredencial(String nombre, String pass, Perfil perfil, long lastId){
-
+    /**
+     * Escribe las credenciales de un usuario en el archivo de credenciales.
+     *
+     * @param nombre El nombre de usuario.
+     * @param pass   La contraseña del usuario.
+     * @param perfil El perfil del usuario.
+     * @param lastId El último ID utilizado.
+     */
+    public static void writeCredencial(String nombre, String pass, Perfil perfil, long lastId) {
         String str = nombre + " " + pass + " " + perfil + " " + lastId + "\n";
 
         try (FileWriter fileWriter = new FileWriter(PATH_CREDENTIALS, true)) {
             fileWriter.write(str);
-            System.out.println("Contenido agregado al archivo.");
+            System.out.println("Contenido agregado al archivo de credenciales.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * Escribe los datos de una parada en el archivo de paradas.
+     *
+     * @param parada La parada a escribir.
+     */
     public static void writeParada(Parada parada) {
-
         try {
             FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
             AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, true);
             oos.writeObject(parada);
 
-            System.out.println("Se ha agregado una nueva parada con éxito");
-
+            System.out.println("Se ha agregado una nueva parada con éxito.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-
+    /**
+     * Exporta los datos del carnet de un peregrino a un archivo XML.
+     *
+     * @param pilgrim El peregrino cuyo carnet se exportará.
+     */
     public static void writeCarnet(Peregrino pilgrim) {
         try {
+            // Crear una fábrica de documentos XML.
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            // Crear un generador de documentos XML.
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            // Obtener la implementación de DOM.
             DOMImplementation implementation = dBuilder.getDOMImplementation();
+            // Crear un nuevo documento XML.
             Document doc = implementation.createDocument(PATH_EXPORTS, "Carnet", null);
 
+            // Obtener el elemento raíz del documento XML.
             Element root = doc.getDocumentElement();
+            // Agregar elementos con datos del carnet del peregrino.
             newElementXML("id", String.valueOf(pilgrim.getId()), root, doc);
             newElementXML("fechaexp", pilgrim.getCarnet().getFechaExp().format(DATE_TIME_FORMATTER), root, doc);
             newElementXML("expedidoen", pilgrim.getCarnet().getParadaInicial().getNombre(), root, doc);
 
+            // Agregar elementos relacionados con el peregrino.
             createPeregrinoElement(doc, root, pilgrim);
             newElementXML("hoy", LocalDate.now().format(DATE_TIME_FORMATTER), root, doc);
             newElementXML("distanciaTotal", String.valueOf(pilgrim.getCarnet().getDistancia()), root, doc);
 
+            // Agregar elementos relacionados con las paradas del peregrino.
             createParadasElement(doc, root, pilgrim);
 
+            // Agregar elementos relacionados con las estancias del peregrino.
             createEstanciasElement(doc, root, pilgrim);
 
+            // Crear una fuente para el documento XML.
             Source src = new DOMSource(doc);
+            // Crear un archivo XML en base al nombre del peregrino.
             File fileXML = new File(PATH_EXPORTS + pilgrim.getNombre() + ".xml");
+            // Crear un resultado para la transformación.
             Result rslt = new StreamResult(fileXML);
+            // Crear un transformador para realizar la exportación.
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            // Realizar la transformación y escribir el archivo XML.
             transformer.transform(src, rslt);
 
             System.out.println("Fichero exportado con éxito");
@@ -85,6 +117,13 @@ public class Escritor {
         }
     }
 
+    /**
+     * Crea elementos XML relacionados con el peregrino y los agrega al documento.
+     *
+     * @param doc     El documento XML al que se agregarán los elementos.
+     * @param root    El elemento raíz del documento.
+     * @param pilgrim El peregrino cuyos datos se exportarán.
+     */
     private static void createPeregrinoElement(Document doc, Element root, Peregrino pilgrim) {
         Element peregrino = doc.createElement("peregrino");
         root.appendChild(peregrino);
@@ -92,6 +131,13 @@ public class Escritor {
         newElementXML("nacionalidad", pilgrim.getNacionalidad(), peregrino, doc);
     }
 
+    /**
+     * Crea elementos XML relacionados con las paradas del peregrino y los agrega al documento.
+     *
+     * @param doc     El documento XML al que se agregarán los elementos.
+     * @param root    El elemento raíz del documento.
+     * @param pilgrim El peregrino cuyas paradas se exportarán.
+     */
     private static void createParadasElement(Document doc, Element root, Peregrino pilgrim) {
         Element paradas = doc.createElement("paradas");
         root.appendChild(paradas);
@@ -107,6 +153,13 @@ public class Escritor {
         }
     }
 
+    /**
+     * Crea elementos XML relacionados con las estancias del peregrino y los agrega al documento.
+     *
+     * @param doc     El documento XML al que se agregarán los elementos.
+     * @param root    El elemento raíz del documento.
+     * @param pilgrim El peregrino cuyas estancias se exportarán.
+     */
     private static void createEstanciasElement(Document doc, Element root, Peregrino pilgrim) {
         if (pilgrim.getEstancias() != null) {
             Element estancias = doc.createElement("estancias");
@@ -118,18 +171,27 @@ public class Escritor {
                 Element estancia = doc.createElement("estancia");
                 estancias.appendChild(estancia);
                 newElementXML("id", String.valueOf(stay.getId()), estancia, doc);
-                newElementXML("fecha",stay.getFecha().format(DATE_TIME_FORMATTER), estancia, doc);
+                newElementXML("fecha", stay.getFecha().format(DATE_TIME_FORMATTER), estancia, doc);
                 newElementXML("parada", stay.getParada().getNombre(), estancia, doc);
                 newElementXML("vip", String.valueOf(stay.isVIP()), estancia, doc);
             }
         }
     }
 
+    /**
+     * Crea un nuevo elemento XML con una etiqueta y un valor dados y lo agrega al documento.
+     *
+     * @param tag   La etiqueta del elemento.
+     * @param value El valor del elemento.
+     * @param root  El elemento raíz del documento.
+     * @param doc   El documento XML al que se agregará el nuevo elemento.
+     */
     private static void newElementXML(String tag, String value, Element root, Document doc) {
         Element element = doc.createElement(tag);
         Text text = doc.createTextNode(value);
         element.appendChild(text);
         root.appendChild(element);
     }
+
 
 }
