@@ -155,16 +155,18 @@ public class Escritor {
 
     /**
      * Crea elementos XML relacionados con las estancias del peregrino y los agrega al documento.
+     * Si no existe ninguna estancia asociada, se añaden campos vacíos
      *
      * @param doc     El documento XML al que se agregarán los elementos.
      * @param root    El elemento raíz del documento.
      * @param pilgrim El peregrino cuyas estancias se exportarán.
      */
     private static void createEstanciasElement(Document doc, Element root, Peregrino pilgrim) {
+
+        Element estancias = doc.createElement("estancias");
+        root.appendChild(estancias);
+
         if (pilgrim.getEstancias() != null) {
-            Element estancias = doc.createElement("estancias");
-            root.appendChild(estancias);
-            int clock = 1;
 
             ArrayList<Estancia> listaEstancias = pilgrim.getEstancias();
             for (Estancia stay : listaEstancias) {
@@ -175,6 +177,14 @@ public class Escritor {
                 newElementXML("parada", stay.getParada().getNombre(), estancia, doc);
                 newElementXML("vip", String.valueOf(stay.isVIP()), estancia, doc);
             }
+
+        } else {
+            Element estancia = doc.createElement("estancia");
+            estancias.appendChild(estancia);
+            newElementXML("id", "", estancia ,doc);
+            newElementXML("fecha", "", estancia, doc);
+            newElementXML("parada", "", estancia, doc);
+            newElementXML("vip", "", estancia, doc);
         }
     }
 
@@ -192,6 +202,4 @@ public class Escritor {
         element.appendChild(text);
         root.appendChild(element);
     }
-
-
 }

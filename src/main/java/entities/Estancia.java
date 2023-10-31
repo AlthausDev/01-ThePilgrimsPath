@@ -15,7 +15,7 @@ public class Estancia implements Comparable<Estancia> {
     private long id;
     private LocalDate fecha;
     private boolean vip = false;
-    private ArrayList<Peregrino> peregrinos;
+    private Peregrino peregrino;  ///En las especificaciones la Estancia la realiza 1 solo peregrino
     private Parada parada;
 
     /**
@@ -45,14 +45,14 @@ public class Estancia implements Comparable<Estancia> {
      * @param id         Identificador único de la estancia.
      * @param fecha      Fecha de la estancia.
      * @param vip        Indica si la estancia es VIP.
-     * @param peregrinos Lista de peregrinos que participan en la estancia.
+     * @param peregrino  Peregrino actualmente hospedado en la estancia
      * @param parada     Parada en la que se realiza la estancia.
      */
-    public Estancia(long id, LocalDate fecha, boolean vip, ArrayList<Peregrino> peregrinos, Parada parada) {
+    public Estancia(long id, LocalDate fecha, boolean vip, Peregrino peregrino, Parada parada) {
         this.id = id;
         this.fecha = fecha;
         this.vip = vip;
-        this.peregrinos = peregrinos;
+        this.peregrino = peregrino;
         this.parada = parada;
     }
 
@@ -110,22 +110,13 @@ public class Estancia implements Comparable<Estancia> {
         this.vip = vip;
     }
 
-    /**
-     * Obtiene la lista de peregrinos que participan en la estancia.
-     *
-     * @return Lista de peregrinos.
-     */
-    public ArrayList<Peregrino> getPeregrinos() {
-        return peregrinos;
+
+    public Peregrino getPeregrino() {
+        return peregrino;
     }
 
-    /**
-     * Establece la lista de peregrinos que participan en la estancia.
-     *
-     * @param peregrinos Lista de peregrinos.
-     */
-    public void setPeregrinos(ArrayList<Peregrino> peregrinos) {
-        this.peregrinos = peregrinos;
+    public void setPeregrino(Peregrino peregrino) {
+        this.peregrino = peregrino;
     }
 
     /**

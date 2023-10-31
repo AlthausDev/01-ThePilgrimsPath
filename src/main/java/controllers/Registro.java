@@ -67,7 +67,7 @@ public class Registro {
             } while (nacionalidad == null);
 
             ArrayList<Parada> paradaActual = new ArrayList<>();
-            paradaActual.add(Sesion.getParadaActual());
+            paradaActual.add(Sesion.getParadaActual()); ////Éste debería ser preguntada al usuario que se está registrando
 
             Carnet carnet = new Carnet(id, Sesion.getParadaActual());
             Peregrino nuevoPeregrino = new Peregrino(id, nombre, nacionalidad, carnet, paradaActual);
@@ -198,6 +198,8 @@ public class Registro {
      * @param nombre El nombre de usuario a verificar.
      * @return true si el nombre de usuario existe, de lo contrario false.
      */
+
+    //REVISAR
     private static boolean nombreExiste(String nombre) {
         return Sesion.validUsers.containsKey(nombre);
     }
@@ -208,6 +210,8 @@ public class Registro {
      * @param nombreParada El nombre de la parada a verificar.
      * @return true si el nombre de parada existe, de lo contrario false.
      */
+
+    //REVISAR
     private static boolean paradaExiste(String nombreParada) {
         return Sesion.getParadas().values().stream()
                 .anyMatch(parada -> parada.getNombre().equalsIgnoreCase(nombreParada));

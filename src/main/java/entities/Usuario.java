@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @author S.Althaus
  */
 public abstract class Usuario implements Serializable {
+	///falta implementar Serializable
     private long id;
     private String nombre;
     private Perfil perfil;
