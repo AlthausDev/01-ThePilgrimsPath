@@ -7,6 +7,7 @@ import entities.Parada;
 import entities.Peregrino;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import static entities.Perfil.*;
 import static io.Escritor.*;
@@ -25,38 +26,48 @@ public class Registro {
      */
     public void nuevoPeregrino() {
 
-        ArrayList <Parada> paradaActual = null;
+        ArrayList <Parada> paradaActual = new ArrayList<>();
 
         try {
             long id = Sesion.getLastId() + 1;
 
-            System.out.println("Registrar nuevo usuario - Peregrino");
+            System.out.println("Registrar nuevo usuario - Peregrino\n");
 
             String nombre;
             String pass;
 
-            System.out.println(readParadas().values().toString());
+            System.out.print("Lista de paradas:");
+            Map<?, ?> paradas = Sesion.getParadas();
+            StringBuilder sb = new StringBuilder();
 
-            do {
-                // Solicitar y validar el nombre
-                nombre = obtenerNombre();
-                if (nombre.length() < 3) {
-                    System.err.println("El nombre debe tener al menos 3 caracteres.");
-                }
-            } while (nombre.length() < 3);
-
-            if (nombreExiste(nombre)) {
-                System.err.println("El nombre ya existe en el sistema.");
-                return;
+            for (Object valor : paradas.values()) {
+                sb.append(valor.toString()).append(" ");
             }
 
+            System.out.println(sb.toString());
+            long numParada = -1L;
+
+
+            System.out.println("Seleccione el numero de su parada actual:");
+
             do {
-                // Solicitar y validar la contraseña
-                pass = obtenerPassword();
-                if (pass.length() < 3) {
-                    System.err.println("La contraseña debe tener al menos 3 caracteres.");
+                numParada = sc.nextLong();
+                if(!paradas.containsKey(numParada)){
+                    System.out.println("La parada seleccionada no se encuentra en el sistema, por favor, seleccione uno de los números de parada");
                 }
-            } while (pass.length() < 3);
+            } while(!paradas.containsKey(numParada));
+
+            Parada parada = (Parada) paradas.get(numParada);
+            Sesion.setParadaActual(parada);
+            paradaActual.add(parada);
+            sc.nextLine();
+
+
+            do {
+                System.out.println("Nuevo administrador de Parada");
+                nombre = obtenerNombre().toLowerCase();
+                pass = obtenerPassword();
+            } while (nombreExiste(nombre));
 
             System.out.println("CODIGO - PAIS");
             Sesion.getNacionalidades().forEach((k, v) -> System.out.println(k + " - " + v));
@@ -75,7 +86,7 @@ public class Registro {
             System.out.println("Datos Introducidos:"
                     + "\nNombre del nuevo peregrino: " + nombre
                     + "\nNacionalidad: " + nacionalidad
-                    + "\nParada: " );
+                    + "\n" + paradaActual.get(0).toString() );
 
             if(!isCorrecto()) return;
 
@@ -116,7 +127,7 @@ public class Registro {
                 System.out.println("Nuevo administrador de Parada");
                 nombreAdminParada = obtenerNombre().toLowerCase();
                 passAdminParada = obtenerPassword();
-            } while (adminParadaExiste(nombreAdminParada));
+            } while (nombreExiste(nombreAdminParada));
 
 
             System.out.println("Datos Introducidos:"
@@ -206,26 +217,16 @@ public class Registro {
     private static char obtenerRegion() {
         while (true) {
             String input = sc.nextLine();
-            if (input.length() == 2) {
+            if (input.length() == 1) {
                 char region = input.charAt(0);
                 if (Character.isLetter(region)) {
                     return Character.toUpperCase(region);
                 }
             }
-            System.err.println("Ingrese una región válida (2 caracteres). Vuelva a introducirlo.");
+            System.err.println("Debe introducir una región válida (1 caracter). Vuelva a introducirlo.");
         }
     }
 
-    /**
-     * Verifica si un nombre de usuario existe en la colección de usuarios válidos.
-     *
-     * @param nombre El nombre de usuario a verificar.
-     * @return true si el nombre de usuario existe, de lo contrario false.
-     */
-
-    private static boolean nombreExiste(String nombre) {
-        return Sesion.validUsers.containsKey(nombre);
-    }
 
     /**
      * Verifica si un nombre de parada y región coinciden con alguna de las paradas en la colección.
@@ -248,9 +249,15 @@ public class Registro {
         return false;
     }
 
-    private static boolean adminParadaExiste(String nombreAdminParada) {
-        if(Sesion.validUsers.containsKey(nombreAdminParada)){
-            System.out.println("El usuario con nombre: " + nombreAdminParada + " ya existe en el sistema.\n" +
+    /**
+     * Verifica si un nombre de usuario existe en la colección de usuarios válidos.
+     *
+     * @param nombre El nombre de usuario a verificar.
+     * @return true si el nombre de usuario existe, de lo contrario false.
+     */
+    private static boolean nombreExiste(String nombre) {
+        if(Sesion.validUsers.containsKey(nombre)){
+            System.out.println("El usuario con nombre: " + nombre + " ya existe en el sistema.\n" +
                     "Elija un nuevo nombre de usuario \n");
             return true;
         }

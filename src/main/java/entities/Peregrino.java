@@ -12,7 +12,7 @@ import static entities.Perfil.*;
  */
 public class Peregrino extends Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 10L;
 
     private String nacionalidad;
     private Carnet carnet;
