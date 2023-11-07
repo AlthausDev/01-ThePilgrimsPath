@@ -26,7 +26,7 @@ public class Login {
         // Solicitar el nombre de usuario y validar que no esté vacío
         do {
             System.out.println("Introduzca su nombre de usuario:");
-            username = sc.nextLine().trim().toLowerCase();
+            username = sc.nextLine().toLowerCase();
             if (username.isEmpty()) {
                 System.err.println("Por favor, introduzca su nombre de usuario");
             } else {

@@ -5,13 +5,13 @@ import java.time.LocalDate;
 
 
 /**
- * Clase que representa un carnet para peregrinos en una ruta.
+ * Clase que representa un carnet identificativo para los peregrinos del sistema.
  *
  * @author S.Althaus
  */
 public class Carnet implements Serializable {
 
-   private long idPeregrino;
+    private long idPeregrino;
     private LocalDate fechaExp = LocalDate.now();
     private Parada paradaInicial;
     private double distancia = 0.0;

@@ -47,7 +47,6 @@ public class Registro {
 
             System.out.println(sb.toString());
 
-
             long numParada = -1L;
             System.out.println("Seleccione el numero de su parada actual:");
 

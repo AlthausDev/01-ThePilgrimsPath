@@ -1,5 +1,6 @@
 package validacion;
 
+import aplicacion.Sesion;
 import entities.Perfil;
 import io.Lector;
 import org.javatuples.Pair;
