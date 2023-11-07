@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import static entities.Perfil.*;
 import static io.Escritor.*;
+import static io.Lector.readParadas;
 
 /**
  * Esta clase proporciona métodos para registrar nuevos usuarios (peregrinos y administradores de parada).
@@ -23,6 +24,9 @@ public class Registro {
      * Registra un nuevo peregrino en el sistema.
      */
     public void nuevoPeregrino() {
+
+        ArrayList <Parada> paradaActual = null;
+
         try {
             long id = Sesion.getLastId() + 1;
 
@@ -30,6 +34,8 @@ public class Registro {
 
             String nombre;
             String pass;
+
+           System.out.println(readParadas().values().toString());
 
             do {
                 // Solicitar y validar el nombre
@@ -65,9 +71,6 @@ public class Registro {
                     System.err.println("Código de nacionalidad inválido.");
                 }
             } while (nacionalidad == null);
-
-            ArrayList<Parada> paradaActual = new ArrayList<>();
-            paradaActual.add(Sesion.getParadaActual()); ////Éste debería ser preguntada al usuario que se está registrando
 
             System.out.println("Datos Introducidos:"
                             + "\nNombre del nuevo peregrino: " + nombre
@@ -106,16 +109,25 @@ public class Registro {
                 return;
             }
 
-            System.out.println("Administrador de Parada");
-            String nombreAdminParada = obtenerNombre().toLowerCase();
-            String passAdminParada = obtenerPassword();
+            String nombreAdminParada;
+            String passAdminParada;
+
+            do {
+                System.out.println("Nuevo administrador de Parada");
+                nombreAdminParada = obtenerNombre().toLowerCase();
+                passAdminParada = obtenerPassword();
+            } while (adminParadaExiste(nombreAdminParada));
+
 
             System.out.println("Datos Introducidos:"
                     + "\nNombre de la nueva parada: " + nombreParada
                     + "\nRegión de la nueva parada: " + regionParada
                     + "\nNombre del administrador de parada: " + nombreAdminParada);
-            
-            if(!isCorrecto()) return;
+
+            if (!isCorrecto()){
+                System.out.println("Saliendo del formulario de registro.");
+                return;
+            }
 
             AdminParada adminParada = new AdminParada(id, nombreAdminParada);
             Parada nuevaParada = new Parada(id, nombreParada, regionParada, adminParada);
@@ -130,6 +142,7 @@ public class Registro {
         }
     }
 
+
     /**
      * Obtiene un nombre válido del usuario.
      *
@@ -138,12 +151,12 @@ public class Registro {
     private static String obtenerNombre() {
         while (true) {
             System.out.println("Indique un nombre (mínimo 3 caracteres): ");
-            String nombre = sc.nextLine().trim().toLowerCase();
+            String nombre = sc.nextLine().toLowerCase();
 
-            if (nombre.length() >= 3) {
+            if (nombre.length() >= 3 && nombre.matches("[A-Za-z]+")) {
                 return nombre;
             } else {
-                System.err.println("El nombre debe tener al menos 3 caracteres. Intente de nuevo.");
+                System.err.println("El nombre debe tener al menos 3 caracteres y solo puede contener letras. Vuelva a introducirlo.");
             }
         }
     }
@@ -157,12 +170,12 @@ public class Registro {
     private static String obtenerPassword() {
         while (true) {
             System.out.println("Indique una contraseña (mínimo 3 caracteres): ");
-            String pass = sc.nextLine().trim();
+            String pass = sc.nextLine();
 
             if (pass.length() >= 3) {
                 return pass;
             } else {
-                System.err.println("La contraseña debe tener al menos 3 caracteres. Intente de nuevo.");
+                System.err.println("La contraseña debe tener al menos 3 caracteres. Vuelva a introducirla.");
             }
         }
     }
@@ -180,7 +193,7 @@ public class Registro {
             if (codNacionalidad.length() == 2 && Sesion.getNacionalidades().containsKey(codNacionalidad)) {
                 return codNacionalidad;
             } else {
-                System.err.println("Código de país no válido. Debe contener 2 caracteres y ser válido. Intente de nuevo.");
+                System.err.println("Código de país no válido. Debe contener 2 caracteres y ser válido. Vuelva a introducirlo.");
             }
         }
     }
@@ -199,7 +212,7 @@ public class Registro {
                     return Character.toUpperCase(region);
                 }
             }
-            System.err.println("Ingrese una región válida (2 caracteres). Intente de nuevo.");
+            System.err.println("Ingrese una región válida (2 caracteres). Vuelva a introducirlo.");
         }
     }
 
@@ -210,7 +223,6 @@ public class Registro {
      * @return true si el nombre de usuario existe, de lo contrario false.
      */
 
-    //REVISAR
     private static boolean nombreExiste(String nombre) {
         return Sesion.validUsers.containsKey(nombre);
     }
@@ -225,13 +237,26 @@ public class Registro {
 
     private static boolean paradaExiste(String nombreParada, char regionParada) {
 
-        for (Parada parada : Sesion.getParadas().values()) {
-            if (parada.getNombre().equalsIgnoreCase(nombreParada) && parada.getRegion() == regionParada) {
-                return true;
+        try {
+            for (Parada parada : Sesion.getParadas().values()) {
+                if (parada.getNombre().equalsIgnoreCase(nombreParada) && parada.getRegion() == regionParada) {
+                    return true;
+                }
             }
+        } catch (Exception ignored) {
         }
         return false;
     }
+
+    private static boolean adminParadaExiste(String nombreAdminParada) {
+        if(Sesion.validUsers.containsKey(nombreAdminParada)){
+            System.out.println("El usuario con nombre: " + nombreAdminParada + " ya existe en el sistema.\n" +
+                    "Elija un nuevo nombre de usuario \n");
+            return true;
+        }
+        return false;
+    }
+
 
     private static boolean isCorrecto() {
 
