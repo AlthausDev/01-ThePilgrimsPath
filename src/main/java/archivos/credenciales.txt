@@ -1,16 +1,4 @@
 admin admin ADMIN_GENERAL 0
-
-jaime 234 PEREGRINO 2
-lucia 654 PEREGRINO 3
-maria 234 PEREGRINO 4
-santiago santiago ADMIN_PARADA 5
-santiago santiago ADMIN_PARADA 6
-santiago santiago ADMIN_PARADA 7
-santiago santiago ADMIN_PARADA 8
-
-luisete luisete PEREGRINO 9
-luisete luisete PEREGRINO 10
-luisete luisete PEREGRINO 11
-
-mariela mariela PEREGRINO 12
-manolo 123 PEREGRINO 13
+juan 123 ADMIN_PARADA 1
+pedro pedro ADMIN_PARADA 2
+juan 123 ADMIN_PARADA 3

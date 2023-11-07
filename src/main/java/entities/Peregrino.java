@@ -11,7 +11,9 @@ import static entities.Perfil.*;
  * @author S.Althaus
  */
 public class Peregrino extends Usuario implements Serializable {
-	///falta implementar Serializable
+
+    private static final long serialVersionUID = 1L;
+
     private String nacionalidad;
     private Carnet carnet;
     private ArrayList<Parada> paradas;

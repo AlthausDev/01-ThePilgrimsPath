@@ -1,11 +1,15 @@
 package entities;
 
+import java.io.Serializable;
+
 /**
  * Enumeración que representa los diferentes perfiles de usuarios en la aplicación.
  *
  * @author S.Althaus
  */
-public enum Perfil {
+public enum Perfil implements Serializable  {
+
+
     /**
      * El perfil de un peregrino.
      */

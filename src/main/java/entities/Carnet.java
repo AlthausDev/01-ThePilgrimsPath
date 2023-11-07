@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
@@ -8,8 +9,9 @@ import java.time.LocalDate;
  *
  * @author S.Althaus
  */
-public class Carnet {
+public class Carnet implements Serializable {
 
+    private static final long serialVersionUID = 5320905360352335L;
     private long idPeregrino;
     private LocalDate fechaExp = LocalDate.now();
     private Parada paradaInicial;

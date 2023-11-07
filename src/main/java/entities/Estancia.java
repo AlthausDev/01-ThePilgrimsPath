@@ -1,8 +1,8 @@
 
 package entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  * Clase que representa una estancia en una parada para peregrinos en una ruta.
@@ -10,12 +10,13 @@ import java.util.ArrayList;
  * <p>
  * @author S.Althaus
  */
-public class Estancia implements Comparable<Estancia> {
+public class Estancia implements Comparable<Estancia>, Serializable {
 
+    private static final long serialVersionUID = 35233577L;
     private long id;
     private LocalDate fecha;
     private boolean vip = false;
-    private Peregrino peregrino;  ///En las especificaciones la Estancia la realiza 1 solo peregrino
+    private Peregrino peregrino;
     private Parada parada;
 
     /**

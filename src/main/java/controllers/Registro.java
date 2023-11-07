@@ -69,6 +69,13 @@ public class Registro {
             ArrayList<Parada> paradaActual = new ArrayList<>();
             paradaActual.add(Sesion.getParadaActual()); ////Éste debería ser preguntada al usuario que se está registrando
 
+            System.out.println("Datos Introducidos:"
+                            + "\nNombre del nuevo peregrino: " + nombre
+                            + "\nNacionalidad: " + nacionalidad
+                            + "\nParada: " );
+
+            if(!isCorrecto()) return;
+
             Carnet carnet = new Carnet(id, Sesion.getParadaActual());
             Peregrino nuevoPeregrino = new Peregrino(id, nombre, nacionalidad, carnet, paradaActual);
 
@@ -88,23 +95,27 @@ public class Registro {
         try {
             System.out.println("Agregar nueva parada");
             long id = Sesion.getLastId() + 1;
-
-            System.out.print("Nombre de la nueva parada: ");
             String nombreParada = obtenerNombre();
 
-            if (paradaExiste(nombreParada)) {
-                System.err.println("La parada ya existe en el sistema.");
+            System.out.println("Indique la región a la que pertenece de la nueva parada:");
+            char regionParada = obtenerRegion();
+
+            if (paradaExiste(nombreParada, regionParada)) {
+                System.out.println("La parada ya existe en el sistema.\n" +
+                        "Volviendo al menu\n");
                 return;
             }
 
-            System.out.print("Región de la nueva parada: ");
-            char regionParada = obtenerRegion();
-
-            System.out.print("Nombre del Administrador de Parada: ");
+            System.out.println("Administrador de Parada");
             String nombreAdminParada = obtenerNombre().toLowerCase();
-
-            System.out.print("Contraseña del Administrador de Parada: ");
             String passAdminParada = obtenerPassword();
+
+            System.out.println("Datos Introducidos:"
+                    + "\nNombre de la nueva parada: " + nombreParada
+                    + "\nRegión de la nueva parada: " + regionParada
+                    + "\nNombre del administrador de parada: " + nombreAdminParada);
+            
+            if(!isCorrecto()) return;
 
             AdminParada adminParada = new AdminParada(id, nombreAdminParada);
             Parada nuevaParada = new Parada(id, nombreParada, regionParada, adminParada);
@@ -115,7 +126,7 @@ public class Registro {
             System.out.println("Nueva parada agregada con éxito.");
             Sesion.setLastId(id);
         } catch (Exception e) {
-            System.err.println("Error al agregar la nueva parada: " + e.getMessage());
+            System.err.println("Error al agregar la nueva parada");
         }
     }
 
@@ -126,7 +137,7 @@ public class Registro {
      */
     private static String obtenerNombre() {
         while (true) {
-            System.out.print("Indique su nombre (mínimo 3 caracteres): ");
+            System.out.println("Indique un nombre (mínimo 3 caracteres): ");
             String nombre = sc.nextLine().trim().toLowerCase();
 
             if (nombre.length() >= 3) {
@@ -145,7 +156,7 @@ public class Registro {
 
     private static String obtenerPassword() {
         while (true) {
-            System.out.print("Indique una contraseña (mínimo 3 caracteres): ");
+            System.out.println("Indique una contraseña (mínimo 3 caracteres): ");
             String pass = sc.nextLine().trim();
 
             if (pass.length() >= 3) {
@@ -163,7 +174,7 @@ public class Registro {
      */
     private String obtenerCodigoNacionalidad() {
         while (true) {
-            System.out.print("Inserte el código de su país (2 caracteres): ");
+            System.out.println("Inserte el código de su país (2 caracteres): ");
             String codNacionalidad = sc.nextLine().toUpperCase();
 
             if (codNacionalidad.length() == 2 && Sesion.getNacionalidades().containsKey(codNacionalidad)) {
@@ -175,7 +186,7 @@ public class Registro {
     }
 
     /**
-     * Solicita al usuario que ingrese una región y verifica que tenga 2 caracteres y sea una letra.
+     * Solicita al usuario que ingrese una región y verifica que tenga 2 caracteres y letra.
      *
      * @return La región ingresada por el usuario en mayúscula.
      */
@@ -205,15 +216,30 @@ public class Registro {
     }
 
     /**
-     * Verifica si un nombre de parada existe en la colección de paradas.
+     * Verifica si un nombre de parada y región coinciden con alguna de las paradas en la colección.
      *
      * @param nombreParada El nombre de la parada a verificar.
-     * @return true si el nombre de parada existe, de lo contrario false.
+     * @param regionParada La región de la parada a verificar.
+     * @return true si se encuentra una parada con el nombre y la región especificados, de lo contrario, false.
      */
 
-    //REVISAR
-    private static boolean paradaExiste(String nombreParada) {
-        return Sesion.getParadas().values().stream()
-                .anyMatch(parada -> parada.getNombre().equalsIgnoreCase(nombreParada));
+    private static boolean paradaExiste(String nombreParada, char regionParada) {
+
+        for (Parada parada : Sesion.getParadas().values()) {
+            if (parada.getNombre().equalsIgnoreCase(nombreParada) && parada.getRegion() == regionParada) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isCorrecto() {
+
+        char valido;
+        do {
+            System.out.println("¿Son los datos introducidos son correctos? S/N");
+            valido = sc.nextLine().toUpperCase().charAt(0);
+        } while (valido != 'S' && valido != 'N');
+        return valido == 'S';
     }
 }
