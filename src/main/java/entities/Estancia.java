@@ -164,7 +164,12 @@ public class Estancia implements Comparable<Estancia> {
      */
     @Override
     public String toString() {
-        return "ID: " + id + "\nFecha: " + fecha + "\nVIP: " + vip;
+
+        String str = "ID: " + id + "\nFecha: " + fecha + "\nVIP: " + vip;
+        if(str == null) return "Todavía no hay ninguna estancia resgistrada";
+
+        return str;
+
     }
 
     @Override

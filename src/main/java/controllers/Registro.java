@@ -102,6 +102,12 @@ public class Registro {
             writeCarnet(nuevoPeregrino);
             writeCredencial(nombre, pass, PEREGRINO, id);
 
+            System.out.println("\nEsperamos que disfrute de nuestros servicios"
+                    + "\nA continuacion se muestran sus datos:\n");
+
+            System.out.println(nuevoPeregrino);
+            //System.out.println(carnet);
+
             Sesion.setLastId(id);
         } catch (Exception e) {
             System.err.println("Error al registrar el nuevo peregrino" );

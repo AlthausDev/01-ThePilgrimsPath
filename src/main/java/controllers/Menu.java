@@ -112,7 +112,7 @@ public class Menu {
                     Sesion.setContinuar(false);
                     break;
                 case 1:
-                    Sesion.getUser().getCarnet().toString();
+                    System.out.println(Sesion.getUser().getCarnet().toString());
                     break;
                 case 2:
                     Escritor.writeCarnet(Sesion.getUser());

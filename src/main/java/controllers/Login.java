@@ -37,7 +37,7 @@ public class Login {
         // Solicitar la contraseña y validar que no esté vacía
         do {
             System.out.println("Introduzca su contraseña:");
-            password = sc.nextLine().trim().toLowerCase();
+            password = sc.nextLine().toLowerCase();
             if (password.isEmpty()) {
                 System.err.println("Por favor, introduzca su contraseña de usuario");
             } else {

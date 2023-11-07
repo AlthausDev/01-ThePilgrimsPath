@@ -9,7 +9,7 @@ import java.time.LocalDate;
  *
  * @author S.Althaus
  */
-public class Carnet {
+public class Carnet implements Serializable {
 
    private long idPeregrino;
     private LocalDate fechaExp = LocalDate.now();
@@ -99,7 +99,7 @@ public class Carnet {
     @Override
     public String toString() {
         return "ID Peregrino: " + idPeregrino + "\nFecha de Expedición: " + fechaExp +
-                "\nParada Inicial:\n" + paradaInicial + "\nDistancia Recorrida: " + distancia +
+                "\n\nParada Inicial:" + paradaInicial + "\nDistancia Recorrida: " + distancia +
                 "\nNúmero de VIPs: " + nvips;
     }
 

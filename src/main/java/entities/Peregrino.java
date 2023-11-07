@@ -134,8 +134,6 @@ public class Peregrino extends Usuario implements Serializable {
         return "Peregrino:\n" +
                 "Nombre: " + getNombre() + "\n" +
                 "Nacionalidad: " + nacionalidad + "\n" +
-                "\nCarnet:\n" + carnet + "\n" +
-                "\nParadas:\n" + paradas + "\n" +
-                "\nEstancias:\n" + estancias;
+                "\nCarnet:\n" + carnet + "\n";
     }
 }
