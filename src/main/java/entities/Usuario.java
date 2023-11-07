@@ -8,8 +8,6 @@ import java.io.Serializable;
  * @author S.Althaus
  */
 public abstract class Usuario implements Serializable {
-
-    private static final long serialVersionUID = -3532090536035233577L;
     private long id;
     private String nombre;
     private Perfil perfil;

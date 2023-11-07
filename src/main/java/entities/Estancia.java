@@ -10,9 +10,8 @@ import java.time.LocalDate;
  * <p>
  * @author S.Althaus
  */
-public class Estancia implements Comparable<Estancia>, Serializable {
+public class Estancia implements Comparable<Estancia> {
 
-    private static final long serialVersionUID = 35233577L;
     private long id;
     private LocalDate fecha;
     private boolean vip = false;

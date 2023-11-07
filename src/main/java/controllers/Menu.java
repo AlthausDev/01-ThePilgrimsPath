@@ -159,7 +159,7 @@ public class Menu {
                     System.out.println(Sesion.getParadaActual().toString());
                     break;
                 case 2:
-                    Escritor.writeParada(Sesion.getParadaActual());
+                    //Escritor.writeParada(Sesion.getParadaActual());
                      break;
                 case 3:
                     cerrarSesion();

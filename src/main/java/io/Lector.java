@@ -139,32 +139,32 @@ public class Lector {
             String distanciaTotal = getTagValue(root, "distanciatotal");
 
             // Recorrer las paradas
-            NodeList paradasNodeList = root.getElementsByTagName("parada");
+            NodeList paradasNodeList = root.getElementsByTagName("paradas");
             for (int i = 0; i < paradasNodeList.getLength(); i++) {
                 Element paradaElement = (Element) paradasNodeList.item(i);
-                String orden = getTagValue(paradaElement, "orden");
+                long orden = Long.parseLong(getTagValue(paradaElement, "orden"));
                 String paradaNombre = getTagValue(paradaElement, "nombre");
-                String region = getTagValue(paradaElement, "region");
+                char region = getTagValue(paradaElement, "region").charAt(0);
 
                 // Crea el objeto Parada y agrégalo a la lista de paradas
-                Parada parada = new Parada(Long.parseLong(orden), paradaNombre, region.charAt(0), null);
+                Parada parada = new Parada(orden, paradaNombre, region, null);
                 paradas.add(parada);
             }
 
-            // Elementos de <estancias>
-            if (root.getElementsByTagName("estancia").getLength() > 0) {
-                NodeList estanciasNodeList = root.getElementsByTagName("estancia");
-                for (int i = 0; i < estanciasNodeList.getLength(); i++) {
-                    Element estanciaElement = (Element) estanciasNodeList.item(i);
-                    String estanciaId = getTagValue(estanciaElement, "id");
-                    String estanciaFecha = getTagValue(estanciaElement, "fecha");
-                    String estanciaParada = getTagValue(estanciaElement, "parada");
-                    String vip = getTagValue(estanciaElement, "vip");
-                    // Crea el objeto Estancia y agrégalo a la lista de estancias
-                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha, DATE_TIME_FORMATTER), Boolean.parseBoolean(vip), paradas.get(i));
-                    estancias.add(estancia);
-                }
-            }
+//            // Elementos de <estancias>
+//            if (root.getElementsByTagName("estancias").getLength() > 0) {
+//                NodeList estanciasNodeList = root.getElementsByTagName("estancias");
+//                for (int i = 0; i < estanciasNodeList.getLength(); i++) {
+//                    Element estanciaElement = (Element) estanciasNodeList.item(i);
+//                    String estanciaId = getTagValue(estanciaElement, "id");
+//                    String estanciaFecha = getTagValue(estanciaElement, "fecha");
+//                    String estanciaParada = getTagValue(estanciaElement, "parada");
+//                    String vip = getTagValue(estanciaElement, "vip");
+//                    // Crea el objeto Estancia y agrégalo a la lista de estancias
+//                    Estancia estancia = new Estancia(Long.parseLong(estanciaId), LocalDate.parse(estanciaFecha, DATE_TIME_FORMATTER), Boolean.parseBoolean(vip), paradas.get(i));
+//                    estancias.add(estancia);
+//                }
+//            }
 
             // Configura el objeto Carnet
             carnet.setIdPeregrino(Long.parseLong(id));
@@ -199,7 +199,7 @@ public class Lector {
         if (nodeList.getLength() > 0) {
             return nodeList.item(0).getTextContent();
         }
-        return "";
+        return null;
     }
 
     /**

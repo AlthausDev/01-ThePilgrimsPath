@@ -9,10 +9,9 @@ import java.time.LocalDate;
  *
  * @author S.Althaus
  */
-public class Carnet implements Serializable {
+public class Carnet {
 
-    private static final long serialVersionUID = 5320905360352335L;
-    private long idPeregrino;
+   private long idPeregrino;
     private LocalDate fechaExp = LocalDate.now();
     private Parada paradaInicial;
     private double distancia = 0.0;

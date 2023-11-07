@@ -8,7 +8,6 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
-import utilidades.AppendableObjectOutputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,11 +53,39 @@ public class Escritor {
      *
      * @param parada La parada a escribir.
      */
+//    public static void writeParada(Parada parada) {
+//        try {
+//            FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
+//            AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, true);
+//            oos.writeObject(parada);
+//
+//            System.out.println("Se ha agregado una nueva parada con éxito.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     public static void writeParada(Parada parada) {
         try {
-            FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
-            AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, true);
+            ObjectOutputStream oos;
+            File file = new File(PATH_STOPS);
+
+            if (file.exists()) {
+                // Si el archivo existe, abre un FileOutputStream en modo de anexado
+                FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
+                oos = new ObjectOutputStream(fos) {
+                    protected void writeStreamHeader() throws IOException {
+                        reset();
+                    }
+                };
+            } else {
+                // Si el archivo no existe, crea un nuevo archivo
+                FileOutputStream fos = new FileOutputStream(PATH_STOPS);
+                oos = new ObjectOutputStream(fos);
+            }
+
             oos.writeObject(parada);
+            oos.close();
 
             System.out.println("Se ha agregado una nueva parada con éxito.");
         } catch (Exception e) {

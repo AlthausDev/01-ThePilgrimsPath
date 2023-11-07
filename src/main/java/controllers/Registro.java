@@ -7,6 +7,7 @@ import entities.Parada;
 import entities.Peregrino;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 import static entities.Perfil.*;
@@ -45,13 +46,18 @@ public class Registro {
             }
 
             System.out.println(sb.toString());
+
+
             long numParada = -1L;
-
-
             System.out.println("Seleccione el numero de su parada actual:");
 
             do {
-                numParada = sc.nextLong();
+                try {
+                    numParada = sc.nextLong();
+                } catch (InputMismatchException e){
+                    numParada = -1L;
+                    sc.nextLine();
+                }
                 if(!paradas.containsKey(numParada)){
                     System.out.println("La parada seleccionada no se encuentra en el sistema, por favor, seleccione uno de los números de parada");
                 }
@@ -64,7 +70,7 @@ public class Registro {
 
 
             do {
-                System.out.println("Nuevo administrador de Parada");
+                System.out.println("Nuevo Peregrino");
                 nombre = obtenerNombre().toLowerCase();
                 pass = obtenerPassword();
             } while (nombreExiste(nombre));
@@ -98,7 +104,7 @@ public class Registro {
 
             Sesion.setLastId(id);
         } catch (Exception e) {
-            System.err.println("Error al registrar el nuevo peregrino: " + e.getMessage());
+            System.err.println("Error al registrar el nuevo peregrino" );
         }
     }
 

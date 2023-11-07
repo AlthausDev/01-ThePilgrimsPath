@@ -7,9 +7,7 @@ import java.io.Serializable;
  *
  * @author S.Althaus
  */
-public enum Perfil implements Serializable  {
-
-
+public enum Perfil {
     /**
      * El perfil de un peregrino.
      */

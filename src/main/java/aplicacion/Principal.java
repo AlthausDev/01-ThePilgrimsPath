@@ -1,11 +1,6 @@
 package aplicacion;
 
-import entities.AdminParada;
-import entities.Parada;
-
-import static entities.Perfil.ADMIN_PARADA;
-import static io.Escritor.writeCredencial;
-import static io.Escritor.writeParada;
+import java.util.Scanner;
 
 /**
  * Esta es la clase principal de la aplicación. Aquí se inicia la ejecución del programa.
@@ -23,17 +18,6 @@ public class Principal {
 		// Creamos una nueva instancia de la clase Sesion para iniciar la aplicación
 		new Sesion();
 
-		AdminParada adminParada = new AdminParada(1, "Juan");
-		Parada nuevaParada = new Parada(1, "aviles", 'A', adminParada);
-
-		writeCredencial("Juan", "123", ADMIN_PARADA, 1);
-		writeParada(nuevaParada);
-//
-//		AdminParada adminParada = new AdminParada(2, "Pedro");
-//		Parada nuevaParada = new Parada(2, "madrid", 'M', adminParada);
-//
-//		writeCredencial("Pedro", "652", ADMIN_PARADA, 2);
-//		writeParada(nuevaParada);
 	}
 }
 
