@@ -134,7 +134,7 @@ public class Parada implements Serializable, Comparable<Parada> {
 
     @Override
     public String toString() {
-        return "ID: " + id + "\nNombre: " + nombre + "\nRegión: " + region;
+        return "\nParada: " + id + "\nNombre: " + nombre + "\nRegión: " + region + "\n";
     }
 
     @Override
