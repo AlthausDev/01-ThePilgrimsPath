@@ -49,7 +49,7 @@ public class EstanciaDAOImpl implements EstanciaDAO {
     }
 
     @Override
-    public void save(Estancia estancia) {
+    public void insert(Estancia estancia) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Estancia VALUES (?, ?, ?, ?, ?)")) {
             statement.setLong(1, estancia.getId());
             statement.setDate(2, java.sql.Date.valueOf(estancia.getFecha()));

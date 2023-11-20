@@ -9,7 +9,7 @@ public interface EstanciaDAO {
 
     List<Estancia> getAll();
 
-    void save(Estancia estancia);
+    void insert(Estancia estancia);
 
     void update(Estancia estancia);
 

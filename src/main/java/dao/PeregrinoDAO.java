@@ -9,7 +9,7 @@ public interface PeregrinoDAO {
 
     List<Peregrino> getAll();
 
-    void save(Peregrino peregrino);
+    void insert(Peregrino peregrino);
 
     void update(Peregrino peregrino);
 

@@ -23,6 +23,10 @@ public class AdminParada extends Usuario implements Serializable {
     public AdminParada(long id, String nombre) {
         super(id, nombre, ADMIN_PARADA);
     }
+    
+    public long getId() {
+        return super.getId();
+    }
 
     /**
      * Obtiene el nombre del administrador de parada.
@@ -30,6 +34,12 @@ public class AdminParada extends Usuario implements Serializable {
      * @return El nombre del administrador de parada.
      */
     public String getName() {
-        return getNombre();
-    }
+        return super.getNombre();
+    }    
+ 
+    
+    public Perfil getPerfil() {
+        return super.getPerfil();
+    }    
+    
 }

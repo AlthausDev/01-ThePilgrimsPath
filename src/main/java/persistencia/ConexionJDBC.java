@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class ConexionJDBC {
 
-    // Datos de conexión
     static final String URL = "jdbc:mysql://localhost:3306/tu_base_de_datos";
     static final String USUARIO = "user";
     static final String CONTRASENA = "password";
@@ -15,13 +14,11 @@ public class ConexionJDBC {
         Connection conexion = null;
 
         try {
-            // Cargar el controlador JDBC
+           
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Establecer la conexión
             conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
 
-            // Realizar operaciones con la conexión
+            
 
             System.out.println("Conexión exitosa.");
         } catch (ClassNotFoundException e) {
@@ -29,7 +26,7 @@ public class ConexionJDBC {
         } catch (SQLException e) {
             System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
         } finally {
-            // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso si hay excepciones
+            
             if (conexion != null) {
                 try {
                     conexion.close();

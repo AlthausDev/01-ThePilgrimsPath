@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class ParadaDAOImpl implements ParadaDAO {
     private Connection connection;
 
-    // Constructor que recibe la conexión a la base de datos
     public ParadaDAOImpl(Connection connection) {
         this.connection = connection;
     }
@@ -35,12 +34,12 @@ public class ParadaDAOImpl implements ParadaDAO {
     }
 
     @Override
-    public void save(Parada parada) {
+    public void insert(Parada parada) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Parada VALUES (?, ?, ?, ?)")) {
             statement.setLong(1, parada.getId());
             statement.setString(2, parada.getNombre());
             statement.setString(3, String.valueOf(parada.getRegion()));
-            statement.setLong(4, parada.getAdminParada().getId()); // Asumiendo que AdminParada tiene un id
+            statement.setLong(4, parada.getAdminParada().getId()); 
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +52,7 @@ public class ParadaDAOImpl implements ParadaDAO {
                 "UPDATE Parada SET nombre = ?, region = ?, adminParada = ? WHERE id = ?")) {
             statement.setString(1, parada.getNombre());
             statement.setString(2, String.valueOf(parada.getRegion()));
-            statement.setLong(3, parada.getAdminParada().getId()); // Asumiendo que AdminParada tiene un id
+            statement.setLong(3, parada.getAdminParada().getId()); 
             statement.setLong(4, parada.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

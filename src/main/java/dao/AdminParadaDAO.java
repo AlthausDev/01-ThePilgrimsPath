@@ -2,10 +2,13 @@ package dao;
 
 import entities.AdminParada;
 
-/**
- * Interfaz DAO para la entidad AdminParada.
- */
-public interface AdminParadaDAO extends BaseDAO<AdminParada> {
+public interface AdminParadaDAO {
 
-    // Puedes agregar métodos específicos para operaciones relacionadas con AdminParada si es necesario.
+	AdminParada getById(long id);
+
+    void insert(AdminParada adminParada);
+
+    void update(AdminParada adminParada);
+
+    void delete(AdminParada adminParada);
 }

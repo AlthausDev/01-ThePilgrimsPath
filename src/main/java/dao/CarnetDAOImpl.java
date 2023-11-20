@@ -31,13 +31,13 @@ public class CarnetDAOImpl implements CarnetDAO {
         }
         return carnet;
     }
-
+    
     @Override
-    public void save(Carnet carnet) {
+    public void insert(Carnet carnet) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Carnet VALUES (?, ?, ?, ?, ?)")) {
             statement.setLong(1, carnet.getIdPeregrino());
             statement.setDate(2, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setLong(3, carnet.getParadaInicial().getId()); // Asumiendo que Parada tiene un id
+            statement.setLong(3, carnet.getParadaInicial().getId()); 
             statement.setDouble(4, carnet.getDistancia());
             statement.setInt(5, carnet.getNvips());
             statement.executeUpdate();
@@ -51,7 +51,7 @@ public class CarnetDAOImpl implements CarnetDAO {
         try (PreparedStatement statement = connection.prepareStatement(
                 "UPDATE Carnet SET fechaExp = ?, paradaInicial = ?, distancia = ?, nvips = ? WHERE idPeregrino = ?")) {
             statement.setDate(1, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setLong(2, carnet.getParadaInicial().getId()); // Asumiendo que Parada tiene un id
+            statement.setLong(2, carnet.getParadaInicial().getId());
             statement.setDouble(3, carnet.getDistancia());
             statement.setInt(4, carnet.getNvips());
             statement.setLong(5, carnet.getIdPeregrino());

@@ -4,7 +4,6 @@ import entities.Carnet;
 import entities.Estancia;
 import entities.Parada;
 import entities.Peregrino;
-import entities.Perfil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,7 +49,7 @@ public class PeregrinoDAOImpl implements PeregrinoDAO {
     }
 
     @Override
-    public void save(Peregrino peregrino) {
+    public void insert(Peregrino peregrino) {
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Peregrino VALUES (?, ?, ?, ?)")) {
             statement.setLong(1, peregrino.getId());
             statement.setString(2, peregrino.getNombre());
