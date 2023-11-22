@@ -97,7 +97,12 @@ public class Registro {
 
             Carnet carnet = new Carnet(id, Sesion.getParadaActual());
             Peregrino nuevoPeregrino = new Peregrino(id, nombre, nacionalidad, carnet, paradaActual);
-
+            
+            
+            
+            /// PeregrinoDAOImple.insert(nuevoPeregrino);
+            
+            
             writeCarnet(nuevoPeregrino);
             writeCredencial(nombre, pass, PEREGRINO, id);
 

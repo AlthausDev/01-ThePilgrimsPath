@@ -3,16 +3,29 @@ DROP DATABASE IF EXISTS bdperegrinos_samuelAlthaus;
 CREATE DATABASE bdperegrinos_samuelAlthaus CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE bdperegrinos_samuelAlthaus;
 
+CREATE TABLE Tcredenciales(	
+	pkId INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	cNombre VARCHAR (50) NOT NULL UNIQUE,
+	cPerfil CHECK IN ("PEREGRINO", "ADMIN_PARADA", "ADMIN"),
+	cPassword VARCHAR (50) NOT NULL
+);
+
+
 CREATE TABLE Tperegrino (
-    pkIdPeregrino INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    pkfkIdPeregrino INT UNSIGNED PRIMARY KEY,
     cNombrePer VARCHAR(50) NOT NULL,
-    cNacionalidad VARCHAR (50) NOT NULL
+    cNacionalidad VARCHAR (50) NOT NULL,
+    FOREIGN KEY (pkfkIdPeregrino)
+    	REFERENCES Tcredenciales (pkID)
+    
 );
 
 CREATE TABLE Tparada (
-    pkIdParada INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    pkfkIdParada INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     cNombrePar VARCHAR(50) NOT NULL,
-    cRegion CHAR (1) NOT NULL
+    cRegion CHAR (1) NOT NULL,
+    FOREIGN KEY (pkfkIdParada)
+    	REFERENCES Tcredenciales (pkID)
 );
 
 CREATE TABLE Testancia (
@@ -40,6 +53,7 @@ CREATE TABLE Tcarnet (
 		REFERENCES Tparada(pkIdParada),
     UNIQUE (fkIdPeregrino)
 );
+
 
 CREATE TABLE Tperegrino_parada(
 	fkIdPeregrino INT UNSIGNED,

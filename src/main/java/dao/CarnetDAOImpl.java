@@ -10,36 +10,43 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class CarnetDAOImpl implements CarnetDAO {
-    private Connection connection;
+    private final Connection connection;
+    private final ParadaDAO paradaDAO;
 
-    // Constructor que recibe la conexión a la base de datos
     public CarnetDAOImpl(Connection connection) {
         this.connection = connection;
+        this.paradaDAO = new ParadaDAOImpl(connection);
     }
 
     @Override
-    public Carnet getById(long id) {
+    public Carnet getByPeregrinoId(long id) {
         Carnet carnet = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM Carnet WHERE idPeregrino = ?")) {
+        String sql = "SELECT * FROM Tcarnet WHERE pkfkIdPeregrino = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                carnet = mapResultSetToCarnet(resultSet);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    carnet = mapResultSetToCarnet(resultSet);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return carnet;
     }
-    
+
     @Override
     public void insert(Carnet carnet) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Carnet VALUES (?, ?, ?, ?, ?)")) {
+        String sql = "INSERT INTO Tcarnet (pkfkIdPeregrino, dFechaExp, nDistancia, nVips, fkIdParada) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, carnet.getIdPeregrino());
             statement.setDate(2, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setLong(3, carnet.getParadaInicial().getId()); 
-            statement.setDouble(4, carnet.getDistancia());
-            statement.setInt(5, carnet.getNvips());
+            statement.setDouble(3, carnet.getDistancia());
+            statement.setInt(4, carnet.getNvips());
+            statement.setLong(5, carnet.getParadaInicial().getId());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,13 +55,15 @@ public class CarnetDAOImpl implements CarnetDAO {
 
     @Override
     public void update(Carnet carnet) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE Carnet SET fechaExp = ?, paradaInicial = ?, distancia = ?, nvips = ? WHERE idPeregrino = ?")) {
+        String sql = "UPDATE Tcarnet SET dFechaExp = ?, nDistancia = ?, nVips = ?, fkIdParada = ? WHERE pkfkIdPeregrino = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDate(1, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setLong(2, carnet.getParadaInicial().getId());
-            statement.setDouble(3, carnet.getDistancia());
-            statement.setInt(4, carnet.getNvips());
+            statement.setDouble(2, carnet.getDistancia());
+            statement.setInt(3, carnet.getNvips());
+            statement.setLong(4, carnet.getParadaInicial().getId());
             statement.setLong(5, carnet.getIdPeregrino());
+
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +72,9 @@ public class CarnetDAOImpl implements CarnetDAO {
 
     @Override
     public void delete(Carnet carnet) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM Carnet WHERE idPeregrino = ?")) {
+        String sql = "DELETE FROM Tcarnet WHERE pkfkIdPeregrino = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, carnet.getIdPeregrino());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -72,16 +83,14 @@ public class CarnetDAOImpl implements CarnetDAO {
     }
 
     private Carnet mapResultSetToCarnet(ResultSet resultSet) throws SQLException {
-        long idPeregrino = resultSet.getLong("idPeregrino");
-        LocalDate fechaExp = resultSet.getDate("fechaExp").toLocalDate();
-        long idParada = resultSet.getLong("paradaInicial");
-        double distancia = resultSet.getDouble("distancia");
-        int nvips = resultSet.getInt("nvips");
+        long idPeregrino = resultSet.getLong("pkfkIdPeregrino");
+        LocalDate fechaExp = resultSet.getDate("dFechaExp").toLocalDate();
+        double distancia = resultSet.getDouble("nDistancia");
+        int nvips = resultSet.getInt("nVips");
+        long idParada = resultSet.getLong("fkIdParada");
 
-        ParadaDAO paradaDAO = new ParadaDAOImpl(connection);
         Parada paradaInicial = paradaDAO.getById(idParada);
 
         return new Carnet(idPeregrino, fechaExp, paradaInicial, distancia, nvips);
     }
-
 }
