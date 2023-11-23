@@ -13,20 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstanciaDAOImpl implements EstanciaDAO {
-    private Connection connection;
+    private final Connection connection;
+    private final PeregrinoDAO peregrinoDAO;
+    private final ParadaDAO paradaDAO;
 
     public EstanciaDAOImpl(Connection connection) {
         this.connection = connection;
+        this.peregrinoDAO = new PeregrinoDAOImpl(connection);
+        this.paradaDAO = new ParadaDAOImpl(connection);
     }
 
     @Override
     public Estancia getById(long id) {
         Estancia estancia = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM Estancia WHERE id = ?")) {
+        String sql = "SELECT * FROM Testancia WHERE pkIdEstancia = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                estancia = mapResultSetToEstancia(resultSet);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    estancia = mapResultSetToEstancia(resultSet);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,10 +44,13 @@ public class EstanciaDAOImpl implements EstanciaDAO {
     @Override
     public List<Estancia> getAll() {
         List<Estancia> estancias = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM Estancia")) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                estancias.add(mapResultSetToEstancia(resultSet));
+        String sql = "SELECT * FROM Testancia";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    estancias.add(mapResultSetToEstancia(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,12 +60,10 @@ public class EstanciaDAOImpl implements EstanciaDAO {
 
     @Override
     public void insert(Estancia estancia) {
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO Estancia VALUES (?, ?, ?, ?, ?)")) {
-            statement.setLong(1, estancia.getId());
-            statement.setDate(2, java.sql.Date.valueOf(estancia.getFecha()));
-            statement.setBoolean(3, estancia.isVIP());
-            statement.setLong(4, estancia.getPeregrino().getId());
-            statement.setLong(5, estancia.getParada().getId());
+        String sql = "INSERT INTO Testancia (dFecha, bVip, fkIdPeregrino, fkIdParada) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            setEstanciaStatementValues(statement, estancia);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,12 +72,10 @@ public class EstanciaDAOImpl implements EstanciaDAO {
 
     @Override
     public void update(Estancia estancia) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE Estancia SET fecha = ?, vip = ?, idPeregrino = ?, idParada = ? WHERE id = ?")) {
-            statement.setDate(1, java.sql.Date.valueOf(estancia.getFecha()));
-            statement.setBoolean(2, estancia.isVIP());
-            statement.setLong(3, estancia.getPeregrino().getId());
-            statement.setLong(4, estancia.getParada().getId());
+        String sql = "UPDATE Testancia SET dFecha = ?, bVip = ?, fkIdPeregrino = ?, fkIdParada = ? WHERE pkIdEstancia = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            setEstanciaStatementValues(statement, estancia);
             statement.setLong(5, estancia.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -79,7 +85,9 @@ public class EstanciaDAOImpl implements EstanciaDAO {
 
     @Override
     public void delete(Estancia estancia) {
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM Estancia WHERE id = ?")) {
+        String sql = "DELETE FROM Testancia WHERE pkIdEstancia = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, estancia.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -88,15 +96,22 @@ public class EstanciaDAOImpl implements EstanciaDAO {
     }
 
     private Estancia mapResultSetToEstancia(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong("id");
-        LocalDate fecha = resultSet.getDate("fecha").toLocalDate();
-        boolean vip = resultSet.getBoolean("vip");
-        long idPeregrino = resultSet.getLong("idPeregrino");
-        long idParada = resultSet.getLong("idParada");
+        long id = resultSet.getLong("pkIdEstancia");
+        LocalDate fecha = resultSet.getDate("dFecha").toLocalDate();
+        boolean vip = resultSet.getBoolean("bVip");
+        long idPeregrino = resultSet.getLong("fkIdPeregrino");
+        long idParada = resultSet.getLong("fkIdParada");
 
-        Peregrino peregrino = new PeregrinoDAOImpl(connection).getById(idPeregrino);
-        Parada parada = new ParadaDAOImpl(connection).getById(idParada);
+        Peregrino peregrino = peregrinoDAO.getById(idPeregrino);
+        Parada parada = paradaDAO.getById(idParada);
 
         return new Estancia(id, fecha, vip, peregrino, parada);
+    }
+
+    private void setEstanciaStatementValues(PreparedStatement statement, Estancia estancia) throws SQLException {
+        statement.setDate(1, java.sql.Date.valueOf(estancia.getFecha()));
+        statement.setBoolean(2, estancia.isVIP());
+        statement.setLong(3, estancia.getPeregrino().getId());
+        statement.setLong(4, estancia.getParada().getId());
     }
 }
