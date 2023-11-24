@@ -1,8 +1,8 @@
 package controllers;
 
-import aplicacion.Sesion;
-import entities.Perfil;
-import io.Escritor;
+import service.Sesion;
+import model.Perfil;
+import model.io.Escritor;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 

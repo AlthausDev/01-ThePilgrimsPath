@@ -1,9 +1,9 @@
-package io;
+package model.io;
 
-import entities.Estancia;
-import entities.Parada;
-import entities.Peregrino;
-import entities.Perfil;
+import model.Estancia;
+import model.Parada;
+import model.Peregrino;
+import model.Perfil;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +19,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static utilidades.Constantes.*;
+import static util.Constantes.*;
 
 /**
  * Clase que proporciona métodos para escribir datos en diferentes formatos y almacenarlos en archivos.

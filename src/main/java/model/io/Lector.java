@@ -1,7 +1,7 @@
-package io;
+package model.io;
 
-import aplicacion.Sesion;
-import entities.*;
+import service.Sesion;
+import model.*;
 import org.javatuples.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import static utilidades.Constantes.*;
+import static util.Constantes.*;
 
 /**
  * Esta clase proporciona métodos para leer información desde archivos y XML, y cargarla en la aplicación.

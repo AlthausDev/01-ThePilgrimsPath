@@ -1,6 +1,4 @@
-package entities;
-
-import java.io.Serializable;
+package model;
 
 /**
  * Enumeración que representa los diferentes perfiles de usuarios en la aplicación.

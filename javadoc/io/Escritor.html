@@ -87,14 +87,14 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Escritor" class="title">Class Escritor</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">io.Escritor</div>
+<div class="inheritance">model.io.Escritor</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Escritor</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Clase que proporciona métodos para escribir datos en diferentes formatos y almacenarlos en archivos.
- Incluye métodos para escribir credenciales, paradas y carnet de peregrinos, así como exportar datos a archivos XML.</div>
+<div class="block">Clase que proporciona métodos para escribir datos en diferentes formatos y almacenarlos en data.
+ Incluye métodos para escribir credenciales, paradas y carnet de peregrinos, así como exportar datos a data XML.</div>
 <dl class="notes">
 <dt>Author:</dt>
 <dd>S.Althaus</dd>
@@ -127,20 +127,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#writeCarnet(entities.Peregrino)" class="member-name-link">writeCarnet</a><wbr>(<a href="../entities/Peregrino.html" title="class in entities">Peregrino</a>&nbsp;pilgrim)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#writeCarnet(entities.Peregrino)" class="member-name-link">writeCarnet</a><wbr>(<a href="../entities/Peregrino.html" title="class in model">Peregrino</a>&nbsp;pilgrim)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Exporta los datos del carnet de un peregrino a un archivo XML.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#writeCredencial(java.lang.String,java.lang.String,entities.Perfil,long)" class="member-name-link">writeCredencial</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nombre,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pass,
- <a href="../entities/Perfil.html" title="enum class in entities">Perfil</a>&nbsp;perfil,
+ <a href="../entities/Perfil.html" title="enum class in model">Perfil</a>&nbsp;perfil,
  long&nbsp;lastId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Escribe las credenciales de un usuario en el archivo de credenciales.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#writeParada(entities.Parada)" class="member-name-link">writeParada</a><wbr>(<a href="../entities/Parada.html" title="class in entities">Parada</a>&nbsp;parada)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#writeParada(entities.Parada)" class="member-name-link">writeParada</a><wbr>(<a href="../entities/Parada.html" title="class in model">Parada</a>&nbsp;parada)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Escribe los datos de una parada en el archivo de paradas.</div>
 </div>
@@ -180,7 +180,7 @@ loadScripts(document, 'script');</script>
 <h3>writeCredencial</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeCredencial</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nombre,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pass,
- <a href="../entities/Perfil.html" title="enum class in entities">Perfil</a>&nbsp;perfil,
+ <a href="../entities/Perfil.html" title="enum class in model">Perfil</a>&nbsp;perfil,
  long&nbsp;lastId)</span></div>
 <div class="block">Escribe las credenciales de un usuario en el archivo de credenciales.</div>
 <dl class="notes">
@@ -195,7 +195,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="writeParada(entities.Parada)">
 <h3>writeParada</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeParada</span><wbr><span class="parameters">(<a href="../entities/Parada.html" title="class in entities">Parada</a>&nbsp;parada)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeParada</span><wbr><span class="parameters">(<a href="../entities/Parada.html" title="class in model">Parada</a>&nbsp;parada)</span></div>
 <div class="block">Escribe los datos de una parada en el archivo de paradas.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -206,7 +206,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="writeCarnet(entities.Peregrino)">
 <h3>writeCarnet</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeCarnet</span><wbr><span class="parameters">(<a href="../entities/Peregrino.html" title="class in entities">Peregrino</a>&nbsp;pilgrim)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">writeCarnet</span><wbr><span class="parameters">(<a href="../entities/Peregrino.html" title="class in model">Peregrino</a>&nbsp;pilgrim)</span></div>
 <div class="block">Exporta los datos del carnet de un peregrino a un archivo XML.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

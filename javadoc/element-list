@@ -1,6 +1,6 @@
-aplicacion
+service
 controllers
-entities
+model
 io
-utilidades
+util
 validacion

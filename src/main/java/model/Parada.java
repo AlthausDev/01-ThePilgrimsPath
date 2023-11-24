@@ -1,7 +1,7 @@
 /**
  * Clase que representa una parada en la ruta de peregrinación.
  */
-package entities;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

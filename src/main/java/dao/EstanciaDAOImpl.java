@@ -1,8 +1,8 @@
 package dao;
 
-import entities.Estancia;
-import entities.Parada;
-import entities.Peregrino;
+import model.Estancia;
+import model.Parada;
+import model.Peregrino;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

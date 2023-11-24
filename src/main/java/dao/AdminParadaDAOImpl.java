@@ -1,15 +1,11 @@
 package dao;
 
-import entities.AdminParada;
-import entities.Carnet;
-import entities.Parada;
-import entities.Perfil;
+import model.AdminParada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class AdminParadaDAOImpl implements AdminParadaDAO {
   

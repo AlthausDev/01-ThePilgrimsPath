@@ -1,7 +1,7 @@
 package dao;
 
-import entities.Carnet;
-import entities.Parada;
+import model.Carnet;
+import model.Parada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

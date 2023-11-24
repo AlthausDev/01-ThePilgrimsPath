@@ -1,10 +1,10 @@
-package persistencia;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionJDBC {
+public class MySqlConexion {
 
     static final String URL = "jdbc:mysql://localhost:3306/bdperegrinos_samuelAlthaus";
     static final String USUARIO = "user";
@@ -32,5 +32,9 @@ public class ConexionJDBC {
                 }
             }
         }
+    }
+
+    public static Object getInstance() {
+        return null;
     }
 }

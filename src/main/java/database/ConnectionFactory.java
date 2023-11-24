@@ -1,4 +1,4 @@
-package persistencia;
+package database;
 
 import com.mysql.cj.MysqlConnection;
 

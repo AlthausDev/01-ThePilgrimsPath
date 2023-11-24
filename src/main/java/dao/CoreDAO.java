@@ -3,7 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.HashMap;
-import persistencia.MySqlConexion;
+import database.MySqlConexion;
 
 public abstract class CoreDAO <T>{
 

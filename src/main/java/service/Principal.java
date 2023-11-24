@@ -1,6 +1,4 @@
-package aplicacion;
-
-import java.util.Scanner;
+package service;
 
 /**
  * Esta es la clase principal de la aplicación. Aquí se inicia la ejecución del programa.

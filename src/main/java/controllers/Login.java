@@ -1,12 +1,12 @@
 package controllers;
 
-import aplicacion.Sesion;
-import entities.Parada;
-import entities.Perfil;
-import validacion.Validation;
+import service.Sesion;
+import model.Parada;
+import model.Perfil;
+import util.Validation;
 import java.util.Scanner;
-import static entities.Perfil.*;
-import static io.Lector.readCarnet;
+import static model.Perfil.*;
+import static model.io.Lector.readCarnet;
 
 /**
  * La clase `Login` se encarga de gestionar el inicio de sesión de usuarios.

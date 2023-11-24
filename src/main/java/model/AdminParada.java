@@ -1,8 +1,8 @@
-package entities;
+package model;
 
 import java.io.Serializable;
 
-import static entities.Perfil.ADMIN_PARADA;
+import static model.Perfil.ADMIN_PARADA;
 
 /**
  * La clase `AdminParada` representa un usuario con el perfil de administrador de parada.

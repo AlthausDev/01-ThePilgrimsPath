@@ -1,9 +1,9 @@
-package entities;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static entities.Perfil.*;
+import static model.Perfil.*;
 
 /**
  * Clase que representa a un peregrino.

@@ -1,18 +1,17 @@
 package controllers;
 
-import aplicacion.Sesion;
-import entities.AdminParada;
-import entities.Carnet;
-import entities.Parada;
-import entities.Peregrino;
+import service.Sesion;
+import model.AdminParada;
+import model.Carnet;
+import model.Parada;
+import model.Peregrino;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
-import static entities.Perfil.*;
-import static io.Escritor.*;
-import static io.Lector.readParadas;
+import static model.Perfil.*;
+import static model.io.Escritor.*;
 
 /**
  * Esta clase proporciona métodos para registrar nuevos usuarios (peregrinos y administradores de parada).

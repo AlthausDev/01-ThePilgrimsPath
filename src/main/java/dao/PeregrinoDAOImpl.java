@@ -1,9 +1,9 @@
 package dao;
 
-import entities.Carnet;
-import entities.Parada;
-import entities.Peregrino;
-import entities.Estancia;
+import model.Carnet;
+import model.Parada;
+import model.Peregrino;
+import model.Estancia;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

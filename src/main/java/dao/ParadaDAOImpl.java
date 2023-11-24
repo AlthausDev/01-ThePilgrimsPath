@@ -1,7 +1,7 @@
 package dao;
 
-import entities.AdminParada;
-import entities.Parada;
+import model.AdminParada;
+import model.Parada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,8 +1,7 @@
-package validacion;
+package util;
 
-import aplicacion.Sesion;
-import entities.Perfil;
-import io.Lector;
+import model.Perfil;
+import model.io.Lector;
 import org.javatuples.Pair;
 
 import java.util.HashMap;

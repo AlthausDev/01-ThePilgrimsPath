@@ -1,15 +1,15 @@
-package aplicacion;
+package service;
 
-import entities.Parada;
-import entities.Peregrino;
-import entities.Perfil;
+import model.Parada;
+import model.Peregrino;
+import model.Perfil;
 import controllers.Menu;
-import io.Lector;
+import model.io.Lector;
 import org.javatuples.Pair;
 
 import java.util.HashMap;
 
-import static entities.Perfil.*;
+import static model.Perfil.*;
 
 /**
  * Esta clase representa la sesión de la aplicación y administra la interacción entre el usuario y el sistema.
