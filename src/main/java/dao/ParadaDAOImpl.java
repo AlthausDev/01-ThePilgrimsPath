@@ -3,28 +3,56 @@ package dao;
 import model.AdminParada;
 import model.Parada;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class ParadaDAOImpl implements ParadaDAO {
-    private final Connection connection;
+public class ParadaDAOImpl extends CoreDAO<Parada> {
 
-    public ParadaDAOImpl(Connection connection) {
-        this.connection = connection;
-    }
 
     @Override
-    public Parada getById(long id) {
+    public void create(Parada parada) {
+        String sql = "INSERT INTO Tparadas (cNombrePar, cRegion, fkIdAdminParada) VALUES (?, ?, ?)";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, parada.getNombre());
+            stmt.setString(2, String.valueOf(parada.getRegion()));
+            stmt.setLong(3, parada.getAdminParada().getId());
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                System.err.println("Error al crear la Parada, no hay filas afectadas");
+            }
+
+            try (ResultSet clavesGeneradas = stmt.getGeneratedKeys()) {
+                if (clavesGeneradas.next()) {
+                    parada.setId(clavesGeneradas.getLong(1));
+                } else {
+                    System.err.println("Error al crear la Parada, no se obtuvo el ID");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al ejecutar la consulta de inserción: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Override
+    public Parada read(long id) {
         Parada parada = null;
         String sql = "SELECT * FROM Tparadas WHERE pkIdParada = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    parada = mapResultSetToParada(resultSet);
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    parada = getResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -34,78 +62,88 @@ public class ParadaDAOImpl implements ParadaDAO {
     }
 
     @Override
-    public void insert(Parada parada) {
-        String sql = "INSERT INTO Tparadas (cNombrePar, cRegion, fkIdAdminParada) VALUES (?, ?, ?)";
+    public HashMap<Long, Parada> readAll() {
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setParadaStatementValues(statement, parada);
-            statement.executeUpdate();
+        HashMap<Long, Parada> paradas = new HashMap<>();
+        String sql = "Select * FROM Tparadas";
+
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Parada parada = getResultSet(rs);
+                paradas.put(parada.getId(), parada);
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        return paradas;
     }
 
     @Override
     public void update(Parada parada) {
         String sql = "UPDATE Tparadas SET cNombrePar = ?, cRegion = ?, fkIdAdminParada = ? WHERE pkIdParada = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setParadaStatementValues(statement, parada);
-            statement.setLong(4, parada.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, parada.getNombre());
+            stmt.setString(2, String.valueOf(parada.getRegion()));
+            stmt.setLong(3, parada.getAdminParada().getId());
+            stmt.setLong(4, parada.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Parada parada) {
+    public void delete(long id) {
         String sql = "DELETE FROM Tparadas WHERE pkIdParada = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, parada.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
-    private Parada mapResultSetToParada(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong("pkIdParada");
-        String nombre = resultSet.getString("cNombrePar");
-        char region = resultSet.getString("cRegion").charAt(0);
-        long adminParadaId = resultSet.getLong("fkIdAdminParada");
-        AdminParada adminParada = mapResultSetToAdminParada(adminParadaId);
-        Parada parada = new Parada(id, nombre, region, adminParada);
+    @Override
+    protected Parada getResultSet(ResultSet rs) {
 
-        return parada;
-    }
+        try {
+            long id = rs.getLong("pkIdParada");
+            String nombre = rs.getString("cNombrePar");
+            char region = rs.getString("cRegion").charAt(0);
 
-    private AdminParada mapResultSetToAdminParada(long adminParadaId) throws SQLException {
-        String sql = "SELECT * FROM Tadmin_parada WHERE pkIdAdminParada = ?";
-        AdminParada adminParada = null;
+            long adminParadaId = rs.getLong("fkIdAdminParada");
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, adminParadaId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    adminParada = mapResultSetToAdminParada(resultSet);
-                }
-            }
+            AdminParadaDAOImpl adminParadaDAO = new AdminParadaDAOImpl();
+            AdminParada adminParada = adminParadaDAO.read(adminParadaId);
+
+            return new Parada(id, nombre, region, adminParada);
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener la parada: " + e.getMessage());
         }
-        return adminParada;
+        return null;
     }
 
-    private AdminParada mapResultSetToAdminParada(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong("pkIdAdminParada");
-        String nombre = resultSet.getString("cNombreAdminParada");
 
-        return new AdminParada(id, nombre);
-    }
+    protected ArrayList<Parada> getListResultSet(ResultSet rs) {
+        ArrayList<Parada> paradas = new ArrayList<>();
 
-    private void setParadaStatementValues(PreparedStatement statement, Parada parada) throws SQLException {
-        statement.setString(1, parada.getNombre());
-        statement.setString(2, String.valueOf(parada.getRegion()));
-        statement.setLong(3, parada.getAdminParada().getId());
+        try {
+            while (rs.next()) {
+                Parada parada =getResultSet(rs);
+                paradas.add(parada);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener paradas desde ResultSet: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return paradas;
     }
 }

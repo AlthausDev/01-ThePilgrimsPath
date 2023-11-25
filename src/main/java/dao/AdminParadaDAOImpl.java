@@ -2,73 +2,106 @@ package dao;
 
 import model.AdminParada;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
 
-public class AdminParadaDAOImpl implements AdminParadaDAO {
-  
-	 private Connection connection;
+public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 
-	    public AdminParadaDAOImpl(Connection connection) {
-	        this.connection = connection;
-	    }
+	@Override
+	public void create(AdminParada adminParada) {
+		String sql = "INSERT INTO AdminParada (idAdminParadas, nombre) VALUES (?, ?)";
 
-	    @Override
-	    public AdminParada getById(long id) {
-	    	AdminParada adminParada = null;
-	        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM Carnet WHERE idPeregrino = ?")) {
-	            statement.setLong(1, id);
-	            ResultSet resultSet = statement.executeQuery();
-	            if (resultSet.next()) {
-	                adminParada = mapResultSetToCarnet(resultSet);
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	        return adminParada;
-	    }	    
+		try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			stmt.setLong(1, adminParada.getId());
+			stmt.setString(2, adminParada.getName());
 
+			int filasAfectadas = stmt.executeUpdate();
 
-		@Override
-	    public void insert(AdminParada adminParada) {
-	        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO AdminParada VALUES (?, ?)")) {
-	            statement.setLong(1, adminParada.getId());
-	            statement.setString(2, adminParada.getName());
-	            //statement.setPerfil(3, adminParada.getPerfil());	          
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
+			if (filasAfectadas == 0) {
+				System.err.println("Error al crear AdminParada, no hay filas afectadas");
+			}
 
-	    @Override
-	    public void update(AdminParada adminParada) {
-	        try (PreparedStatement statement = connection.prepareStatement(
-	                "UPDATE AdminParada SET id = ?, nombre = ? WHERE idAdminParadas = ?")) {
-	        	statement.setLong(1, adminParada.getId());
-	            statement.setString(2, adminParada.getName());
-	            //statement.setPerfil(3, adminParada.getPerfil());
-	            statement.executeUpdate();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	    @Override
-	    public void delete(AdminParada adminParada) {
-	        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM AdminParada WHERE idAdminParadas = ?")) {
-	        	statement.setLong(1, adminParada.getId());
-	            statement.executeUpdate();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	    private AdminParada mapResultSetToCarnet(ResultSet resultSet) {
-			// TODO Auto-generated method stub
-			return null;
+			try (ResultSet clavesGeneradas = stmt.getGeneratedKeys()) {
+				if (clavesGeneradas.next()) {
+					adminParada.setId(clavesGeneradas.getLong(1));
+				} else {
+					System.err.println("Error al crear AdminParada, no se obtuvo el ID");
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al ejecutar la consulta de inserción: " + e.getMessage());
+			e.printStackTrace();
 		}
-	   
+	}
+
+	@Override
+	public AdminParada read(long id) {
+		AdminParada adminParada = null;
+		String sql = "SELECT * FROM AdminParada WHERE idAdminParadas = ?";
+
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setLong(1, id);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					adminParada = getResultSet(rs);
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al obtener AdminParada por ID: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return adminParada;
+	}
+
+	@Override
+	public HashMap<Long, AdminParada> readAll() {
+		// Implementa lógica para leer todas las AdminParadas
+		return null;
+	}
+
+	@Override
+	public void update(AdminParada adminParada) {
+		String sql = "UPDATE AdminParada SET nombre = ? WHERE idAdminParadas = ?";
+
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setString(1, adminParada.getName());
+			stmt.setLong(2, adminParada.getId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("Error al actualizar AdminParada: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delete(long id) {
+		String sql = "DELETE FROM AdminParada WHERE idAdminParadas = ?";
+
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("Error al eliminar AdminParada: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected AdminParada getResultSet(ResultSet rs) {
+		try {
+			long id = rs.getLong("id");
+			String nombre = rs.getString("nombre");
+			AdminParada adminParada = new AdminParada(id, nombre);
+			return adminParada;
+
+		} catch (SQLException e) {
+			System.err.println("Error al mapear ResultSet a AdminParada: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

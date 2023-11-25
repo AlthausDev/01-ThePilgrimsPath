@@ -1,5 +1,7 @@
 package util;
 
+import database.FactoryConexion;
+
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -31,4 +33,5 @@ public final class Constantes {
 	 * Formateador de fecha utilizado en toda la aplicación.
 	 */
 	public final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
 }

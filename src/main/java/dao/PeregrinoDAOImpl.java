@@ -1,117 +1,146 @@
 package dao;
 
 import model.Carnet;
+import model.Estancia;
 import model.Parada;
 import model.Peregrino;
-import model.Estancia;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-public class PeregrinoDAOImpl implements PeregrinoDAO {
-    private final Connection connection;
-    private final CarnetDAO carnetDAO;    
-    
+public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
 
-    public PeregrinoDAOImpl(Connection connection) {
-        this.connection = connection;
-        this.carnetDAO = new CarnetDAOImpl(connection);
+    private CarnetDAOImpl carnetDAO;
+    private ParadaDAOImpl paradaDAO;
+    private EstanciaDAOImpl estanciaDAO;
+
+    public PeregrinoDAOImpl() {
+        super();
+        this.carnetDAO = new CarnetDAOImpl();
+        this.paradaDAO = new ParadaDAOImpl();
+        this.estanciaDAO = new EstanciaDAOImpl();
     }
-
     @Override
-    public Peregrino getById(long id) {
-        Peregrino peregrino = null;
-        String sql = "SELECT * FROM Tperegrino WHERE pkIdPeregrino = ?";
+    public void create(Peregrino peregrino) {
+        String sql = "INSERT INTO Peregrino (id, nombre, nacionalidad, idCarnet) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    peregrino = mapResultSetToPeregrino(resultSet);
+        try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setLong(1, peregrino.getId());
+            stmt.setString(2, peregrino.getNombre());
+            stmt.setString(3, peregrino.getNacionalidad());
+            stmt.setLong(4, peregrino.getCarnet().getIdPeregrino());
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            if (filasAfectadas == 0) {
+                System.err.println("Error al crear Peregrino, no hay filas afectadas");
+            }
+
+            try (ResultSet clavesGeneradas = stmt.getGeneratedKeys()) {
+                if (clavesGeneradas.next()) {
+                    peregrino.setId(clavesGeneradas.getLong(1));
+                } else {
+                    System.err.println("Error al crear Peregrino, no se obtuvo el ID");
                 }
             }
         } catch (SQLException e) {
+            System.err.println("Error al ejecutar la consulta de inserción: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Peregrino read(long id) {
+        Peregrino peregrino = null;
+        String sql = "SELECT * FROM Peregrino WHERE id = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    peregrino = getResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener Peregrino por ID: " + e.getMessage());
             e.printStackTrace();
         }
         return peregrino;
     }
 
     @Override
-    public List<Peregrino> getAll() {
-        List<Peregrino> peregrinos = new ArrayList<>();
-        String sql = "SELECT * FROM Tperegrino";
+    public HashMap<Long, Peregrino> readAll() {
+        HashMap<Long, Peregrino> peregrinos = new HashMap<>();
+        String sql = "SELECT * FROM Peregrino";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    peregrinos.add(mapResultSetToPeregrino(resultSet));
-                }
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Peregrino peregrino = getResultSet(rs);
+                peregrinos.put(peregrino.getId(), peregrino);
             }
+
         } catch (SQLException e) {
+            System.err.println("Error al obtener todos los Peregrinos: " + e.getMessage());
             e.printStackTrace();
         }
+
         return peregrinos;
     }
 
-    @Override
-    public void insert(Peregrino peregrino) {
-        String sql = "INSERT INTO Tperegrino (cNombrePer, cNacionalidad) VALUES (?, ?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, peregrino.getNombre());
-            statement.setString(2, peregrino.getNacionalidad());
-            statement.executeUpdate();
-
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1);
-                    peregrino.setId(id);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void update(Peregrino peregrino) {
-        String sql = "UPDATE Tperegrino SET cNombrePer = ?, cNacionalidad = ? WHERE pkIdPeregrino = ?";
+        String sql = "UPDATE Peregrino SET nombre = ?, nacionalidad = ?, idCarnet = ? WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, peregrino.getNombre());
-            statement.setString(2, peregrino.getNacionalidad());
-            statement.setLong(3, peregrino.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, peregrino.getNombre());
+            stmt.setString(2, peregrino.getNacionalidad());
+            stmt.setLong(3, peregrino.getCarnet().getIdPeregrino());
+            stmt.setLong(4, peregrino.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Error al actualizar Peregrino: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Peregrino peregrino) {
-        String sql = "DELETE FROM Tperegrino WHERE pkIdPeregrino = ?";
+    public void delete(long id) {
+        String sql = "DELETE FROM Peregrino WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, peregrino.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Error al eliminar Peregrino: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private Peregrino mapResultSetToPeregrino(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong("pkIdPeregrino");
-        String nombre = resultSet.getString("cNombrePer");
-        String nacionalidad = resultSet.getString("cNacionalidad");
+    @Override
+    protected Peregrino getResultSet(ResultSet rs) {
+        try {
+            long id = rs.getLong("id");
+            String nombre = rs.getString("nombre");
+            String nacionalidad = rs.getString("nacionalidad");
 
-        Carnet carnet = carnetDAO.getByPeregrinoId(id);
-        ArrayList<Parada> paradas = new ArrayList<>();
-        ArrayList<Estancia> estancias = new ArrayList<>();
+            Carnet carnet = carnetDAO.getResultSet(rs);
+            ArrayList<Parada> paradas = paradaDAO.getListResultSet(rs);
+            ArrayList<Estancia> estancias = estanciaDAO.getListResultSet(rs);
 
-        return new Peregrino(id, nombre, nacionalidad, carnet, paradas, estancias);
+
+            return new Peregrino(id, nombre, nacionalidad, carnet, paradas, estancias);
+
+        } catch (SQLException e) {
+            System.err.println("Error al mapear ResultSet a Peregrino: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
+
 }

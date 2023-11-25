@@ -2,32 +2,48 @@ package dao;
 
 import model.Carnet;
 import model.Parada;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 
-public class CarnetDAOImpl implements CarnetDAO {
-    private final Connection connection;
-    private final ParadaDAO paradaDAO;
+public class CarnetDAOImpl extends CoreDAO<Carnet> {
 
-    public CarnetDAOImpl(Connection connection) {
-        this.connection = connection;
-        this.paradaDAO = new ParadaDAOImpl(connection);
+    private ParadaDAOImpl paradaDAO;
+
+    public CarnetDAOImpl(){
+        super();
+        this.paradaDAO = new ParadaDAOImpl();
     }
 
     @Override
-    public Carnet getByPeregrinoId(long id) {
+    public void create(Carnet carnet) {
+        String sql = "INSERT INTO Tcarnet (pkfkIdPeregrino, dFechaExp, nDistancia, nVips, fkIdParada) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, carnet.getIdPeregrino());
+            stmt.setDate(2, java.sql.Date.valueOf(carnet.getFechaExp()));
+            stmt.setDouble(3, carnet.getDistancia());
+            stmt.setInt(4, carnet.getNvips());
+            stmt.setLong(5, carnet.getParadaInicial().getId());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Carnet read(long id) {
         Carnet carnet = null;
         String sql = "SELECT * FROM Tcarnet WHERE pkfkIdPeregrino = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    carnet = mapResultSetToCarnet(resultSet);
+                    carnet = getResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -37,60 +53,71 @@ public class CarnetDAOImpl implements CarnetDAO {
     }
 
     @Override
-    public void insert(Carnet carnet) {
-        String sql = "INSERT INTO Tcarnet (pkfkIdPeregrino, dFechaExp, nDistancia, nVips, fkIdParada) VALUES (?, ?, ?, ?, ?)";
+    public HashMap<Long, Carnet> readAll() {
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, carnet.getIdPeregrino());
-            statement.setDate(2, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setDouble(3, carnet.getDistancia());
-            statement.setInt(4, carnet.getNvips());
-            statement.setLong(5, carnet.getParadaInicial().getId());
+        HashMap <Long, Carnet> carnets = new HashMap<>();
+        String sql = "Select * FROM Tcarnet";
 
-            statement.executeUpdate();
+        try {
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Carnet carnet = getResultSet(rs);
+                carnets.put(carnet.getIdPeregrino(), carnet);
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        return carnets;
     }
 
     @Override
     public void update(Carnet carnet) {
         String sql = "UPDATE Tcarnet SET dFechaExp = ?, nDistancia = ?, nVips = ?, fkIdParada = ? WHERE pkfkIdPeregrino = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDate(1, java.sql.Date.valueOf(carnet.getFechaExp()));
-            statement.setDouble(2, carnet.getDistancia());
-            statement.setInt(3, carnet.getNvips());
-            statement.setLong(4, carnet.getParadaInicial().getId());
-            statement.setLong(5, carnet.getIdPeregrino());
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(carnet.getFechaExp()));
+            stmt.setDouble(2, carnet.getDistancia());
+            stmt.setInt(3, carnet.getNvips());
+            stmt.setLong(4, carnet.getParadaInicial().getId());
+            stmt.setLong(5, carnet.getIdPeregrino());
 
-            statement.executeUpdate();
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void delete(long id) {
+        String sql = "DELETE FROM Tcarnet WHERE pkfkIdPeregrino = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Carnet carnet) {
-        String sql = "DELETE FROM Tcarnet WHERE pkfkIdPeregrino = ?";
+    protected Carnet getResultSet(ResultSet rs) {
+        try {
+            long idPeregrino = rs.getLong("pkfkIdPeregrino");
+            LocalDate fechaExp = rs.getDate("dFechaExp").toLocalDate();
+            double distancia = rs.getDouble("nDistancia");
+            int nvips = rs.getInt("nVips");
+            long idParada = rs.getLong("fkIdParada");
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, carnet.getIdPeregrino());
-            statement.executeUpdate();
+            Parada paradaInicial = paradaDAO.read(idParada);
+            return new Carnet(idPeregrino, fechaExp, paradaInicial, distancia, nvips);
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error al obtener la parada inicial: " + e.getMessage());
         }
-    }
-
-    private Carnet mapResultSetToCarnet(ResultSet resultSet) throws SQLException {
-        long idPeregrino = resultSet.getLong("pkfkIdPeregrino");
-        LocalDate fechaExp = resultSet.getDate("dFechaExp").toLocalDate();
-        double distancia = resultSet.getDouble("nDistancia");
-        int nvips = resultSet.getInt("nVips");
-        long idParada = resultSet.getLong("fkIdParada");
-
-        Parada paradaInicial = paradaDAO.getById(idParada);
-
-        return new Carnet(idPeregrino, fechaExp, paradaInicial, distancia, nvips);
+        return null;
     }
 }

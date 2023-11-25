@@ -1,38 +1,53 @@
 package dao;
 
 import model.Estancia;
-import model.Parada;
 import model.Peregrino;
+import model.Parada;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-public class EstanciaDAOImpl implements EstanciaDAO {
-    private final Connection connection;
-    private final PeregrinoDAO peregrinoDAO;
-    private final ParadaDAO paradaDAO;
+public class EstanciaDAOImpl extends CoreDAO<Estancia> {
 
-    public EstanciaDAOImpl(Connection connection) {
-        this.connection = connection;
-        this.peregrinoDAO = new PeregrinoDAOImpl(connection);
-        this.paradaDAO = new ParadaDAOImpl(connection);
+    private PeregrinoDAOImpl peregrinoDAO;
+    private ParadaDAOImpl paradaDAO;
+
+    public EstanciaDAOImpl() {
+        super();
+        this.peregrinoDAO = new PeregrinoDAOImpl();
+        this.paradaDAO = new ParadaDAOImpl();
     }
 
     @Override
-    public Estancia getById(long id) {
-        Estancia estancia = null;
-        String sql = "SELECT * FROM Testancia WHERE pkIdEstancia = ?";
+    public void create(Estancia estancia) {
+        try (PreparedStatement stmt = conexion.prepareStatement(
+                "INSERT INTO Estancia (id, fecha, vip, fkIdPeregrino, fkIdParada) VALUES (?, ?, ?, ?, ?)")) {
+            stmt.setLong(1, estancia.getId());
+            stmt.setDate(2, java.sql.Date.valueOf(estancia.getFecha()));
+            stmt.setBoolean(3, estancia.isVIP());
+            stmt.setLong(4, estancia.getPeregrino().getId());
+            stmt.setLong(5, estancia.getParada().getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error al ejecutar la consulta de inserción: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    estancia = mapResultSetToEstancia(resultSet);
+    @Override
+    public Estancia read(long id) {
+        Estancia estancia = null;
+        String sql = "SELECT * FROM Estancia WHERE id = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    estancia = getResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -42,76 +57,84 @@ public class EstanciaDAOImpl implements EstanciaDAO {
     }
 
     @Override
-    public List<Estancia> getAll() {
-        List<Estancia> estancias = new ArrayList<>();
-        String sql = "SELECT * FROM Testancia";
+    public HashMap<Long, Estancia> readAll() {
+        HashMap<Long, Estancia> estancias = new HashMap<>();
+        String sql = "SELECT * FROM Estancia";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    estancias.add(mapResultSetToEstancia(resultSet));
-                }
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Estancia estancia = getResultSet(rs);
+                estancias.put(estancia.getId(), estancia);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return estancias;
     }
 
     @Override
-    public void insert(Estancia estancia) {
-        String sql = "INSERT INTO Testancia (dFecha, bVip, fkIdPeregrino, fkIdParada) VALUES (?, ?, ?, ?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setEstanciaStatementValues(statement, estancia);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void update(Estancia estancia) {
-        String sql = "UPDATE Testancia SET dFecha = ?, bVip = ?, fkIdPeregrino = ?, fkIdParada = ? WHERE pkIdEstancia = ?";
+        String sql = "UPDATE Estancia SET fecha = ?, vip = ?, fkIdPeregrino = ?, fkIdParada = ? WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            setEstanciaStatementValues(statement, estancia);
-            statement.setLong(5, estancia.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(estancia.getFecha()));
+            stmt.setBoolean(2, estancia.isVIP());
+            stmt.setLong(3, estancia.getPeregrino().getId());
+            stmt.setLong(4, estancia.getParada().getId());
+            stmt.setLong(5, estancia.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Estancia estancia) {
-        String sql = "DELETE FROM Testancia WHERE pkIdEstancia = ?";
+    public void delete(long id) {
+        String sql = "DELETE FROM Estancia WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, estancia.getId());
-            statement.executeUpdate();
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private Estancia mapResultSetToEstancia(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong("pkIdEstancia");
-        LocalDate fecha = resultSet.getDate("dFecha").toLocalDate();
-        boolean vip = resultSet.getBoolean("bVip");
-        long idPeregrino = resultSet.getLong("fkIdPeregrino");
-        long idParada = resultSet.getLong("fkIdParada");
+    @Override
+    protected Estancia getResultSet(ResultSet rs) {
+        try {
+            long id = rs.getLong("id");
+            LocalDate fecha = rs.getDate("fecha").toLocalDate();
+            boolean vip = rs.getBoolean("vip");
 
-        Peregrino peregrino = peregrinoDAO.getById(idPeregrino);
-        Parada parada = paradaDAO.getById(idParada);
+            long peregrinoId = rs.getLong("fkIdPeregrino");
+            Peregrino peregrino = peregrinoDAO.read(peregrinoId);
 
-        return new Estancia(id, fecha, vip, peregrino, parada);
+            long paradaId = rs.getLong("fkIdParada");
+            Parada parada = paradaDAO.read(paradaId);
+
+            return new Estancia(id, fecha, vip, peregrino, parada);
+        } catch (SQLException e) {
+            System.err.println("Error al obtener la estancia: " + e.getMessage());
+        }
+        return null;
     }
 
-    private void setEstanciaStatementValues(PreparedStatement statement, Estancia estancia) throws SQLException {
-        statement.setDate(1, java.sql.Date.valueOf(estancia.getFecha()));
-        statement.setBoolean(2, estancia.isVIP());
-        statement.setLong(3, estancia.getPeregrino().getId());
-        statement.setLong(4, estancia.getParada().getId());
+    protected ArrayList<Estancia> getListResultSet(ResultSet rs) {
+        ArrayList<Estancia> estancias = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Estancia estancia = getResultSet(rs);
+                estancias.add(estancia);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener estancias desde ResultSet: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return estancias;
     }
+
 }
