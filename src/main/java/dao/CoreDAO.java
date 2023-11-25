@@ -7,22 +7,21 @@ import database.MySqlConexion;
 
 public abstract class CoreDAO <T>{
 
-    private Connection conexion;
+    protected static Connection conexion;
 
     public CoreDAO (){
-        this.conexion = MySqlConexion.getInstance().getConexion();
+        conexion = MySqlConexion.getInstance().getConexion();
     }
     public abstract void create (T entidad);
 
-    public abstract T read(int id);
+    public abstract T read(long id);
 
-    public abstract HashMap<Integer, T> readAll ();
+    public abstract HashMap<Long, T> readAll ();
 
     public abstract void update (T entidad);
 
-    public abstract void delete (int id);
+    public abstract void delete (long id);
 
     protected abstract T getResultSet(ResultSet rs);
-
 
 }
