@@ -1,40 +1,53 @@
 package database;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class MySqlConexion {
 
-    static final String URL = "jdbc:mysql://localhost:3306/bdperegrinos_samuelAlthaus";
-    static final String USUARIO = "user";
-    static final String CONTRASENA = "password";
+    private static MySqlConexion instancia;
+    private Connection conexion;
 
-    public static void main(String[] args) {
-        Connection conexion = null;      
+    private MySqlConexion() {
+        Properties properties = new Properties();
+        InputStream is = MySqlConexion.class.getClassLoader().getResourceAsStream("database.properties");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion = DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+            properties.load(is);
 
-            System.out.println("Conexión exitosa.");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error al cargar el controlador JDBC: " + e.getMessage());
+            String url = properties.getProperty("database.URL");
+            String user = properties.getProperty("database.USUARIO");
+            String pass = properties.getProperty("database.PASSWORD");
+
+            conexion = DriverManager.getConnection(url, user, pass);
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar el fichero de propiedades: " + e.getMessage());
         } catch (SQLException e) {
-            System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
+            System.err.println("No se puede establecer la conexión: " + e.getMessage());
         } finally {
-            
-            if (conexion != null) {
-                try {
-                    conexion.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+            try {
+                if (is != null) {
+                    is.close();
                 }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar el InputStream: " + e.getMessage());
             }
         }
     }
 
-    public static Object getInstance() {
-        return null;
+    public static MySqlConexion getInstance() {
+        if (instancia == null) {
+            instancia = new MySqlConexion();
+        }
+        return instancia;
+    }
+
+    public Connection getConexion(){
+        return conexion;
     }
 }
