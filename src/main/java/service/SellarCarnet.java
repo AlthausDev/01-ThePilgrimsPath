@@ -17,9 +17,9 @@ public class SellarCarnet {
 
     public static void sellarCarnet(Peregrino peregrino, Parada paradaActual) {
         Carnet carnet = peregrino.getCarnet();
-        double distanciaDesdeUltimaParada = calcularDistancia(peregrino, paradaActual);
+        double distanciaEntreParadas = calcularDistancia();
 
-        carnet.setDistancia(carnet.getDistancia() + distanciaDesdeUltimaParada);
+        carnet.setDistancia(carnet.getDistancia() + distanciaEntreParadas);
         peregrino.getParadas().add(paradaActual);
 
         Estancia nuevaEstancia = crearEstancia(peregrino, paradaActual);
@@ -36,8 +36,9 @@ public class SellarCarnet {
         System.out.println("Carnet sellado exitosamente.");
     }
 
-    private static double calcularDistancia(Peregrino peregrino, Parada paradaActual) {
-        return 10.0;
+    private static double calcularDistancia() {
+        double distanciaAleatoria = 1 + (500 - 1) * Math.random();
+        return distanciaAleatoria;
     }
 
     private static Estancia crearEstancia(Peregrino peregrino, Parada paradaActual) {

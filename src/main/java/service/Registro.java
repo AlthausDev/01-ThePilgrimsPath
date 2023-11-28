@@ -2,6 +2,7 @@ package service;
 
 import dao.*;
 import model.*;
+import model.io.Lector;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -78,7 +79,7 @@ public class Registro {
             } while (nombreExiste(nombre));
 
             System.out.println("CODIGO - PAIS");
-            Sesion.getNacionalidades().forEach((k, v) -> System.out.println(k + " - " + v));
+            Lector.readPaises().forEach((k, v) -> System.out.println(k + " - " + v));
 
             String codNacionalidad;
             String nacionalidad;
