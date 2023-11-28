@@ -1,17 +1,15 @@
-package controllers;
+package service;
 
-import service.Sesion;
-import model.AdminParada;
-import model.Carnet;
-import model.Parada;
-import model.Peregrino;
+import dao.*;
+import model.*;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.*;
 import static model.Perfil.*;
 import static model.io.Escritor.*;
+
 
 /**
  * Esta clase proporciona métodos para registrar nuevos usuarios (peregrinos y administradores de parada).
@@ -20,31 +18,40 @@ import static model.io.Escritor.*;
  */
 public class Registro {
     private static Scanner sc = new Scanner(System.in);
+    private PeregrinoDAOImpl peregrinoDAO = new PeregrinoDAOImpl();
+    private ParadaDAOImpl paradaDAO = new ParadaDAOImpl();
+    private CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
+    private EstanciaDAOImpl estanciaDAO = new EstanciaDAOImpl();
+    private CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
+    private Connection conexion = Sesion.getConexion();
+
 
     /**
      * Registra un nuevo peregrino en el sistema.
      */
     public void nuevoPeregrino() {
+        ArrayList<Parada> paradaActual = new ArrayList<>();
+        System.out.println("Registrar nuevo usuario - Peregrino\n");
 
-        ArrayList <Parada> paradaActual = new ArrayList<>();
+        String nombre;
+        String pass;
 
         try {
-            long id = Sesion.getLastId() + 1;
+            Map<Long, Parada> paradas = paradaDAO.readAll();
 
-            System.out.println("Registrar nuevo usuario - Peregrino\n");
-
-            String nombre;
-            String pass;
-
-            System.out.print("Lista de paradas:");
-            Map<?, ?> paradas = Sesion.getParadas();
-            StringBuilder sb = new StringBuilder();
-
-            for (Object valor : paradas.values()) {
-                sb.append(valor.toString()).append(" ");
+            if (paradas.isEmpty()) {
+                System.out.println("No hay paradas disponibles en el sistema.");
+                return;
             }
 
-            System.out.println(sb.toString());
+            System.out.print("Lista de paradas:");
+            StringBuilder sb = new StringBuilder();
+
+            for (Parada parada : paradas.values()) {
+                sb.append(parada.toString()).append(" ");
+            }
+
+            System.out.println(sb);
 
             long numParada = -1L;
             System.out.println("Seleccione el numero de su parada actual:");
@@ -52,20 +59,19 @@ public class Registro {
             do {
                 try {
                     numParada = sc.nextLong();
-                } catch (InputMismatchException e){
+                } catch (InputMismatchException e) {
                     numParada = -1L;
                     sc.nextLine();
                 }
-                if(!paradas.containsKey(numParada)){
+                if (!paradas.containsKey(numParada)) {
                     System.out.println("La parada seleccionada no se encuentra en el sistema, por favor, seleccione uno de los números de parada");
                 }
-            } while(!paradas.containsKey(numParada));
+            } while (!paradas.containsKey(numParada));
 
-            Parada parada = (Parada) paradas.get(numParada);
+            Parada parada = paradas.get(numParada);
             Sesion.setParadaActual(parada);
             paradaActual.add(parada);
             sc.nextLine();
-
 
             do {
                 System.out.println("Nuevo Peregrino");
@@ -76,9 +82,9 @@ public class Registro {
             System.out.println("CODIGO - PAIS");
             Sesion.getNacionalidades().forEach((k, v) -> System.out.println(k + " - " + v));
 
-            // Solicitar y validar el código de nacionalidad
             String codNacionalidad;
             String nacionalidad;
+
             do {
                 codNacionalidad = obtenerCodigoNacionalidad();
                 nacionalidad = Sesion.getNacionalidades().get(codNacionalidad);
@@ -90,50 +96,68 @@ public class Registro {
             System.out.println("Datos Introducidos:"
                     + "\nNombre del nuevo peregrino: " + nombre
                     + "\nNacionalidad: " + nacionalidad
-                    + "\n" + paradaActual.get(0).toString() );
+                    + "\n" + paradaActual.get(0).toString());
 
-            if(!isCorrecto()) return;
+            if (!isCorrecto()){
+                System.out.println("Saliendo del formulario de registro.");
+                return;
+            }
 
-            Carnet carnet = new Carnet(id, Sesion.getParadaActual());
-            Peregrino nuevoPeregrino = new Peregrino(id, nombre, nacionalidad, carnet, paradaActual);
-            
-            
-            
-            /// PeregrinoDAOImple.insert(nuevoPeregrino);
-            
-            
-            writeCarnet(nuevoPeregrino);
-            writeCredencial(nombre, pass, PEREGRINO, id);
+            try {
+                conexion.setAutoCommit(false);
 
-            System.out.println("\nEsperamos que disfrute de nuestros servicios"
-                    + "\nA continuacion se muestran sus datos:\n");
+                Long id = credencialDAO.create(nombre, pass, PEREGRINO);
 
-            System.out.println(nuevoPeregrino);
-            //System.out.println(carnet);
+                if (id != null) {
+                    Carnet nuevoCarnet = new Carnet(id, Sesion.getParadaActual());
+                    Peregrino nuevoPeregrino = new Peregrino(id, nombre, nacionalidad, nuevoCarnet, paradaActual);
 
-            Sesion.setLastId(id);
+                    peregrinoDAO.create(nuevoPeregrino);
+                    carnetDAO.create(nuevoCarnet);
+
+                    conexion.commit();
+
+                    System.out.println("\nEsperamos que disfrute de nuestros servicios"
+                            + "\nA continuacion se muestran sus datos:\n");
+
+                    System.out.println(nuevoPeregrino);
+                } else {
+                    System.err.println("Error al registrar el nuevo peregrino");
+                    conexion.rollback();
+                }
+            } catch (Exception e) {
+                System.err.println("Error al registrar el nuevo peregrino: " + e.getMessage());
+                conexion.rollback();
+            } finally {
+                try {
+                    if (conexion != null) {
+                        conexion.setAutoCommit(true);
+                    }
+                } catch (SQLException setAutoCommitException) {
+                    System.err.println("Error al restablecer el modo de autocommit: " + setAutoCommitException.getMessage());
+                }
+            }
         } catch (Exception e) {
-            System.err.println("Error al registrar el nuevo peregrino" );
+            System.err.println("Error al registrar el nuevo peregrino");
         }
     }
+
 
     /**
      * Registra una nueva parada en el sistema.
      */
-    public static void nuevaParada() {
+    public void nuevaParada() {
         try {
-            System.out.println("Agregar nueva parada");
-            long id = Sesion.getLastId() + 1;
-            String nombreParada = obtenerNombre();
+            String nombreParada;
+            char regionParada;
 
-            System.out.println("Indique la región a la que pertenece de la nueva parada:");
-            char regionParada = obtenerRegion();
+            do {
+                System.out.println("Agregar nueva parada");
+                nombreParada = obtenerNombre();
 
-            if (paradaExiste(nombreParada, regionParada)) {
-                System.out.println("La parada ya existe en el sistema.\n" +
-                        "Volviendo al menu\n");
-                return;
-            }
+                System.out.println("Indique la región a la que pertenece de la nueva parada:");
+                regionParada = obtenerRegion();
+            } while (paradaExiste(nombreParada, regionParada));
 
             String nombreAdminParada;
             String passAdminParada;
@@ -155,19 +179,45 @@ public class Registro {
                 return;
             }
 
-            AdminParada adminParada = new AdminParada(id, nombreAdminParada);
-            Parada nuevaParada = new Parada(id, nombreParada, regionParada, adminParada);
+            try {
+                conexion.setAutoCommit(false);
 
-            writeCredencial(nombreAdminParada, passAdminParada, ADMIN_PARADA, id);
-            writeParada(nuevaParada);
+                Long idAdminParada = credencialDAO.create(nombreAdminParada, passAdminParada, ADMIN_PARADA);
 
-            System.out.println("Nueva parada agregada con éxito.");
-            Sesion.setLastId(id);
+                if (idAdminParada != null) {
+                    AdminParada adminParada = new AdminParada(idAdminParada, nombreAdminParada);
+                    Parada nuevaParada = new Parada(idAdminParada, nombreParada, regionParada, adminParada);
+
+                    paradaDAO.create(nuevaParada);
+
+                    conexion.commit();
+                    System.out.println("Nueva parada agregada con éxito.");
+                } else {
+                    conexion.rollback();
+                    System.err.println("Error al registrar la nueva parada");
+                }
+            } catch (Exception e) {
+                System.err.println("Error al agregar la nueva parada: " + e.getMessage());
+                try {
+                    if (conexion != null) {
+                        conexion.rollback();
+                    }
+                } catch (SQLException rollbackException) {
+                    System.err.println("Error al deshacer la transacción: " + rollbackException.getMessage());
+                }
+            } finally {
+                try {
+                    if (conexion != null) {
+                        conexion.setAutoCommit(true);
+                    }
+                } catch (SQLException setAutoCommitException) {
+                    System.err.println("Error al restablecer el modo de autocommit: " + setAutoCommitException.getMessage());
+                }
+            }
         } catch (Exception e) {
             System.err.println("Error al agregar la nueva parada");
         }
     }
-
 
     /**
      * Obtiene un nombre válido del usuario.
@@ -251,18 +301,19 @@ public class Registro {
      * @return true si se encuentra una parada con el nombre y la región especificados, de lo contrario, false.
      */
 
-    private static boolean paradaExiste(String nombreParada, char regionParada) {
+    private boolean paradaExiste(String nombreParada, char regionParada) {
+            Map<Long, Parada> paradas = paradaDAO.readAll();
 
-        try {
-            for (Parada parada : Sesion.getParadas().values()) {
+            for (Parada parada : paradas.values()) {
                 if (parada.getNombre().equalsIgnoreCase(nombreParada) && parada.getRegion() == regionParada) {
+                    System.out.println("La parada con nombre: " + nombreParada + " ya existe en el sistema.\n" +
+                            "Elija un nuevo nombre para la parada \n");
                     return true;
                 }
             }
-        } catch (Exception ignored) {
-        }
         return false;
     }
+
 
     /**
      * Verifica si un nombre de usuario existe en la colección de usuarios válidos.
@@ -270,18 +321,22 @@ public class Registro {
      * @param nombre El nombre de usuario a verificar.
      * @return true si el nombre de usuario existe, de lo contrario false.
      */
-    private static boolean nombreExiste(String nombre) {
-        if(Sesion.validUsers.containsKey(nombre)){
-            System.out.println("El usuario con nombre: " + nombre + " ya existe en el sistema.\n" +
-                    "Elija un nuevo nombre de usuario \n");
-            return true;
+    private boolean nombreExiste(String nombre) {
+        HashMap<Long, HashMap<String, String>> credenciales = credencialDAO.readAll();
+
+        for (HashMap<String, String> credencial : credenciales.values()) {
+            if (nombre.equalsIgnoreCase(credencial.get("nombre"))) {
+                System.out.println("El usuario con nombre: " + nombre + " ya existe en el sistema.\n" +
+                        "Elija un nuevo nombre de usuario \n");
+                return true;
+            }
         }
         return false;
     }
 
 
-    private static boolean isCorrecto() {
 
+    private static boolean isCorrecto() {
         char valido;
         do {
             System.out.println("¿Son los datos introducidos son correctos? S/N");

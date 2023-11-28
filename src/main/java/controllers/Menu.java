@@ -1,5 +1,6 @@
 package controllers;
 
+import service.Registro;
 import service.Sesion;
 import model.Perfil;
 import model.io.Escritor;
@@ -199,7 +200,8 @@ public class Menu {
                     Sesion.setContinuar(false);
                     break;
                 case 1:
-                    Registro.nuevaParada();
+                    Registro registro = new Registro();
+                    registro.nuevaParada();
                     break;
                 case 2:
                     cerrarSesion();
