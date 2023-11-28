@@ -115,7 +115,7 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
             long paradaId = rs.getLong("fkIdParada");
             Parada parada = paradaDAO.read(paradaId);
 
-            return new Estancia(id, fecha, vip, peregrino, parada);
+            return new Estancia(fecha, vip, peregrino, parada);
         } catch (SQLException e) {
             System.err.println("Error al obtener la estancia: " + e.getMessage());
         }

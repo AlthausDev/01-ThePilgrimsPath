@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class Estancia implements Comparable<Estancia> {
 
     private long id;
-    private LocalDate fecha;
+    private LocalDate fecha = LocalDate.now();
     private boolean vip = false;
     private Peregrino peregrino;
     private Parada parada;
@@ -24,37 +24,27 @@ public class Estancia implements Comparable<Estancia> {
     public Estancia() {
     }
 
-    /**
-     * Constructor de la clase Estancia con información básica.
-     *
-     * @param id     Identificador único de la estancia.
-     * @param fecha  Fecha de la estancia.
-     * @param vip    Indica si la estancia es VIP.
-     * @param parada Parada en la que se realiza la estancia.
-     */
-    public Estancia(long id, LocalDate fecha, boolean vip, Parada parada) {
-        this.id = id;
-        this.fecha = fecha;
+    public Estancia(boolean vip, Peregrino peregrino, Parada parada) {
         this.vip = vip;
+        this.peregrino = peregrino;
         this.parada = parada;
     }
 
     /**
      * Constructor de la clase Estancia con información completa.
      *
-     * @param id         Identificador único de la estancia.
      * @param fecha      Fecha de la estancia.
      * @param vip        Indica si la estancia es VIP.
      * @param peregrino  Peregrino actualmente hospedado en la estancia
      * @param parada     Parada en la que se realiza la estancia.
      */
-    public Estancia(long id, LocalDate fecha, boolean vip, Peregrino peregrino, Parada parada) {
-        this.id = id;
+    public Estancia(LocalDate fecha, boolean vip, Peregrino peregrino, Parada parada) {
         this.fecha = fecha;
         this.vip = vip;
         this.peregrino = peregrino;
         this.parada = parada;
     }
+
 
     /**
      * Obtiene el identificador único de la estancia.
