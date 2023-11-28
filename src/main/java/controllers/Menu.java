@@ -1,9 +1,11 @@
 package controllers;
 
+import dao.CarnetDAOImpl;
+import model.Carnet;
 import service.Registro;
 import service.Sesion;
 import model.Perfil;
-import model.io.Escritor;
+import view.Exportar;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -93,9 +95,8 @@ public class Menu {
         int opcion = -1;
         do {
             System.out.println("Menu Peregrino:");
-            System.out.println("1. Visualizar datos del carnet");
-            System.out.println("2. Exportar datos del carnet");
-            System.out.println("3. Cerrar Sesion");
+            System.out.println("1. Visualizar y exportar datos del carnet");
+            System.out.println("2. Cerrar Sesion");
             System.out.println("0. Salir");
 
             try {
@@ -113,14 +114,15 @@ public class Menu {
                     Sesion.setContinuar(false);
                     break;
                 case 1:
-                    System.out.println(Sesion.getUser().getCarnet().toString());
+                    CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
+                    Carnet carnet = carnetDAO.read(Sesion.getUserId());
+                    Exportar.exportarCarnet(Sesion.getUserId());
+                    System.out.println(carnet.toString());
                     break;
                 case 2:
-                    Escritor.writeCarnet(Sesion.getUser());
-                    break;
-                case 3:
                     cerrarSesion();
                     opcion = 0;
+                    break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
                     break;

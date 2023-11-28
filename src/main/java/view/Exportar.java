@@ -1,9 +1,8 @@
-package model.io;
+package view;
 
-import model.Estancia;
-import model.Parada;
-import model.Peregrino;
-import model.Perfil;
+import dao.CarnetDAOImpl;
+import dao.PeregrinoDAOImpl;
+import model.*;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,78 +26,21 @@ import static util.Constantes.*;
  *
  * @author S.Althaus
  */
-public class Escritor {
-
-    /**
-     * Escribe las credenciales de un usuario en el archivo de credenciales.
-     *
-     * @param nombre El nombre de usuario.
-     * @param pass   La contraseña del usuario.
-     * @param perfil El perfil del usuario.
-     * @param lastId El último ID utilizado.
-     */
-    public static void writeCredencial(String nombre, String pass, Perfil perfil, long lastId) {
-        String str = nombre + " " + pass + " " + perfil + " " + lastId + "\n";
-
-        try (FileWriter fileWriter = new FileWriter(PATH_CREDENTIALS, true)) {
-            fileWriter.write(str);
-            System.out.println("Contenido agregado al archivo de credenciales.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Escribe los datos de una parada en el archivo de paradas.
-     *
-     * @param parada La parada a escribir.
-     */
-//    public static void writeParada(Parada parada) {
-//        try {
-//            FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
-//            AppendableObjectOutputStream oos = new AppendableObjectOutputStream(fos, true);
-//            oos.writeObject(parada);
-//
-//            System.out.println("Se ha agregado una nueva parada con éxito.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public static void writeParada(Parada parada) {
-        try {
-            ObjectOutputStream oos;
-            File file = new File(PATH_STOPS);
-
-            if (file.exists()) {
-                // Si el archivo existe, abre un FileOutputStream en modo de anexado
-                FileOutputStream fos = new FileOutputStream(PATH_STOPS, true);
-                oos = new ObjectOutputStream(fos) {
-                    protected void writeStreamHeader() throws IOException {
-                        reset();
-                    }
-                };
-            } else {
-                // Si el archivo no existe, crea un nuevo archivo
-                FileOutputStream fos = new FileOutputStream(PATH_STOPS);
-                oos = new ObjectOutputStream(fos);
-            }
-
-            oos.writeObject(parada);
-            oos.close();
-
-            System.out.println("Se ha agregado una nueva parada con éxito.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+public class Exportar {
 
     /**
      * Exporta los datos del carnet de un peregrino a un archivo XML.
      *
-     * @param pilgrim El peregrino cuyo carnet se exportará.
+     * @param id El peregrino cuyo carnet se exportará.
      */
-    public static void writeCarnet(Peregrino pilgrim) {
+    public static void exportarCarnet(long id) {
+
+        PeregrinoDAOImpl peregrinoDAO = new PeregrinoDAOImpl();
+        Peregrino pilgrim = peregrinoDAO.read(id);
+
+        CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
+        Carnet carnet = carnetDAO.read(id);
+
         try {
             // Crear una fábrica de documentos XML.
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -113,13 +55,21 @@ public class Escritor {
             Element root = doc.getDocumentElement();
             // Agregar elementos con datos del carnet del peregrino.
             newElementXML("id", String.valueOf(pilgrim.getId()), root, doc);
-            newElementXML("fechaexp", pilgrim.getCarnet().getFechaExp().format(DATE_TIME_FORMATTER), root, doc);
-            newElementXML("expedidoen", pilgrim.getCarnet().getParadaInicial().getNombre(), root, doc);
+            newElementXML("fechaexp", carnet.getFechaExp().format(DATE_TIME_FORMATTER), root, doc);
+            newElementXML("expedidoen", carnet.getParadaInicial().getNombre(), root, doc);
 
-            // Agregar elementos relacionados con el peregrino.
+            // Agregar elementos relacionados con el peregrino desde la base de datos.
+            createPeregrinoElement(doc, root, pilgrim);
+
+            // Agregar elementos relacionados con las paradas del peregrino desde la base de datos.
+            createParadasElement(doc, root, pilgrim);
+
+            // Agregar elementos relacionados con las estancias del peregrino desde la base de datos.
+            createEstanciasElement(doc, root, pilgrim);
+
             createPeregrinoElement(doc, root, pilgrim);
             newElementXML("hoy", LocalDate.now().format(DATE_TIME_FORMATTER), root, doc);
-            newElementXML("distanciaTotal", String.valueOf(pilgrim.getCarnet().getDistancia()), root, doc);
+            newElementXML("distanciaTotal", String.valueOf(carnet.getDistancia()), root, doc);
 
             // Agregar elementos relacionados con las paradas del peregrino.
             createParadasElement(doc, root, pilgrim);

@@ -5,10 +5,8 @@ import model.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 import static model.Perfil.*;
-import static model.io.Escritor.*;
 
 
 /**
@@ -334,14 +332,12 @@ public class Registro {
         return false;
     }
 
-
-
     private static boolean isCorrecto() {
         char valido;
         do {
             System.out.println("¿Son los datos introducidos son correctos? S/N");
             valido = sc.nextLine().toUpperCase().charAt(0);
         } while (valido != 'S' && valido != 'N');
-        return valido == 'S';
+       return valido == 'S';
     }
 }

@@ -1,9 +1,9 @@
 package service;
 
+import dao.CredencialDAOImpl;
 import dao.ParadaDAOImpl;
 import database.FactoryConexion;
 import model.Parada;
-import model.Peregrino;
 import model.Perfil;
 import controllers.Menu;
 import model.io.Lector;
@@ -23,7 +23,7 @@ import static model.Perfil.*;
 public class Sesion {
 
     private static Parada paradaActual;
-    private static Peregrino user = null;
+    private static long userId = -1;
     private static Perfil perfil = INVITADO;
     private static HashMap<String, String> nacionalidades;
     private static boolean continuar = true;
@@ -95,17 +95,18 @@ public class Sesion {
      *
      * @return El usuario actual.
      */
-    public static Peregrino getUser() {
-        return user;
+    public static long getUserId() {
+        return userId;
     }
 
     /**
      * Establece el usuario actual.
      *
-     * @param user El nuevo usuario actual.
+     * @param userId El nuevo usuario actual.
      */
-    public static void setUser(Peregrino user) {
-        Sesion.user = user;
+    public static void setUserId(int userId) {
+        Sesion.userId = userId;
+        Sesion.setPerfil(userId);
     }
 
 
@@ -139,10 +140,18 @@ public class Sesion {
     /**
      * Establece el perfil actual.
      *
-     * @param perfil El nuevo perfil actual.
+     * @param userId El nuevo perfil actual.
      */
-    public static void setPerfil(Perfil perfil) {
-        Sesion.perfil = perfil;
+    public static void setPerfil(int userId) {
+        try {
+            CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
+            HashMap<String, String> credencialData = credencialDAO.read(userId);
+            if (credencialData != null) {
+                perfil = Perfil.valueOf(credencialData.get("cPerfil"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
