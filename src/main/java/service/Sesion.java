@@ -22,7 +22,7 @@ import static model.Perfil.*;
  */
 public class Sesion {
 
-    private static Parada paradaActual;
+    public static Parada paradaActual;
     private static long userId = -1;
     private static Perfil perfil = INVITADO;
     private static HashMap<String, String> nacionalidades;
@@ -143,7 +143,7 @@ public class Sesion {
      * @param userId El nuevo perfil actual.
      */
     public static void setPerfil(int userId) {
-        if(userId == -1){
+        if (userId == -1) {
             perfil = INVITADO;
         } else {
             try {
@@ -151,7 +151,27 @@ public class Sesion {
                 HashMap<String, String> credencialData = credencialDAO.read(userId);
                 if (credencialData != null) {
                     perfil = Perfil.valueOf(credencialData.get("cPerfil"));
+
+                    if (perfil == ADMIN_PARADA) {
+                        try {
+
+                            ParadaDAOImpl paradaDAO = new ParadaDAOImpl();
+                            Parada parada = paradaDAO.readByAdminId(userId);
+
+                            if (parada != null) {
+                                Sesion.setParadaActual(parada);
+                                System.out.println("Parada actual: " + parada.getNombre());
+                            } else {
+                                System.out.println("Error: No se encontró una parada asociada al AdminParada con ID: " + userId);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

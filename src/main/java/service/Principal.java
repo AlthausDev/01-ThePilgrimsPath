@@ -15,7 +15,6 @@ public class Principal {
 	public static void main(String[] args) {
 		// Creamos una nueva instancia de la clase Sesion para iniciar la aplicación
 		new Sesion();
-
 	}
 }
 

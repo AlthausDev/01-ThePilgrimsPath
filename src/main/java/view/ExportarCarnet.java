@@ -26,7 +26,7 @@ import static util.Constantes.*;
  *
  * @author S.Althaus
  */
-public class Exportar {
+public class ExportarCarnet {
 
     /**
      * Exporta los datos del carnet de un peregrino a un archivo XML.

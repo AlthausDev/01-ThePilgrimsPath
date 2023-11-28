@@ -161,4 +161,23 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
         return 0;
     }
 
+    public Parada readByAdminId(long adminParadaId) {
+        Parada parada = null;
+        String sql = "SELECT * FROM Tparadas WHERE fkIdAdminParada = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, adminParadaId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    parada = getResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return parada;
+    }
+
+
 }

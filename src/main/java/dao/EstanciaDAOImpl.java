@@ -4,6 +4,7 @@ import model.Estancia;
 import model.Peregrino;
 import model.Parada;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -137,4 +138,27 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
         return estancias;
     }
 
+    public ArrayList<Estancia> getEstanciasByParadaAndFecha(long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
+        ArrayList<Estancia> estancias = new ArrayList<>();
+
+        String sql = "SELECT * FROM Testancia " +
+                "WHERE fkIdParada = ? AND fecha BETWEEN ? AND ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setLong(1, idParada);
+            stmt.setDate(2, Date.valueOf(fechaInicio));
+            stmt.setDate(3, Date.valueOf(fechaFin));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Estancia estancia = getResultSet(rs);
+                    estancias.add(estancia);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener estancias por parada y rango de fechas: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return estancias;
+    }
 }
