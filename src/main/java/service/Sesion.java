@@ -143,14 +143,18 @@ public class Sesion {
      * @param userId El nuevo perfil actual.
      */
     public static void setPerfil(int userId) {
-        try {
-            CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
-            HashMap<String, String> credencialData = credencialDAO.read(userId);
-            if (credencialData != null) {
-                perfil = Perfil.valueOf(credencialData.get("cPerfil"));
+        if(userId == -1){
+            perfil = INVITADO;
+        } else {
+            try {
+                CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
+                HashMap<String, String> credencialData = credencialDAO.read(userId);
+                if (credencialData != null) {
+                    perfil = Perfil.valueOf(credencialData.get("cPerfil"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

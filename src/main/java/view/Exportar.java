@@ -79,7 +79,7 @@ public class Exportar {
 
             // Crear una fuente para el documento XML.
             Source src = new DOMSource(doc);
-            // Crear un archivo XML en base al nombre del peregrino.
+            // Crear un archivo XML basándonos en el nombre del peregrino.
             File fileXML = new File(PATH_EXPORTS + pilgrim.getNombre() + ".xml");
             // Crear un resultado para la transformación.
             Result rslt = new StreamResult(fileXML);

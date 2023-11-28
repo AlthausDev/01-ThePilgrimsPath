@@ -94,13 +94,31 @@ public class CredencialDAOImpl {
     private HashMap<String, String> getResultSet(ResultSet rs) {
         try {
             HashMap<String, String> credencial = new HashMap<>();
-            credencial.put("idUsuario", String.valueOf(rs.getLong("pkId")));
-            credencial.put("nombre", rs.getString("cNombre"));
+            credencial.put("Id", String.valueOf(rs.getLong("pkId")));
+            credencial.put("Nombre", rs.getString("cNombre"));
             credencial.put("password", rs.getString("cPassword"));
-            credencial.put("tipoUsuario", rs.getString("cPerfil"));
+            credencial.put("Perfil", rs.getString("cPerfil"));
             return credencial;
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener credencial desde ResultSet", e);
         }
+    }
+
+    public long readByUserAndPassword(String username, String password) {
+        String sql = "SELECT pkId FROM Tcredenciales WHERE cNombre = ? AND cPassword = ?";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getLong("pkId");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener credenciales por nombre de usuario y contraseña: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

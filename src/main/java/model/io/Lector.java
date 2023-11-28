@@ -33,39 +33,39 @@ public class Lector {
      *
      * @return Un HashMap que contiene las credenciales de los usuarios (nombre de usuario, contraseña y perfil).
      */
-    public static HashMap<String, Pair<String, Perfil>> readCredenciales() {
-        // Inicializa un HashMap para almacenar las credenciales.
-        HashMap<String, Pair<String, Perfil>> credenciales = new HashMap<>();
-
-        // Crea un objeto File para el archivo de credenciales.
-        File credentialsFile = new File(PATH_CREDENTIALS);
-
-        try (Scanner scanner = new Scanner(credentialsFile)) {
-            // Lee el archivo línea por línea.
-            while (scanner.hasNextLine()) {
-                String linea = scanner.nextLine();
-                String[] userDataFields = linea.split(" ");
-
-                if (userDataFields.length >= 4) {
-                    // Extrae los campos de datos de la línea.
-                    String name = userDataFields[0];
-                    String storedPass = userDataFields[1];
-                    Perfil perfil = Perfil.valueOf(userDataFields[2]);
-                    long id = Long.parseLong(userDataFields[3]);
-
-                    if (Sesion.getLastId() < id) {
-                        Sesion.setLastId(id);
-                    }
-
-                    // Agrega las credenciales al HashMap.
-                    credenciales.put(name, new Pair<>(storedPass, perfil));
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("No se encuentra el archivo de credenciales");
-        }
-        return credenciales;
-    }
+//    public static HashMap<String, Pair<String, Perfil>> readCredenciales() {
+//        // Inicializa un HashMap para almacenar las credenciales.
+//        HashMap<String, Pair<String, Perfil>> credenciales = new HashMap<>();
+//
+//        // Crea un objeto File para el archivo de credenciales.
+//        File credentialsFile = new File(PATH_CREDENTIALS);
+//
+//        try (Scanner scanner = new Scanner(credentialsFile)) {
+//            // Lee el archivo línea por línea.
+//            while (scanner.hasNextLine()) {
+//                String linea = scanner.nextLine();
+//                String[] userDataFields = linea.split(" ");
+//
+//                if (userDataFields.length >= 4) {
+//                    // Extrae los campos de datos de la línea.
+//                    String name = userDataFields[0];
+//                    String storedPass = userDataFields[1];
+//                    Perfil perfil = Perfil.valueOf(userDataFields[2]);
+//                    long id = Long.parseLong(userDataFields[3]);
+//
+//                    if (Sesion.getLastId() < id) {
+//                        Sesion.setLastId(id);
+//                    }
+//
+//                    // Agrega las credenciales al HashMap.
+//                    credenciales.put(name, new Pair<>(storedPass, perfil));
+//                }
+//            }
+//        } catch (FileNotFoundException e) {
+//            System.err.println("No se encuentra el archivo de credenciales");
+//        }
+//        return credenciales;
+//    }
 
     /**
      * Lee datos de paradas desde un archivo binario y los almacena en un HashMap.
