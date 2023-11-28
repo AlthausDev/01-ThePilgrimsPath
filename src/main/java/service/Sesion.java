@@ -1,15 +1,19 @@
 package service;
 
+import dao.ParadaDAOImpl;
+import database.FactoryConexion;
 import model.Parada;
 import model.Peregrino;
 import model.Perfil;
 import controllers.Menu;
 import model.io.Lector;
-import org.javatuples.Pair;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import static model.Perfil.*;
+
 
 /**
  * Esta clase representa la sesión de la aplicación y administra la interacción entre el usuario y el sistema.
@@ -21,14 +25,9 @@ public class Sesion {
     private static Parada paradaActual;
     private static Peregrino user = null;
     private static Perfil perfil = INVITADO;
-    private static HashMap<Long, Parada> paradas;
     private static HashMap<String, String> nacionalidades;
-
-    public static HashMap<String, Pair<String, Perfil>> validUsers;
-    private static long lastId = 0L;
-    private static long lastIdParada = 0L;
-
     private static boolean continuar = true;
+    private static Connection conexion = null;
 
     /**
      * Constructor de la clase Sesion.
@@ -45,15 +44,33 @@ public class Sesion {
      * Inicializa los datos de las paradas, nacionalidades y usuarios válidos al iniciar la sesión.
      */
     public void run() {
-        paradas = Lector.readParadas();
-        nacionalidades = Lector.readPaises();
-        validUsers = Lector.readCredenciales();
-        if (paradaActual == null) {
-            long paradaAleatoria = (long) (Math.random() * (paradas.size() + 1)) + 1L;
-            paradaActual = paradas.get(paradaAleatoria);
+        try {
+            conexion = FactoryConexion.getInstance().getConexion();
+        } catch (SQLException e) {
+            System.err.println("Error al obtener la conexión: " + e.getMessage());
+        }
+
+        ParadaDAOImpl paradaDAO = new ParadaDAOImpl();
+
+        try {
+            nacionalidades = Lector.readPaises();
+        } catch (Exception e) {
+            System.err.println("Error al cargar datos desde la base de datos: " + e.getMessage());
+        }
+
+        int numParadas = paradaDAO.count();
+
+        if (numParadas > 0) {
+            long paradaAleatoria = (long) (Math.random() * numParadas) + 1;
+            paradaActual = paradaDAO.read(paradaAleatoria);
+        } else {
+            System.out.println("No hay paradas disponibles en la base de datos.");
         }
     }
 
+    public static Connection getConexion() {
+        return conexion;
+    }
 
     /**
      * Obtiene la parada actual.
@@ -91,23 +108,6 @@ public class Sesion {
         Sesion.user = user;
     }
 
-    /**
-     * Obtiene las paradas disponibles.
-     *
-     * @return Un mapa con las paradas disponibles.
-     */
-    public static HashMap<Long, Parada> getParadas() {
-        return paradas;
-    }
-
-    /**
-     * Establece las paradas disponibles.
-     *
-     * @param paradas Un mapa con las nuevas paradas disponibles.
-     */
-    public static void setParadas(HashMap<Long, Parada> paradas) {
-        Sesion.paradas = paradas;
-    }
 
     /**
      * Obtiene las nacionalidades disponibles.
@@ -145,41 +145,6 @@ public class Sesion {
         Sesion.perfil = perfil;
     }
 
-    /**
-     * Obtiene el último ID utilizado.
-     *
-     * @return El último ID utilizado.
-     */
-    public static long getLastId() {
-        return lastId;
-    }
-
-    /**
-     * Establece el último ID utilizado.
-     *
-     * @param lastId El nuevo último ID utilizado.
-     */
-    public static void setLastId(long lastId) {
-        Sesion.lastId = lastId;
-    }
-
-    /**
-     * Obtiene el último ID de parada utilizado.
-     *
-     * @return El último ID de parada utilizado.
-     */
-    public static long getLastIdParada() {
-        return lastIdParada;
-    }
-
-    /**
-     * Establece el último ID de parada utilizado.
-     *
-     * @param lastIdParada El nuevo último ID de parada utilizado.
-     */
-    public static void setLastIdParada(long lastIdParada) {
-        Sesion.lastIdParada = lastIdParada;
-    }
 
     /**
      * Verifica si la sesión debe continuar.

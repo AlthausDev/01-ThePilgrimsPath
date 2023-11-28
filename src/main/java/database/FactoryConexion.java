@@ -1,13 +1,14 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class FactoryConexion {
     private final MySqlConexion mySqlConexion;
     private static final FactoryConexion INSTANCIA = new FactoryConexion();
 
 
-    public FactoryConexion() {
+    private FactoryConexion() {
         mySqlConexion = MySqlConexion.getInstance();
     }
 
@@ -15,12 +16,7 @@ public class FactoryConexion {
         return INSTANCIA;
     }
 
-    public Connection getConexion() {
-        try {
+    public Connection getConexion() throws SQLException {
             return mySqlConexion.getConexion();
-        } catch (Exception e) {
-            System.err.println("Error al obtener la conexión: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
     }
 }

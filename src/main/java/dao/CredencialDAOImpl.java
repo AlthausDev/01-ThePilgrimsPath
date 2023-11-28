@@ -1,24 +1,36 @@
 package dao;
 
+import model.Perfil;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 import static dao.CoreDAO.conexion;
 
 public class CredencialDAOImpl {
 
-    public void create(String nombre, String password, String tipoUsuario, long idUsuario) {
+     public Long create(String nombre, String password, Perfil tipoUsuario) {
         try (PreparedStatement stmt = conexion.prepareStatement(
-                "INSERT INTO Credenciales (nombre, password, tipo_usuario) VALUES (?, ?, ?, ?)")) {
+                "INSERT INTO Credenciales (nombre, password, tipo_usuario) VALUES (?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, nombre);
             stmt.setString(2, password);
-            stmt.setString(3, tipoUsuario);
+            stmt.setString(3, String.valueOf(tipoUsuario));
             stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getLong(1);
+            } else {
+                throw new SQLException("No se pudo obtener el ID generado automáticamente.");
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al insertar credencial para el usuario con ID: " + idUsuario, e);
+            System.err.println("Error al insertar credencial para el nuevo usuario: " + e);
         }
+        return null;
     }
 
     public HashMap<String, String> read(long id) {

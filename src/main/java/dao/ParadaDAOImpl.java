@@ -146,4 +146,19 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
         }
         return paradas;
     }
+
+    public int count() {
+        String sql = "SELECT COUNT(*) FROM Paradas";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al contar las paradas", e);
+        }
+        return 0;
+    }
+
 }
