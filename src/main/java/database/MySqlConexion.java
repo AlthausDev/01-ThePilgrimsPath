@@ -40,14 +40,14 @@ public class MySqlConexion {
         }
     }
 
-    public static MySqlConexion getInstance() {
+    protected static MySqlConexion getInstance() {
         if (instancia == null) {
             instancia = new MySqlConexion();
         }
         return instancia;
     }
 
-    public Connection getConexion(){
+    protected Connection getConexion(){
         return conexion;
     }
 }

@@ -2,7 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+
+import database.FactoryConexion;
 import database.MySqlConexion;
 
 public abstract class CoreDAO <T>{
@@ -10,7 +13,11 @@ public abstract class CoreDAO <T>{
     protected static Connection conexion;
 
     public CoreDAO (){
-        conexion = MySqlConexion.getInstance().getConexion();
+        try {
+			conexion = FactoryConexion.getInstance().getConexion();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
     }
     public abstract void create (T entidad);
 
