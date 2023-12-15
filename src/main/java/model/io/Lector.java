@@ -1,8 +1,5 @@
 package model.io;
 
-import service.Sesion;
-import model.*;
-import org.javatuples.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,13 +9,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Scanner;
 
-import static util.Constantes.*;
+import static util.Constantes.PATH_COUNTRIES;
 
 /**
  * Esta clase proporciona métodos para leer información desde archivos y XML, y cargarla en la aplicación.
@@ -75,4 +70,3 @@ public class Lector {
     }
 
 }
-

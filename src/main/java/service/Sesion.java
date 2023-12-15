@@ -33,7 +33,6 @@ public class Sesion {
      * Constructor de la clase Sesion.
      */
     public Sesion() {
-
         do {
             run();
             new Menu(perfil);
@@ -176,16 +175,6 @@ public class Sesion {
                 e.printStackTrace();
             }
         }
-    }
-
-
-    /**
-     * Verifica si la sesión debe continuar.
-     *
-     * @return `true` si la sesión debe continuar, de lo contrario, `false`.
-     */
-    public static boolean isContinuar() {
-        return continuar;
     }
 
     /**

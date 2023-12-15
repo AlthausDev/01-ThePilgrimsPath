@@ -16,13 +16,13 @@ import static model.Perfil.*;
  * @author S.Althaus
  */
 public class Registro {
-    private static Scanner sc = new Scanner(System.in);
-    private PeregrinoDAOImpl peregrinoDAO = new PeregrinoDAOImpl();
-    private ParadaDAOImpl paradaDAO = new ParadaDAOImpl();
-    private CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
-    private EstanciaDAOImpl estanciaDAO = new EstanciaDAOImpl();
-    private CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
-    private Connection conexion = Sesion.getConexion();
+    private static final Scanner sc = new Scanner(System.in);
+    private final PeregrinoDAOImpl peregrinoDAO = new PeregrinoDAOImpl();
+    private final ParadaDAOImpl paradaDAO = new ParadaDAOImpl();
+    private final CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
+    private final EstanciaDAOImpl estanciaDAO = new EstanciaDAOImpl();
+    private final CredencialDAOImpl credencialDAO = new CredencialDAOImpl();
+    private final Connection conexion = Sesion.getConexion();
 
 
     /**

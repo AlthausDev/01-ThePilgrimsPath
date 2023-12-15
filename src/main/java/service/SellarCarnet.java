@@ -37,8 +37,7 @@ public class SellarCarnet {
     }
 
     private static double calcularDistancia() {
-        double distanciaAleatoria = 1 + (500 - 1) * Math.random();
-        return distanciaAleatoria;
+        return 1 + (500 - 1) * Math.random();
     }
 
     private static Estancia crearEstancia(Peregrino peregrino, Parada paradaActual) {

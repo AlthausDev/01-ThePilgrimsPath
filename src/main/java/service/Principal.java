@@ -13,7 +13,6 @@ public class Principal {
 	 * @param args Los argumentos de la línea de comandos (no se utilizan en esta aplicación).
 	 */
 	public static void main(String[] args) {
-		// Creamos una nueva instancia de la clase Sesion para iniciar la aplicación
 		new Sesion();
 	}
 }

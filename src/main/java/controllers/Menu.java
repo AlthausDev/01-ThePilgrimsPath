@@ -1,24 +1,23 @@
 package controllers;
 
 import dao.CarnetDAOImpl;
-import dao.EstanciaDAOImpl;
 import dao.PeregrinoDAOImpl;
-import model.*;
+import model.Carnet;
+import model.Parada;
+import model.Peregrino;
+import model.Perfil;
 import service.Registro;
 import service.Sesion;
 import view.ExportarCarnet;
 import view.ExportarEstanciasFechas;
 
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Scanner;
 
 import static controllers.Login.cerrarSesion;
 import static service.SellarCarnet.sellarCarnet;
-import static service.Sesion.paradaActual;
 
 
 /**
@@ -235,8 +234,7 @@ public class Menu {
         while (true) {
             try {
                 String fechaStr = sc.nextLine();
-                LocalDate fecha = LocalDate.parse(fechaStr);
-                return fecha;
+                return LocalDate.parse(fechaStr);
             } catch (DateTimeParseException e) {
                 System.out.println("Error: Formato de fecha inválido. Ingrese la fecha en el formato correcto (YYYY-MM-DD): ");
             }
@@ -290,7 +288,4 @@ public class Menu {
     private void mostrarDatosParadaActual() {
        System.out.println(Sesion.getParadaActual().toString());
     }
-
-
 }
-

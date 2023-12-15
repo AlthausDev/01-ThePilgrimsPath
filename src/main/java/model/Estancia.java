@@ -38,7 +38,8 @@ public class Estancia implements Comparable<Estancia> {
      * @param peregrino  Peregrino actualmente hospedado en la estancia
      * @param parada     Parada en la que se realiza la estancia.
      */
-    public Estancia(LocalDate fecha, boolean vip, Peregrino peregrino, Parada parada) {
+    public Estancia(long id, LocalDate fecha, boolean vip, Peregrino peregrino, Parada parada) {
+        this.id = id;
         this.fecha = fecha;
         this.vip = vip;
         this.peregrino = peregrino;
@@ -152,19 +153,20 @@ public class Estancia implements Comparable<Estancia> {
      *
      * @return Cadena con información de la estancia.
      */
+
     @Override
     public String toString() {
-
-        String str = "ID: " + id + "\nFecha: " + fecha + "\nVIP: " + vip;
-        if(str == null) return "Todavía no hay ninguna estancia resgistrada";
-
-        return str;
-
+        if (id == 0 && fecha == null && !vip && peregrino == null && parada == null) {
+            return "Todavía no hay ninguna estancia registrada";
+        } else {
+            return "ID: " + id + "\nFecha: " + fecha + "\nVIP: " + vip;
+        }
     }
 
     @Override
     public int compareTo(Estancia o) {
-        return 0;
+        return this.fecha.compareTo(o.fecha);
     }
+
 
 }
