@@ -12,11 +12,11 @@ public class FactoryConexion {
         mySqlConexion = MySqlConexion.getInstance();
     }
 
-    public static FactoryConexion getInstance(){
+    public static FactoryConexion getInstance() {
         return INSTANCIA;
     }
 
     public Connection getConexion() throws SQLException {
-            return mySqlConexion.getConexion();
+        return mySqlConexion.getConexion();
     }
 }

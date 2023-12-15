@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class CarnetDAOImpl extends CoreDAO<Carnet> {
 
-    private ParadaDAOImpl paradaDAO;
+    private final ParadaDAOImpl paradaDAO;
 
     public CarnetDAOImpl(){
         super();
@@ -19,7 +19,7 @@ public class CarnetDAOImpl extends CoreDAO<Carnet> {
 
     @Override
     public void create(Carnet carnet) {
-        String sql = "INSERT INTO Tcarnet (pkfkIdPeregrino, dFechaExp, nDistancia, nVips, fkIdParada) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Tcarnet (fkIdPeregrino, dFechaExp, nDistancia, nVips, fkIdParada) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, carnet.getIdPeregrino());

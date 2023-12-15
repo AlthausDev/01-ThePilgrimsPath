@@ -15,7 +15,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
 
     @Override
     public void create(Parada parada) {
-        String sql = "INSERT INTO Tparadas (cNombrePar, cRegion, fkIdAdminParada) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Tparada (cNombrePar, cRegion, fkIdAdminParada) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, parada.getNombre());
@@ -46,7 +46,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
     @Override
     public Parada read(long id) {
         Parada parada = null;
-        String sql = "SELECT * FROM Tparadas WHERE pkIdParada = ?";
+        String sql = "SELECT * FROM Tparada WHERE pkfkIdParada = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -65,7 +65,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
     public HashMap<Long, Parada> readAll() {
 
         HashMap<Long, Parada> paradas = new HashMap<>();
-        String sql = "Select * FROM Tparadas";
+        String sql = "Select * FROM Tparada";
 
         try {
             PreparedStatement stmt = conexion.prepareStatement(sql);
@@ -84,7 +84,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
 
     @Override
     public void update(Parada parada) {
-        String sql = "UPDATE Tparadas SET cNombrePar = ?, cRegion = ?, fkIdAdminParada = ? WHERE pkIdParada = ?";
+        String sql = "UPDATE Tparada SET cNombre = ?, cRegion = ?, fkIdAdminParada = ? WHERE pkfkIdParada = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, parada.getNombre());
@@ -99,7 +99,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
 
     @Override
     public void delete(long id) {
-        String sql = "DELETE FROM Tparadas WHERE pkIdParada = ?";
+        String sql = "DELETE FROM Tparada WHERE pkfkIdParada = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -114,8 +114,8 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
     protected Parada getResultSet(ResultSet rs) {
 
         try {
-            long id = rs.getLong("pkIdParada");
-            String nombre = rs.getString("cNombrePar");
+            long id = rs.getLong("pkfkIdParada");
+            String nombre = rs.getString("cNombre");
             char region = rs.getString("cRegion").charAt(0);
 
             long adminParadaId = rs.getLong("fkIdAdminParada");
@@ -148,7 +148,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
     }
 
     public int count() {
-        String sql = "SELECT COUNT(*) FROM Paradas";
+        String sql = "SELECT COUNT(*) FROM TParada";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -163,7 +163,7 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
 
     public Parada readByAdminId(long adminParadaId) {
         Parada parada = null;
-        String sql = "SELECT * FROM Tparadas WHERE fkIdAdminParada = ?";
+        String sql = "SELECT * FROM Tparada WHERE fkIdAdminParada = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, adminParadaId);
@@ -178,6 +178,4 @@ public class ParadaDAOImpl extends CoreDAO<Parada> {
         }
         return parada;
     }
-
-
 }

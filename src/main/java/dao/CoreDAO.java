@@ -1,12 +1,11 @@
 package dao;
 
+import database.FactoryConexion;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-
-import database.FactoryConexion;
-import database.MySqlConexion;
 
 public abstract class CoreDAO <T>{
 

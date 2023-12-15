@@ -87,7 +87,7 @@ INSERT INTO Tcredenciales (cNombre, cPerfil, cPassword) VALUES
 INSERT INTO Tadmin_parada (pkfkIdAdminParada, cNombre)
 	SELECT pkId, cNombre
 	FROM Tcredenciales
-	WHERE cNombre IN ('John', 'Claude', 'Patricia', 'Kumar', 'Sofia');
+	WHERE cPerfil IN ('ADMIN_PARADA');
 
 
  INSERT INTO Tparada (cNombre, cRegion, fkIdAdminParada) VALUES

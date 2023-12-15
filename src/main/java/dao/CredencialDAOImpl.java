@@ -81,7 +81,7 @@ public class CredencialDAOImpl {
     }
 
     public void delete(long id) {
-        String sql = "DELETE FROM Tcredenciales WHERE id = ?";
+        String sql = "DELETE FROM Tcredenciales WHERE pkId = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);

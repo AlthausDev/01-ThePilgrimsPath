@@ -12,7 +12,7 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 
 	@Override
 	public void create(AdminParada adminParada) {
-		String sql = "INSERT INTO TadminParada (idAdminParadas, nombre) VALUES (?, ?)";
+		String sql = "INSERT INTO Tadmin_parada (pkfkIdAdminParada, nombre) VALUES (?, ?)";
 
 		try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setLong(1, adminParada.getId());
@@ -40,7 +40,7 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 	@Override
 	public AdminParada read(long id) {
 		AdminParada adminParada = null;
-		String sql = "SELECT * FROM TadminParada WHERE idAdminParadas = ?";
+		String sql = "SELECT * FROM Tadmin_parada WHERE pkfkIdAdminParada = ?";
 
 		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
 			stmt.setLong(1, id);
@@ -59,7 +59,7 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 	@Override
 	public HashMap<Long, AdminParada> readAll() {
 		HashMap<Long, AdminParada> adminParadas = new HashMap<>();
-		String sql = "SELECT * FROM TadminParada";
+		String sql = "SELECT * FROM Tadmin_parada";
 
 		try (PreparedStatement stmt = conexion.prepareStatement(sql);
 			 ResultSet rs = stmt.executeQuery()) {
@@ -79,7 +79,7 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 
 	@Override
 	public void update(AdminParada adminParada) {
-		String sql = "UPDATE TadminParada SET nombre = ? WHERE idAdminParadas = ?";
+		String sql = "UPDATE Tadmin_parada SET cNombre = ? WHERE pkfkIdAdminParada = ?";
 
 		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
 			stmt.setString(1, adminParada.getName());
@@ -93,7 +93,7 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 
 	@Override
 	public void delete(long id) {
-		String sql = "DELETE FROM TadminParada WHERE idAdminParadas = ?";
+		String sql = "DELETE FROM Tadmin_parada WHERE pkfkIdAdminParada = ?";
 
 		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
 			stmt.setLong(1, id);
@@ -107,10 +107,9 @@ public class AdminParadaDAOImpl extends CoreDAO<AdminParada> {
 	@Override
 	protected AdminParada getResultSet(ResultSet rs) {
 		try {
-			long id = rs.getLong("id");
-			String nombre = rs.getString("nombre");
-			AdminParada adminParada = new AdminParada(id, nombre);
-			return adminParada;
+			long id = rs.getLong("pkfkIdAdminParada");
+			String nombre = rs.getString("cNombre");
+			return new AdminParada(id, nombre);
 
 		} catch (SQLException e) {
 			System.err.println("Error al mapear ResultSet a AdminParada: " + e.getMessage());

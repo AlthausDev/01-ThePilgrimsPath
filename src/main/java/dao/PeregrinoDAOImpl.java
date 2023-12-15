@@ -13,9 +13,9 @@ import java.util.HashMap;
 
 public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
 
-    private CarnetDAOImpl carnetDAO;
-    private ParadaDAOImpl paradaDAO;
-    private EstanciaDAOImpl estanciaDAO;
+    private final CarnetDAOImpl carnetDAO;
+    private final ParadaDAOImpl paradaDAO;
+    private final EstanciaDAOImpl estanciaDAO;
 
     public PeregrinoDAOImpl() {
         super();
@@ -25,7 +25,7 @@ public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
     }
     @Override
     public void create(Peregrino peregrino) {
-        String sql = "INSERT INTO Peregrino (id, nombre, nacionalidad, idCarnet) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Tperegrino (pkfkIdPeregrino, cNombrePer, cNacionalidad, fkIdCarnet) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setLong(1, peregrino.getId());
@@ -55,7 +55,7 @@ public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
     @Override
     public Peregrino read(long id) {
         Peregrino peregrino = null;
-        String sql = "SELECT * FROM Peregrino WHERE id = ?";
+        String sql = "SELECT * FROM Tperegrino WHERE pkfkIdPeregrino = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -74,28 +74,24 @@ public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
     @Override
     public HashMap<Long, Peregrino> readAll() {
         HashMap<Long, Peregrino> peregrinos = new HashMap<>();
-        String sql = "SELECT * FROM Peregrino";
+        String sql = "SELECT * FROM Tperegrino";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 Peregrino peregrino = getResultSet(rs);
                 peregrinos.put(peregrino.getId(), peregrino);
             }
-
         } catch (SQLException e) {
             System.err.println("Error al obtener todos los Peregrinos: " + e.getMessage());
             e.printStackTrace();
         }
-
         return peregrinos;
     }
 
-
     @Override
     public void update(Peregrino peregrino) {
-        String sql = "UPDATE Peregrino SET nombre = ?, nacionalidad = ?, idCarnet = ? WHERE id = ?";
+        String sql = "UPDATE Tperegrino SET cNombrePer = ?, cNacionalidad = ?, fkIdCarnet = ? WHERE pkfkIdPeregrino = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setString(1, peregrino.getNombre());
@@ -111,7 +107,7 @@ public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
 
     @Override
     public void delete(long id) {
-        String sql = "DELETE FROM Peregrino WHERE id = ?";
+        String sql = "DELETE FROM Tperegrino WHERE pkfkIdPeregrino = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -125,22 +121,19 @@ public class PeregrinoDAOImpl extends CoreDAO<Peregrino> {
     @Override
     protected Peregrino getResultSet(ResultSet rs) {
         try {
-            long id = rs.getLong("id");
-            String nombre = rs.getString("nombre");
-            String nacionalidad = rs.getString("nacionalidad");
+            long id = rs.getLong("pkfkIdPeregrino");
+            String nombre = rs.getString("cNombrePer");
+            String nacionalidad = rs.getString("cNacionalidad");
 
             Carnet carnet = carnetDAO.getResultSet(rs);
             ArrayList<Parada> paradas = paradaDAO.getListResultSet(rs);
             ArrayList<Estancia> estancias = estanciaDAO.getListResultSet(rs);
 
-
             return new Peregrino(id, nombre, nacionalidad, carnet, paradas, estancias);
-
         } catch (SQLException e) {
             System.err.println("Error al mapear ResultSet a Peregrino: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
     }
-
 }

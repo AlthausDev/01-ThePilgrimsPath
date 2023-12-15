@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class EstanciaDAOImpl extends CoreDAO<Estancia> {
 
-    private PeregrinoDAOImpl peregrinoDAO;
-    private ParadaDAOImpl paradaDAO;
+    private final PeregrinoDAOImpl peregrinoDAO;
+    private final ParadaDAOImpl paradaDAO;
 
     public EstanciaDAOImpl() {
         super();
@@ -25,13 +25,13 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
 
     @Override
     public void create(Estancia estancia) {
-        try (PreparedStatement stmt = conexion.prepareStatement(
-                "INSERT INTO Testancia (id, fecha, vip, fkIdPeregrino, fkIdParada) VALUES (?, ?, ?, ?, ?)")) {
-            stmt.setLong(1, estancia.getId());
-            stmt.setDate(2, java.sql.Date.valueOf(estancia.getFecha()));
-            stmt.setBoolean(3, estancia.isVIP());
-            stmt.setLong(4, estancia.getPeregrino().getId());
-            stmt.setLong(5, estancia.getParada().getId());
+        String sql = "INSERT INTO Testancia (dFecha, bVip, fkIdPeregrino, fkIdParada) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+            stmt.setDate(1, Date.valueOf(estancia.getFecha()));
+            stmt.setBoolean(2, estancia.isVIP());
+            stmt.setLong(3, estancia.getPeregrino().getId());
+            stmt.setLong(4, estancia.getParada().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error al ejecutar la consulta de inserción: " + e.getMessage());
@@ -42,7 +42,7 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
     @Override
     public Estancia read(long id) {
         Estancia estancia = null;
-        String sql = "SELECT * FROM Testancia WHERE id = ?";
+        String sql = "SELECT * FROM Testancia WHERE pkIdEstancia = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -76,7 +76,7 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
 
     @Override
     public void update(Estancia estancia) {
-        String sql = "UPDATE Testancia SET fecha = ?, vip = ?, fkIdPeregrino = ?, fkIdParada = ? WHERE id = ?";
+        String sql = "UPDATE Testancia SET dFecha = ?, bVip = ?, fkIdPeregrino = ?, fkIdParada = ? WHERE pkIdEstancia = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setDate(1, java.sql.Date.valueOf(estancia.getFecha()));
@@ -90,9 +90,10 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
         }
     }
 
+
     @Override
     public void delete(long id) {
-        String sql = "DELETE FROM Testancia WHERE id = ?";
+        String sql = "DELETE FROM Testancia WHERE pkIdEstancia = ?";
 
         try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
             stmt.setLong(1, id);
@@ -105,9 +106,9 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
     @Override
     protected Estancia getResultSet(ResultSet rs) {
         try {
-            long id = rs.getLong("id");
-            LocalDate fecha = rs.getDate("fecha").toLocalDate();
-            boolean vip = rs.getBoolean("vip");
+            long id = rs.getLong("pkIdEstancia");
+            LocalDate fecha = rs.getDate("dFecha").toLocalDate();
+            boolean vip = rs.getBoolean("bVip");
 
             long peregrinoId = rs.getLong("fkIdPeregrino");
             Peregrino peregrino = peregrinoDAO.read(peregrinoId);
@@ -115,12 +116,13 @@ public class EstanciaDAOImpl extends CoreDAO<Estancia> {
             long paradaId = rs.getLong("fkIdParada");
             Parada parada = paradaDAO.read(paradaId);
 
-            return new Estancia(fecha, vip, peregrino, parada);
+            return new Estancia(id, fecha, vip, peregrino, parada);
         } catch (SQLException e) {
             System.err.println("Error al obtener la estancia: " + e.getMessage());
         }
         return null;
     }
+
 
     protected ArrayList<Estancia> getListResultSet(ResultSet rs) {
         ArrayList<Estancia> estancias = new ArrayList<>();
