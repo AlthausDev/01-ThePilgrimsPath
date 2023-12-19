@@ -19,9 +19,9 @@ public class MySqlConexion {
         try {
             properties.load(is);
 
-            String url = properties.getProperty("database.URL");
-            String user = properties.getProperty("database.USUARIO");
-            String pass = properties.getProperty("database.PASSWORD");
+            String url = properties.getProperty("URL");
+            String user = properties.getProperty("USUARIO");
+            String pass = properties.getProperty("PASSWORD");
 
             conexion = DriverManager.getConnection(url, user, pass);
 

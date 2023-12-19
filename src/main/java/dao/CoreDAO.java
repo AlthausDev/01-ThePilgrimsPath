@@ -13,7 +13,7 @@ public abstract class CoreDAO <T>{
 
     public CoreDAO (){
         try {
-			conexion = FactoryConexion.getInstance().getConexion();
+			this.conexion = FactoryConexion.getInstance().getConexion();
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		}
