@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class NetConnector {
     public NetConnector() {
         try {
-            String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/bin/Release/net8.0-windows/Login.exe";
+            String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/Login.exe";
             String[] command = {path};
 
             // Crea y ejecuta el proceso
