@@ -1,21 +1,20 @@
-package com.althaus.dev.GestorPeregrinos.view;
+package com.althaus.dev.GestorPeregrinos.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class NetConnector {
-    public NetConnector() {
+public class LoginController {
+    public LoginController() {
         try {
             String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/Login.exe";
             String[] command = {path};
 
-            // Crea y ejecuta el proceso
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             Process process = processBuilder.start();
 
             readStreamAsync(process.getInputStream());
-            int exitCode = process.waitFor();
+            process.waitFor();
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

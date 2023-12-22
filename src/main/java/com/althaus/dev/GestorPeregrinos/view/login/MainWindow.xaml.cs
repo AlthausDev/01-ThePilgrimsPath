@@ -20,15 +20,14 @@ namespace Login
         public MainWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Utiliza las propiedades en lugar de las variables de clase
             Usuario = txtUsuario.Text;
             Password = txtPassword.Password;
 
-            // Imprime los datos en la salida estándar
             Console.WriteLine($"Usuario: {Usuario}, Contraseña: {Password}");
         }     
     }
