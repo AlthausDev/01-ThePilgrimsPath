@@ -1,24 +1,36 @@
-# Proyecto Gestor de Peregrinos
-
+# Proyecto Gestor de Peregrinos con Spring Boot, JPA+Hibernate y Vistas en .NET (C#)
 
 ## Descripción
 
-El proyecto Peregrinos es una aplicación destinada a gestionar información sobre peregrinos y su peregrinación. Ofrece una plataforma para registrar peregrinos, administrar paradas y estancias, y brindar una visión general de la peregrinación en curso.
+El proyecto Peregrinos es una aplicación de gestión de información sobre peregrinos y su peregrinación, desarrollada con Spring Boot, JPA+Hibernate y ahora incluye vistas en .NET utilizando C#. Facilita el registro de peregrinos, la administración de paradas y estancias, y proporciona una visión integral de la peregrinación en curso.
 
 ## Características Principales
 
-- Registro de peregrinos.
-- Gestión de paradas y estancias.
-- Información detallada de cada peregrinación.
-- Administración de administradores de parada.
-- Autenticación y autorización de usuarios.
-  
+- **Registro de Peregrinos:**
+   - Utiliza Spring Boot y JPA+Hibernate para un manejo eficiente de la información.
+- **Gestión Avanzada de Paradas y Estancias:**
+   - Nuevas funcionalidades mejoran la administración de paradas y estancias.
+- **Detalles Ampliados de Peregrinaciones:**
+   - Proporciona información detallada y actualizada sobre cada peregrinación.
+- **Administración de Usuarios con Perfiles:**
+   - Perfiles de usuario diferenciados: invitado, administrador de parada, peregrino y administrador general.
+- **Autenticación y Autorización:**
+   - Implementa un sistema seguro de autenticación y autorización.
+- **Vistas en .NET (C#):**
+   - Añade una capa de vistas utilizando la tecnología C# en .NET.
 
 ## Tecnologías Utilizadas
 
-- Java: Lenguaje de programación principal.
-- XML: Para el almacenamiento de datos.
-
+- **Java:**
+   - Lenguaje de programación principal.
+- **Spring Boot:**
+   - Framework para el desarrollo ágil de aplicaciones Java.
+- **JPA+Hibernate:**
+   - Tecnología ORM para el mapeo objeto-relacional.
+- **XML:**
+   - Utilizado para la exportación de datos.
+- **.NET (C#):**
+   - Utilizado para la creación de vistas.
 
 
 ## Instalación
