@@ -32,6 +32,7 @@ public abstract class User {
     @Column(name = "perfil", nullable = false)
     private Perfil perfil;
 
+
     /**
      * Constructor predeterminado sin argumentos.
      */

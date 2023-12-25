@@ -38,7 +38,7 @@ El proyecto Peregrinos es una aplicación de gestión de información sobre pere
 1. Clona el repositorio en tu máquina local:
 
    ```bash
-   git clone https://github.com/tu-usuario/proyecto-peregrinos.git
+   git clone https://github.com/AlthausDev/Project.01-GestorPeregrinos.git
 
 
 ## Uso
@@ -54,7 +54,7 @@ Si deseas contribuir a este proyecto, sigue estos pasos:
 2. Clona tu repositorio forkeado en tu máquina local.
 
    ```bash
-    git clone https://github.com/tu-usuario/proyecto-peregrinos.git
+    git clone https://github.com/AlthausDev/Project.01-GestorPeregrinos.git
 
 4. Crea una nueva rama para tu contribución:
 

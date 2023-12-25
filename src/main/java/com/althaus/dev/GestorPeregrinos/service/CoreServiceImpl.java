@@ -23,7 +23,7 @@ public abstract class CoreServiceImpl<T> implements CoreService<T> {
         Class<?> clazz = getClass();
         Type type = clazz.getGenericSuperclass();
 
-        while (!(type instanceof ParameterizedType)) {
+        while (!(type instanceof ParameterizedType parameterizedType)) {
             if (clazz.getSuperclass() == null) {
                 throw new IllegalArgumentException("No se pudo determinar el tipo de la entidad.");
             }
@@ -32,7 +32,6 @@ public abstract class CoreServiceImpl<T> implements CoreService<T> {
             type = clazz.getGenericSuperclass();
         }
 
-        ParameterizedType parameterizedType = (ParameterizedType) type;
         Type[] typeArguments = parameterizedType.getActualTypeArguments();
 
         if (typeArguments.length > 0 && typeArguments[0] instanceof Class) {
