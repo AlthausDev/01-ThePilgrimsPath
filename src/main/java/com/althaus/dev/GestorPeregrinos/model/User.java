@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
+@Embeddable
 public abstract class User implements Identifiable {
 
     /**
@@ -31,7 +32,6 @@ public abstract class User implements Identifiable {
     @Enumerated(EnumType.STRING)
     @Column(name = "perfil", nullable = false)
     private Perfil perfil;
-
 
     /**
      * Constructor predeterminado sin argumentos.

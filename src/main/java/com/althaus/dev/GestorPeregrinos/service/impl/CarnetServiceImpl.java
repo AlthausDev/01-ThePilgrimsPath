@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.Carnet;
+import com.althaus.dev.GestorPeregrinos.repository.CarnetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class CarnetServiceImpl extends CoreServiceImpl<Carnet>{
      */
 
     @Autowired
-    public CarnetServiceImpl(JpaRepository <Carnet, Long> repository) {
+    public CarnetServiceImpl(CarnetRepository repository) {
         super(repository);
     }
 }

@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.Identifiable;
+import com.althaus.dev.GestorPeregrinos.repository.CoreRepository;
 import com.althaus.dev.GestorPeregrinos.service.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public abstract class CoreServiceImpl<T extends Identifiable> implements CoreSer
      *
      * @param repository El repositorio JPA utilizado para acceder a la capa de persistencia.
      */
-    public CoreServiceImpl(JpaRepository<T, Long> repository) {
+    public CoreServiceImpl(CoreRepository repository) {
         this.repository = repository;
         this.entityClass = initEntityClass();
     }

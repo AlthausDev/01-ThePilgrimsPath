@@ -46,8 +46,9 @@ public class Credenciales implements Identifiable {
     /**
      * Usuario asociado a estas credenciales (relación @OneToOne).
      */
-    @OneToOne
+    @Embedded
     private User user;
+
 
     /**
      * Constructor predeterminado.
