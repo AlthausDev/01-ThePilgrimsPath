@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "parada")
-public class Parada implements Serializable {
+public class Parada implements Identifiable {
 
     /**
      * Identificador único de la parada.

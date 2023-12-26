@@ -14,7 +14,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "estancia")
-public class Estancia {
+public class Estancia implements Identifiable{
 
     /**
      * Identificador único de la estancia.

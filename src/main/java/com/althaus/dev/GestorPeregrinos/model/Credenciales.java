@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +18,9 @@ import java.util.Objects;
 @ToString
 @Entity
 @Table(name = "credenciales")
-public class Credenciales implements Serializable {
+public class Credenciales implements Identifiable {
+
+    @Serial
     private static final long serialVersionUID = -9168923117861158724L;
 
     /**

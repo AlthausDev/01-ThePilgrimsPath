@@ -16,7 +16,7 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.ADMIN_PARADA;
 @Setter
 @Entity
 @Table(name = "admin_parada", uniqueConstraints = @UniqueConstraint(columnNames = {"parada_id"}))
-public class AdminParada extends User implements Serializable {
+public class AdminParada extends User {
 
     /**
      * Parada asociada al administrador de parada.

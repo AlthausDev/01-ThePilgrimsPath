@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class User {
+public abstract class User implements Identifiable {
 
     /**
      * Identificador único del usuario.
