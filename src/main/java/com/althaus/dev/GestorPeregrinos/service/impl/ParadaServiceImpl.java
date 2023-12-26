@@ -1,17 +1,19 @@
-package com.althaus.dev.GestorPeregrinos.service;
+package com.althaus.dev.GestorPeregrinos.service.impl;
 
-import com.althaus.dev.GestorPeregrinos.model.Estancia;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EstanciaServiceImpl extends CoreServiceImpl <Estancia> {
+public class ParadaServiceImpl extends CoreServiceImpl <Parada>{
     /**
      * Constructor para la inicialización de la implementación del servicio central.
      *
      * @param repository El repositorio JPA utilizado para acceder a la capa de persistencia.
      */
-    public EstanciaServiceImpl(JpaRepository<Estancia, Long> repository) {
+    @Autowired
+    public ParadaServiceImpl(JpaRepository<Parada, Long> repository) {
         super(repository);
     }
 }

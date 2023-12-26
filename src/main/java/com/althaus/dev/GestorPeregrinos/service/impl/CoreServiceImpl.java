@@ -1,6 +1,7 @@
-package com.althaus.dev.GestorPeregrinos.service;
+package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.Identifiable;
+import com.althaus.dev.GestorPeregrinos.service.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
