@@ -4,5 +4,5 @@ import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface CanetService extends CoreService <Carnet> {
+public interface CarnetService extends CoreService <Carnet> {
 }

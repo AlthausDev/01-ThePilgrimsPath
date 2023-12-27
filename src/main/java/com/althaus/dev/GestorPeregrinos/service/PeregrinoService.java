@@ -14,7 +14,7 @@ public interface PeregrinoService extends CoreService <Peregrino> {
 
     List<Parada> obtenerParadasDePeregrino(Long peregrinoId);
 
-    String exportarCarnetXml(Long peregrinoId);
+    void exportarCarnetToXml(Long peregrinoId);
 
     List<Peregrino> obtenerPeregrinosPorNacionalidad(String nacionalidad);
 

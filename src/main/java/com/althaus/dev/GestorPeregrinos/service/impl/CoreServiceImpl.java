@@ -29,10 +29,11 @@ public abstract class CoreServiceImpl<T extends Identifiable> implements CoreSer
      *
      * @param repository El repositorio JPA utilizado para acceder a la capa de persistencia.
      */
-    public CoreServiceImpl(CoreRepository repository) {
+    public CoreServiceImpl(CoreRepository<T, Long> repository) {
         this.repository = repository;
         this.entityClass = initEntityClass();
     }
+
 
     private Class<T> initEntityClass() {
         Class<?> clazz = getClass();
