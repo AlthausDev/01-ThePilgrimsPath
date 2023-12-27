@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class LoginController {
+
+    private static final LoginController INSTANCE = new LoginController();
     public LoginController() {
         try {
             String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/Login.exe";
@@ -33,5 +35,9 @@ public class LoginController {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public static LoginController getInstance() {
+        return INSTANCE;
     }
 }
