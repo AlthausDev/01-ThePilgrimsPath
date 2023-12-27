@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 @Embeddable
-public abstract class User implements Identifiable {
+public class User implements Identifiable {
 
     /**
      * Identificador único del usuario.

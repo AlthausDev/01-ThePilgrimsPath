@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminParadaServiceImpl extends CoreServiceImpl <AdminParada> {
 
-    @Autowired
-    private AdminParadaRepository adminParadaRepository;
     /**
      * Constructor para la inicialización de la implementación del servicio central.
      *
      * @param repository El repositorio JPA utilizado para acceder a la capa de persistencia.
      */
+    @Autowired
     public AdminParadaServiceImpl(AdminParadaRepository repository) {
         super(repository);
     }

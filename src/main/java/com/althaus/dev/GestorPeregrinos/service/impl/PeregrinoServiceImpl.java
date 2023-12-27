@@ -14,13 +14,13 @@ import java.util.Optional;
 @Service
 public class PeregrinoServiceImpl extends CoreServiceImpl<Peregrino> implements PeregrinoService {
 
-    private final XMLWriter xmlWriter;
+   // private final XMLWriter xmlWriter;
     private final PeregrinoRepository peregrinoRepository;
 
     @Autowired
-    public PeregrinoServiceImpl(PeregrinoRepository peregrinoRepository, XMLWriter xmlWriter) {
+    public PeregrinoServiceImpl(PeregrinoRepository peregrinoRepository) {
         super(peregrinoRepository);
-        this.xmlWriter = xmlWriter;
+        //this.xmlWriter = xmlWriter;
         this.peregrinoRepository = peregrinoRepository;
     }
 
@@ -44,9 +44,9 @@ public class PeregrinoServiceImpl extends CoreServiceImpl<Peregrino> implements 
         return null;
     }
 
-    public void exportarCarnetToXml(Long peregrinoId) {
+   /* public void exportarCarnetToXml(Long peregrinoId) {
         xmlWriter.exportarCarnet(peregrinoId);
-    }
+    }*/
 
     /**
      * @param nacionalidad
