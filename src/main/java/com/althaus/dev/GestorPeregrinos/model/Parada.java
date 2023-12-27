@@ -58,6 +58,13 @@ public class Parada implements Identifiable {
     public Parada() {
     }
 
+
+    public Parada(String nombre, Character region, AdminParada adminParada) {
+        this.nombre = nombre;
+        this.region = region;
+        this.adminParada = adminParada;
+    }
+
     /**
      * Constructor que inicializa las propiedades de la parada.
      *

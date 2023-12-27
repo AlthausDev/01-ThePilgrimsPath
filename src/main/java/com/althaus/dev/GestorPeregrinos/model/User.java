@@ -39,6 +39,11 @@ public class User implements Identifiable {
     public User() {
     }
 
+    public User(String nombre, Perfil perfil) {
+        this.nombre = nombre;
+        this.perfil = perfil;
+    }
+
     /**
      * Constructor que inicializa las propiedades del usuario.
      *
@@ -51,4 +56,5 @@ public class User implements Identifiable {
         this.nombre = nombre;
         this.perfil = perfil;
     }
+
 }
