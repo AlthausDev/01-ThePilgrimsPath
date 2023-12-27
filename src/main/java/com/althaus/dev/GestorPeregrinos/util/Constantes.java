@@ -7,10 +7,6 @@ import java.time.format.DateTimeFormatter;
  * Proporciona rutas de archivos y un formateador de fecha común.
  */
 public final class Constantes {
-	/**
-	 * Ruta del archivo que almacena las credenciales de usuarios.
-	 */
-	public final static String PATH_CREDENTIALS = "src\\main\\java\\archivos\\credenciales.txt";
 
 	/**
 	 * Ruta del archivo que almacena información de paradas.
@@ -25,7 +21,7 @@ public final class Constantes {
 	/**
 	 * Ruta base para exportar archivos XML.
 	 */
-	public final static String PATH_EXPORTS = "src\\main\\java\\data\\xml_exports\\";
+	public final static String PATH_EXPORTS = "src/main/java/com/althaus/dev/GestorPeregrinos/model/data/xml_exports";
 
 	/**
 	 * Formateador de fecha utilizado en toda la aplicación.

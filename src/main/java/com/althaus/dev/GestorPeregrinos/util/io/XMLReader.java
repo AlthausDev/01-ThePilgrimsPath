@@ -1,4 +1,4 @@
-package com.althaus.dev.GestorPeregrinos.controller.io;
+package com.althaus.dev.GestorPeregrinos.util.io;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +22,7 @@ import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_COUNTRIES;
  *
  * @author S.Althaus
  */
-public class Lector {
+public class XMLReader {
 
     /**
      * Este método lee datos de países desde un archivo XML y los almacena en un HashMap.
