@@ -5,5 +5,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CredencialesService extends CoreService<Credenciales> {
+    boolean existeUsuario(String username);
+
+    boolean existePassword(String password);
 
 }

@@ -13,5 +13,25 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     public CredencialesServiceImpl(CredencialesRepository credencialesRepository) {
         super(credencialesRepository);
     }
+
+    /**
+     * @param username
+     * @return
+     */
+    @Override
+    public boolean existeUsuario(String username) {
+        return false;
+    }
+
+    /**
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean existePassword(String password) {
+        return false;
+    }
+
+
 }
 
