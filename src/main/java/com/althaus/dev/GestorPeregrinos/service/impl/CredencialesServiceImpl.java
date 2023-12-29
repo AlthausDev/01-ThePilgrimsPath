@@ -71,6 +71,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     public boolean iniciarSesion(String username, String password) {
         try {
             Optional<Credenciales> optionalCredenciales = credencialesRepository.findByUsername(username);
+
             if (optionalCredenciales.isPresent()) {
                 Credenciales credenciales = optionalCredenciales.get();
 
@@ -80,7 +81,6 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
                     return true;
                 }
             }
-
             return false;
         } catch (DataAccessException e) {
             throw new RuntimeException("Error al acceder a la base de datos", e);

@@ -7,7 +7,7 @@ import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.service.ParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
-import com.althaus.dev.GestorPeregrinos.view.login.NuevaParadaView;
+import com.althaus.dev.GestorPeregrinos.view.NuevaParadaView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/api/paradas")
+@RequestMapping("/paradas")
 
 public class ParadaController {
 

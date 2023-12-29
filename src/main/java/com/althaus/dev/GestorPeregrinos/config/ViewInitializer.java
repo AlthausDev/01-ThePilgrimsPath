@@ -1,4 +1,4 @@
-package com.althaus.dev.GestorPeregrinos.app;
+package com.althaus.dev.GestorPeregrinos.config;
 
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import org.springframework.stereotype.Component;
