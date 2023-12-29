@@ -48,9 +48,5 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
             e.printStackTrace();
         }
     }
-
-    public long count(){
-        return paradaRepository.count();
-    }
 }
 

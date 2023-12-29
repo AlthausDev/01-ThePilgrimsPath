@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @param <T> Tipo de entidad.
  * @param <ID> Tipo de ID de la entidad.
  */
+
 @NoRepositoryBean
 public interface CoreRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 }

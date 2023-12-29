@@ -1,5 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +11,7 @@ import java.util.Optional;
  *
  * @param <T> Tipo de entidad.
  */
+@Service
 public interface CoreService<T> {
 
     /**

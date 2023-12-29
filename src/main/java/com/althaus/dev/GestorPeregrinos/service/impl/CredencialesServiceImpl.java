@@ -1,9 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.config.SecurityContext;
-import com.althaus.dev.GestorPeregrinos.model.AdminParada;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
-import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;

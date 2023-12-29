@@ -2,19 +2,29 @@ package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.Estancia;
 import com.althaus.dev.GestorPeregrinos.repository.EstanciaRepository;
+import com.althaus.dev.GestorPeregrinos.service.EstanciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementación del servicio para la gestión de Estancias.
+ *
+ * Esta clase proporciona la implementación concreta de las operaciones
+ * específicas del servicio para la entidad Estancia.
+ */
 @Service
-public class EstanciaServiceImpl extends CoreServiceImpl <Estancia> {
+public class EstanciaServiceImpl extends CoreServiceImpl<Estancia> implements EstanciaService {
+
+    private final EstanciaRepository estanciaRepository;
 
     /**
-     * Constructor para la inicialización de la implementación del servicio central.
+     * Constructor para la inicialización de la implementación del servicio de Estancia.
      *
-     * @param repository El repositorio JPA utilizado para acceder a la capa de persistencia.
+     * @param estanciaRepository El repositorio JPA utilizado para acceder a la capa de persistencia de Estancia.
      */
     @Autowired
-    public EstanciaServiceImpl(EstanciaRepository repository) {
-        super(repository);
+    public EstanciaServiceImpl(EstanciaRepository estanciaRepository) {
+        super(estanciaRepository);
+        this.estanciaRepository = estanciaRepository;
     }
 }

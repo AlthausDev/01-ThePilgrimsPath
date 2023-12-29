@@ -4,7 +4,6 @@ import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.repository.PeregrinoRepository;
 import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
-import com.althaus.dev.GestorPeregrinos.util.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
