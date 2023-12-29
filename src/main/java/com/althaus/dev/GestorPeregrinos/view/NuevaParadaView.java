@@ -1,4 +1,4 @@
-package com.althaus.dev.GestorPeregrinos.view.login;
+package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import org.springframework.stereotype.Component;
