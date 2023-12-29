@@ -34,7 +34,7 @@ public class Peregrino extends User {
     /**
      * Lista de paradas asociadas a un peregrino.
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "peregrino_paradas",
             joinColumns = @JoinColumn(name = "peregrino_id"),
             inverseJoinColumns = @JoinColumn(name = "parada_id"))

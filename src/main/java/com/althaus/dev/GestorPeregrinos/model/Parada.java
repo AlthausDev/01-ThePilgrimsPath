@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -46,11 +47,8 @@ public class Parada implements Identifiable {
     /**
      * Lista de peregrinos asociados a la parada.
      */
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "peregrino_paradas",
-            joinColumns = @JoinColumn(name = "parada_id"),
-            inverseJoinColumns = @JoinColumn(name = "peregrino_id"))
-    private ArrayList<Peregrino> peregrinos;
+    @ManyToMany(mappedBy = "paradas", fetch = FetchType.LAZY)
+    private List<Peregrino> peregrinos;
 
     /**
      * Constructor sin argumentos.
