@@ -2,12 +2,15 @@ package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.AdminParada;
 import com.althaus.dev.GestorPeregrinos.repository.AdminParadaRepository;
-import com.althaus.dev.GestorPeregrinos.repository.PeregrinoRepository;
+import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
-public class AdminParadaServiceImpl extends CoreServiceImpl <AdminParada> {
+public class AdminParadaServiceImpl extends CoreServiceImpl <AdminParada> implements AdminParadaService {
+
+    private final AdminParadaRepository adminParadaRepository;
 
     /**
      * Constructor para la inicialización de la implementación del servicio central.
@@ -17,5 +20,6 @@ public class AdminParadaServiceImpl extends CoreServiceImpl <AdminParada> {
     @Autowired
     public AdminParadaServiceImpl(AdminParadaRepository repository) {
         super(repository);
+        this.adminParadaRepository = repository;
     }
 }

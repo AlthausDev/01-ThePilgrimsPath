@@ -21,6 +21,23 @@ public class LoginController {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
+//        int exitCode = process.waitFor();
+//
+//        if (exitCode == 0) {
+//            System.out.println("El proceso se ha completado correctamente.");
+//        } else {
+//            System.err.println("El proceso ha finalizado con un código de salida no válido: " + exitCode);
+//        }
+//        System.exit(exitCode);
+//
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//    } catch (InterruptedException e) {
+//        e.printStackTrace();
+//        System.out.println("Saliendo del programa");
+//        System.exit(1);
+//    }
     }
 
     private void readStreamAsync(final java.io.InputStream stream) {

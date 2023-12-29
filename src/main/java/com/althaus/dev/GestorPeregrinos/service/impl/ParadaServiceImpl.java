@@ -18,10 +18,14 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
 
     @Autowired
     private CredencialesService credencialesService;
+    @Autowired
+    private final ParadaRepository paradaRepository;
 
     @Autowired
-    public ParadaServiceImpl(ParadaRepository repository) {
+    public ParadaServiceImpl(ParadaRepository repository,
+                             ParadaRepository paradaRepository) {
         super(repository);
+        this.paradaRepository = paradaRepository;
     }
 
     @Override
@@ -43,6 +47,10 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
             System.err.println("Error al registrar la nueva parada");
             e.printStackTrace();
         }
+    }
+
+    public long count(){
+        return paradaRepository.count();
     }
 }
 
