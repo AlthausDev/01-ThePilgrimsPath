@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.config;
 
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,8 +14,9 @@ public class ViewInitializer {
         initializeViews();
     }
 
+    @PostConstruct
     private void initializeViews() {
-        LoginController.getInstance();
+//        LoginController.getInstance();
     }
 
     public static ViewInitializer getInstance(){

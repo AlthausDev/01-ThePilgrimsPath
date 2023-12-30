@@ -21,8 +21,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static com.althaus.dev.GestorPeregrinos.model.Perfil.INVITADO;
-
 /**
  * Gestor de inicio de la aplicación que realiza operaciones de inicialización.
  *
@@ -42,6 +40,7 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.INVITADO;
 public class StartupManager {
 
     private static final Logger logger = LoggerFactory.getLogger(StartupManager.class);
+    private static final StartupManager INSTANCE = new StartupManager();
 
     private HashMap<String, String> nacionalidades;
     private Optional<Parada> paradaActual;
@@ -83,6 +82,10 @@ public class StartupManager {
     private Optional<Parada> getParadaRandom(long numParadas) {
         long paradaAleatoria = (long) (Math.random() * numParadas);
         return paradaRepository.findById(paradaAleatoria);
+    }
+
+    public static StartupManager getInstance(){
+        return INSTANCE;
     }
 }
 

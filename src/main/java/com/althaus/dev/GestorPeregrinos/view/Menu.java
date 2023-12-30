@@ -1,4 +1,4 @@
-package com.althaus.dev.GestorPeregrinos.controller;
+package com.althaus.dev.GestorPeregrinos.view;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

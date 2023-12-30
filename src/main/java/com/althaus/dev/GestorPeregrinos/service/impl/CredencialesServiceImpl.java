@@ -6,13 +6,14 @@ import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> implements CredencialesService {
 
@@ -22,6 +23,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     public CredencialesServiceImpl(CredencialesRepository credencialesRepository) {
         super(credencialesRepository);
         this.credencialesRepository = credencialesRepository;
+        log.info("CredencialesRepository inyectado correctamente");
     }
 
 
@@ -74,6 +76,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
 
             if (optionalCredenciales.isPresent()) {
                 Credenciales credenciales = optionalCredenciales.get();
+                System.out.println(credenciales);
 
                 if (PasswordUtils.checkPassword(password, credenciales.getPassword())) {
                     User usuario = credenciales.getUser();
