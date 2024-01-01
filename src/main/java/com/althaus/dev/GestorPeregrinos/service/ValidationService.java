@@ -3,6 +3,11 @@ package com.althaus.dev.GestorPeregrinos.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Scanner;
+
 @Service
 public class ValidationService {
 
@@ -41,6 +46,27 @@ public class ValidationService {
         } else {
             System.err.println("La contraseña debe tener al menos 3 caracteres. Vuelva a introducirla.");
             return false;
+        }
+    }
+
+    private LocalDate validarFormatoFecha(Scanner sc) {
+        while (true) {
+            try {
+                String fechaStr = sc.nextLine();
+                return LocalDate.parse(fechaStr);
+            } catch (DateTimeParseException e) {
+                System.out.println("Error: Formato de fecha inválido. Ingrese la fecha en el formato correcto (YYYY-MM-DD): ");
+            }
+        }
+    }
+
+    public String validarCodigoNacionalidad(String codigo, HashMap<String, String> nacionalidades) {
+        while (true) {
+            if (codigo.length() == 2 && nacionalidades.containsKey(codigo)) {
+                return nacionalidades.get(codigo);
+            } else {
+                System.err.println("Código de país no válido. Debe contener 2 caracteres y existir. Vuelva a introducirlo.");
+            }
         }
     }
 }

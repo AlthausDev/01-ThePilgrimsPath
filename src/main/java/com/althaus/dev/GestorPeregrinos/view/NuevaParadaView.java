@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

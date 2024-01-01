@@ -41,8 +41,7 @@ public class StartupManager {
 
     private static final Logger logger = LoggerFactory.getLogger(StartupManager.class);
     private static final StartupManager INSTANCE = new StartupManager();
-
-    private HashMap<String, String> nacionalidades;
+    public HashMap<String, String> nacionalidades;
     private Optional<Parada> paradaActual;
 
     @Autowired
