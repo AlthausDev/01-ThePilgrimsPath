@@ -1,7 +1,15 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
+import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
+import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
+import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
+import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
+import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
+import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import com.althaus.dev.GestorPeregrinos.util.io.XMLWriter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -17,27 +25,37 @@ import java.util.Scanner;
  */
 public class Menu {
     Scanner sc = new Scanner(System.in);
+    private UserSession userSession;
+    private LoginController loginController;
+    private ParadaController paradaController;
+    private PeregrinoController peregrinoController;
+    private final ValidationService validationService = new ValidationService();
+
 
     /**
      * Constructor de la clase `Menu` que muestra el menú correspondiente al perfil de usuario.
      *
-     * @param perfil El perfil de usuario que determina qué menú se mostrará.
+     * @param userSession La instancia de UserSession para realizar operaciones relacionadas con la sesión del usuario.
      */
-    public Menu(Perfil perfil) {
-        switch (perfil) {
-            case PEREGRINO:
-                menuPeregrino();
-                break;
-            case ADMIN_PARADA:
-                menuAdminParada();
-                break;
-            case ADMIN_GENERAL:
-                menuAdmin();
-                break;
-            case INVITADO:
-            default:
-                menuInvitado();
-                break;
+    public Menu(UserSession userSession) {
+        this.userSession = userSession;
+        Perfil perfil = userSession.getPerfil();
+
+            switch (perfil) {
+                case PEREGRINO:
+                    menuPeregrino();
+                    break;
+                case ADMIN_PARADA:
+                    menuAdminParada();
+                    break;
+                case ADMIN_GENERAL:
+                    menuAdmin();
+                    break;
+                case INVITADO:
+                default:
+                    menuInvitado();
+                    break;
+
         }
     }
 
@@ -58,16 +76,14 @@ public class Menu {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del programa.");
-                    Sesion.setContinuar(false);
+                    salir();
                     break;
                 case 1:
-                    LoginController loginController = new LoginController();
-                    loginController.login();
+                    login.login();
                     opcion = 0;
                     break;
                 case 2:
-                    Registro registro = new Registro();
-                    registro.nuevoPeregrino();
+                    peregrinoController.nuevoPeregrino();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
@@ -93,16 +109,14 @@ public class Menu {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del programa.");
-                    Sesion.setContinuar(false);
+                    salir();
                     break;
                 case 1:
-                    CarnetDAOImpl carnetDAO = new CarnetDAOImpl();
-                    Carnet carnet = carnetDAO.read(Sesion.getUserId());
-                    ExportarCarnet.exportarCarnet(Sesion.getUserId());
-                    System.out.println(carnet.toString());
+                    /////implementar
+                    System.out.println((Peregrino)userSession.getUsuario().getCarnet().toString());
                     break;
                 case 2:
-                    cerrarSesion();
+                    userSession.cerrarSesion();
                     opcion = 0;
                     break;
                 default:
@@ -132,7 +146,7 @@ public class Menu {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del programa.");
-                    Sesion.setContinuar(false);
+                    salir();
                     break;
                 case 1:
                     mostrarDatosParadaActual();
@@ -144,7 +158,7 @@ public class Menu {
                     menuRecibirPeregrinoEnParada();
                     break;
                 case 4:
-                    cerrarSesion();
+                    userSession.cerrarSesion();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
@@ -170,14 +184,13 @@ public class Menu {
             switch (opcion) {
                 case 0:
                     System.out.println("Saliendo del programa.");
-                    Sesion.setContinuar(false);
+                    salir();
                     break;
                 case 1:
-                    Registro registro = new Registro();
-                    registro.nuevaParada();
+                    paradaController.nuevaParada();
                     break;
                 case 2:
-                    cerrarSesion();
+                    userSession.cerrarSesion();
                     opcion = 0;
                     break;
                 default:
@@ -185,6 +198,9 @@ public class Menu {
                     break;
             }
         } while (opcion != 0);
+    }
+    private void salir(){
+        userSession.setContinuar(false);
     }
 
     private int obtenerOpcionUsuario() {
@@ -205,30 +221,21 @@ public class Menu {
 
 
         System.out.println("Introduzca la fecha de inicio (YYYY-MM-DD): ");
-        LocalDate fechaInicio = obtenerFechaValida(sc);
+        LocalDate fechaInicio = validarFormatoFecha(sc);
         LocalDate fechaFin = null;
 
         do {
             System.out.println("Introduzca la fecha de fin (YYYY-MM-DD): ");
-            fechaFin = obtenerFechaValida(sc);
+            fechaFin = validarFormatoFecha(sc);
             if (fechaFin.isBefore(fechaInicio)) {
                 System.err.println("Error: La fecha de fin debe ser mayor o igual a la fecha de inicio.");
             }
         } while (fechaFin.isBefore(fechaInicio));
 
-        ExportarEstanciasFechas.exportarEstancias(Sesion.getUserId(), fechaInicio, fechaFin);
+        ExportarEstanciasFechas.exportarEstancias(userSession.getUsuario().getId(), fechaInicio, fechaFin);
     }
 
-    private LocalDate obtenerFechaValida(Scanner sc) {
-        while (true) {
-            try {
-                String fechaStr = sc.nextLine();
-                return LocalDate.parse(fechaStr);
-            } catch (DateTimeParseException e) {
-                System.out.println("Error: Formato de fecha inválido. Ingrese la fecha en el formato correcto (YYYY-MM-DD): ");
-            }
-        }
-    }
+
 
     private void menuRecibirPeregrinoEnParada() {
 

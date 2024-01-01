@@ -16,28 +16,21 @@ import java.io.Serializable;
 @Component
 @Scope("session")
 public class UserSession implements Serializable {
-    private long userId = -1;
+
+    private boolean continuar = true;
     private Perfil perfil = Perfil.INVITADO;
     private User usuario = null;
     private Parada paradaActual;
     private Menu menu;
 
     public UserSession() {
-        this.menu = new Menu(this.perfil);
+        do {
+            this.menu = new Menu(this);
+        } while (continuar);
     }
 
-    public void actualizarMenu() {
-        this.menu = new Menu(this.perfil);
-    }
-
-    public void cambiarPerfil(Perfil nuevoPerfil) {
-        this.perfil = nuevoPerfil;
-        actualizarMenu();
-    }
     public void cerrarSesion() {
-        setUserId(-1);
         setPerfil(Perfil.INVITADO);
         setUsuario(null);
-        setParadaActual(null);
     }
 }
