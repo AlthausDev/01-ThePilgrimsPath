@@ -2,16 +2,16 @@ package com.althaus.dev.GestorPeregrinos.controller;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.service.*;
-import com.althaus.dev.GestorPeregrinos.view.NuevaParadaView;
 import com.althaus.dev.GestorPeregrinos.view.PeregrinoView;
+import jakarta.transaction.Transactional;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.sql.SQLException;
-import java.util.*;
-
-import static com.althaus.dev.GestorPeregrinos.model.Perfil.PEREGRINO;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class PeregrinoController {
 
@@ -20,6 +20,7 @@ public class PeregrinoController {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final CredencialesService credencialService;
+    private final UserService userService;
     private static final Scanner scanner = new Scanner(System.in);
 
     @Autowired
@@ -28,14 +29,17 @@ public class PeregrinoController {
             ParadaService paradaService,
             PeregrinoService peregrinoService,
             CarnetService carnetService,
-            CredencialesService credencialService) {
+            CredencialesService credencialService,
+            UserService userService) {
         this.peregrinoView = peregrinoView;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.credencialService = credencialService;
+        this.userService = userService;
     }
 
+    @Transactional
     @PostMapping("/nuevoPeregrino")
     public void nuevoPeregrino() {
         Parada parada = obtenerParada();
@@ -46,14 +50,16 @@ public class PeregrinoController {
                 String nombre = (String) datosPeregrino.get("nombre");
                 String pass = (String) datosPeregrino.get("password");
                 String nacionalidad = (String) datosPeregrino.get("nacionalidad");
+
                 ArrayList <Parada> paradas = new ArrayList<>();
                 paradas.add(parada);
 
-                Long lastIdCredencial = credencialService.getLastId();
-                Long newIdCredencial = lastIdCredencial + 1;
+                User nuevoUser = new User(nombre, Perfil.PEREGRINO);
+                userService.create(nuevoUser);
 
+                Long newIdCredencial = nuevoUser.getId();
 
-                Credenciales credencial = new Credenciales(newIdCredencial, nombre, pass);
+                Credenciales credencial = new Credenciales(nuevoUser, pass);
                 credencialService.create(credencial);
 
                 Carnet nuevoCarnet = new Carnet(newIdCredencial, paradas.get(0));
@@ -67,11 +73,14 @@ public class PeregrinoController {
             } else {
                 throw new RuntimeException("El formulario de registro fue cancelado por el usuario.");
             }
+        } catch (ConstraintViolationException e) {
+        System.err.println("Error al agregar el nuevo peregrino: El nombre de usuario ya está en uso.");
         } catch (Exception e) {
             System.err.println("Error al agregar el nuevo peregrino: " + e.getMessage());
         }
-
     }
+
+
     private Parada obtenerParada() {
         try {
             System.out.println("Lista de paradas:");
@@ -94,6 +103,4 @@ public class PeregrinoController {
         }
         return null;
     }
-
-
 }

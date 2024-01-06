@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ParadaService extends CoreService<Parada> {
-    void create(String nombreParada, char regionParada, String nombreAdminParada, String passAdminParada);
+
 }
 

@@ -28,25 +28,5 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
         this.paradaRepository = paradaRepository;
     }
 
-    @Override
-    public void create(String nombreParada, char regionParada, String nombreAdminParada, String passAdminParada) {
-        try {
-            Parada nuevaParada = new Parada(nombreParada, regionParada, null);
-
-            AdminParada adminParada = new AdminParada(nombreAdminParada, nuevaParada);
-            nuevaParada.setAdminParada(adminParada);
-
-            adminParadaService.create(adminParada);
-            Parada savedParada = create(nuevaParada);
-
-            Credenciales credenciales = new Credenciales(nombreAdminParada, passAdminParada, adminParada);
-            credencialesService.create(credenciales);
-
-            System.out.println("Nueva parada registrada con éxito. ID de la parada: " + savedParada.getId());
-        } catch (Exception e) {
-            System.err.println("Error al registrar la nueva parada");
-            e.printStackTrace();
-        }
-    }
 }
 

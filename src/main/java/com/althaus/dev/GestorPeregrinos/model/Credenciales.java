@@ -1,5 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
+import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,18 +24,10 @@ public class Credenciales implements Identifiable {
     @Serial
     private static final long serialVersionUID = -9168923117861158724L;
 
-    /**
-     * Identificador único de las credenciales.
-     */
     @Id
-    @Column(name = "id",unique=true, nullable = false)
-    private Long id;
-
-    /**
-     * Nombre de usuario utilizado para la autenticación.
-     */
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private User user;
 
     /**
      * Contraseña asociada a las credenciales (debería ser almacenada de manera segura, por ejemplo, usando hash).
@@ -49,18 +42,9 @@ public class Credenciales implements Identifiable {
     public Credenciales() {
     }
 
-    /**
-     * Constructor para inicializar credenciales con un ID específico.
-     *
-     * @param id       Identificador único de las credenciales.
-     * @param username Nombre de usuario.
-     * @param password Contraseña (debería ser almacenada de manera segura).
-     */
-    public Credenciales(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-
+    public Credenciales(User user, String password) {
+        this.user = user;
+        this.password = PasswordUtils.hashPassword(password);
     }
 
     /**
@@ -88,5 +72,13 @@ public class Credenciales implements Identifiable {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Long getId() {
+        return null;
     }
 }

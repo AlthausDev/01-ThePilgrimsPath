@@ -1,13 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
-import com.althaus.dev.GestorPeregrinos.model.AdminParada;
-import com.althaus.dev.GestorPeregrinos.model.Credenciales;
-import com.althaus.dev.GestorPeregrinos.model.Parada;
-import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
-import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
-import com.althaus.dev.GestorPeregrinos.service.ParadaService;
-import com.althaus.dev.GestorPeregrinos.service.ValidationService;
-import com.althaus.dev.GestorPeregrinos.view.NuevaParadaView;
+import com.althaus.dev.GestorPeregrinos.model.*;
+import com.althaus.dev.GestorPeregrinos.service.*;
+import com.althaus.dev.GestorPeregrinos.view.ParadaView;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,46 +17,59 @@ import java.util.HashMap;
 public class ParadaController {
 
     private final ValidationService validationService;
-    private final NuevaParadaView nuevaParadaView;
+    private final ParadaView paradaView;
     private final AdminParadaService adminParadaService;
     private final ParadaService paradaService;
+    private final UserService userService;
     private final CredencialesService credencialesService;
 
     @Autowired
     public ParadaController(
             ValidationService validationService,
-            NuevaParadaView nuevaParadaView,
+            ParadaView paradaView,
             AdminParadaService adminParadaService,
             ParadaService paradaService,
+            UserService userService,
             CredencialesService credencialesService) {
         this.validationService = validationService;
-        this.nuevaParadaView = nuevaParadaView;
+        this.paradaView = paradaView;
         this.adminParadaService = adminParadaService;
         this.paradaService = paradaService;
+        this.userService = userService;
         this.credencialesService = credencialesService;
     }
 
 
-    @PostMapping("/nueva")
+    @Transactional
+    @PostMapping("/nuevaParada")
     public void nuevaParada() {
-        HashMap<String, Object> paradaData = nuevaParadaView.agregarParada();
+        HashMap<String, Object> paradaData = paradaView.agregarParada();
 
         try {
             if (paradaData != null) {
-                String nombre = (String) paradaData.get("nombre");
-                char region = (char) paradaData.get("region");
+                String nombreParada = (String) paradaData.get("nombreParada");
+                char regionParada = (char) paradaData.get("regionParada");
+
                 String nombreAdmin = (String) paradaData.get("nombreAdmin");
                 String passAdmin = (String) paradaData.get("passAdmin");
 
-                Parada nuevaParada = new Parada(nombre, region, null);
+                User nuevoUser = new User(nombreAdmin, Perfil.ADMIN_PARADA);
+                userService.create(nuevoUser);
 
-                AdminParada adminParada = new AdminParada(nombreAdmin, nuevaParada);
+                Long newIdCredencial = nuevoUser.getId();
+
+                Credenciales credencial = new Credenciales(nuevoUser, passAdmin);
+                credencialesService.create(credencial);
+
+                Parada nuevaParada = new Parada(nombreParada, regionParada, null);
+                AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
+
+                //Necesario para establecer correctamente la relación bidireccional
                 nuevaParada.setAdminParada(adminParada);
+                adminParada.setParada(nuevaParada);
+
                 adminParadaService.create(adminParada);
                 paradaService.create(nuevaParada);
-
-                Credenciales credenciales = new Credenciales(nombreAdmin, passAdmin, adminParada);
-                credencialesService.create(credenciales);
 
                 System.out.println("Nueva parada agregada con éxito.");
 

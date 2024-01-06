@@ -21,6 +21,7 @@ public class Parada implements Identifiable {
      * Identificador único de la parada.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

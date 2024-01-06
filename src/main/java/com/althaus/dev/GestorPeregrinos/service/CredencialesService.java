@@ -38,15 +38,6 @@ public interface CredencialesService extends CoreService<Credenciales> {
      */
     boolean iniciarSesion(String username, String password);
 
-    /**
-     * Registra un nuevo usuario con las credenciales proporcionadas.
-     *
-     * @param username Nombre de usuario.
-     * @param password Contraseña.
-     * @param user     Usuario asociado a las credenciales.
-     * @return Las credenciales registradas.
-     */
-    Credenciales registrarNuevoUsuario(String username, String password, User user);
-
+    User getUserFromCredentials(Credenciales credenciales);
 
 }

@@ -11,12 +11,14 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 @Embeddable
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Identifiable {
 
     /**
      * Identificador único del usuario.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

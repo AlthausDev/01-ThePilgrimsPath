@@ -1,14 +1,13 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
-import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 @Component
-public class NuevaParadaView {
+public class ParadaView {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final ValidationService validationService = new ValidationService();
@@ -18,10 +17,10 @@ public class NuevaParadaView {
 
         try {
             System.out.println("Agregar nueva parada");
-            paradaData.put("nombre", obtenerNombre());
+            paradaData.put("nombreParada", obtenerNombre());
 
             System.out.println("Indique la región a la que pertenece de la nueva parada:");
-            paradaData.put("region", obtenerRegion());
+            paradaData.put("regionParada", obtenerRegion());
 
             System.out.println("Nuevo administrador de Parada");
             paradaData.put("nombreAdmin", obtenerNombre());
