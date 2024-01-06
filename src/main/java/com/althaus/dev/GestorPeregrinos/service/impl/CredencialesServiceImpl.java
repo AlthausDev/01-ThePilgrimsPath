@@ -89,4 +89,8 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
             throw new RuntimeException("Error al acceder a la base de datos", e);
         }
     }
+
+    public Long getLastId() {
+        return credencialesRepository.findMaxId();
+    }
 }

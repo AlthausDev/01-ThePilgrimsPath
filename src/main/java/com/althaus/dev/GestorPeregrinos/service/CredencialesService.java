@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CredencialesService extends CoreService<Credenciales> {
 
+    public Long getLastId();
+
     /**
      * Verifica si existe un usuario con el nombre de usuario dado.
      *
@@ -45,4 +47,6 @@ public interface CredencialesService extends CoreService<Credenciales> {
      * @return Las credenciales registradas.
      */
     Credenciales registrarNuevoUsuario(String username, String password, User user);
+
+
 }

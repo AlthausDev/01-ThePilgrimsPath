@@ -27,8 +27,6 @@ public class Credenciales implements Identifiable {
      * Identificador único de las credenciales.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id",unique=true, nullable = false)
     private Long id;
 
@@ -44,12 +42,6 @@ public class Credenciales implements Identifiable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    /**
-     * Usuario asociado a estas credenciales (relación @OneToOne).
-     */
-    @Embedded
-    private User user;
-
 
     /**
      * Constructor predeterminado.
@@ -58,31 +50,17 @@ public class Credenciales implements Identifiable {
     }
 
     /**
-     * Constructor para crear nuevas credenciales asociadas a un usuario.
-     *
-     * @param username Nombre de usuario.
-     * @param password Contraseña (debería ser almacenada de manera segura).
-     * @param user     Usuario asociado.
-     */
-    public Credenciales(String username, String password, User user) {
-        this.username = username;
-        this.password = password;
-        this.user = user;
-    }
-
-    /**
      * Constructor para inicializar credenciales con un ID específico.
      *
      * @param id       Identificador único de las credenciales.
      * @param username Nombre de usuario.
      * @param password Contraseña (debería ser almacenada de manera segura).
-     * @param user     Usuario asociado.
      */
-    public Credenciales(Long id, String username, String password, User user) {
+    public Credenciales(Long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.user = user;
+
     }
 
     /**

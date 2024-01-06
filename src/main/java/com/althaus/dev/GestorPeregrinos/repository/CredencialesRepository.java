@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -35,4 +36,7 @@ public interface CredencialesRepository extends CoreRepository<Credenciales, Lon
      * @return Una instancia de Optional que contiene la credencial si se encuentra, o empty si no se encuentra.
      */
     Optional<Credenciales> findByUsername(String username);
+
+    @Query("SELECT MAX(c.id) FROM Credenciales c")
+    Long findMaxId();
 }
