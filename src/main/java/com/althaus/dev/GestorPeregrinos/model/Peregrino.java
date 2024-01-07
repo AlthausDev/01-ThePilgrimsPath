@@ -95,7 +95,7 @@ public class Peregrino extends User {
     @Override
     public String toString() {
         return "\nPeregrino: " +
-                "\nNombre: " + getNombre() +
+                "\nNombre: " + getName() +
                 "\nNacionalidad: " + getNacionalidad() +
                 "\nCarnet:\n" + carnet +
                 "\n";

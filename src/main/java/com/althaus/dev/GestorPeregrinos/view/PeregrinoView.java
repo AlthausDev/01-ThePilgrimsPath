@@ -45,7 +45,7 @@ public class PeregrinoView {
     public void mostrarDetallesPeregrino(Peregrino peregrino) {
         System.out.println("Datos del peregrino:");
         System.out.println("ID: " + peregrino.getId());
-        System.out.println("Nombre: " + peregrino.getNombre());
+        System.out.println("Nombre: " + peregrino.getName());
         System.out.println("Nacionalidad: " + peregrino.getNacionalidad());
     }
 

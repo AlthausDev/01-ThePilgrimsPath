@@ -10,15 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Embeddable
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Identifiable {
 
     /**
      * Identificador único del usuario.
      */
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -26,7 +26,7 @@ public class User implements Identifiable {
      * Nombre del usuario.
      */
     @Column(name = "nombre", nullable = false)
-    private String nombre;
+    private String name;
 
     /**
      * Perfil del usuario, representado como un enumerado.
@@ -41,8 +41,8 @@ public class User implements Identifiable {
     public User() {
     }
 
-    public User(String nombre, Perfil perfil) {
-        this.nombre = nombre;
+    public User(String name, Perfil perfil) {
+        this.name = name;
         this.perfil = perfil;
     }
 
@@ -50,13 +50,17 @@ public class User implements Identifiable {
      * Constructor que inicializa las propiedades del usuario.
      *
      * @param id     Identificador único del usuario.
-     * @param nombre Nombre del usuario.
+     * @param name Nombre del usuario.
      * @param perfil Perfil del usuario.
      */
-    public User(Long id, String nombre, Perfil perfil) {
+    public User(Long id, String name, Perfil perfil) {
         this.id = id;
-        this.nombre = nombre;
+        this.name = name;
         this.perfil = perfil;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }

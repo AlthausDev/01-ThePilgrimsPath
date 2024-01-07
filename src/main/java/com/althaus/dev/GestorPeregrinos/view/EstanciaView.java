@@ -19,7 +19,7 @@ public class EstanciaView {
 
         for (Estancia estancia : estancias) {
             System.out.println("ID Estancia: " + estancia.getId());
-            System.out.println("Nombre Peregrino: " + estancia.getPeregrino().getNombre());
+            System.out.println("Nombre Peregrino: " + estancia.getPeregrino().getName());
             System.out.println("Fecha: " + estancia.getFecha());
             System.out.println("VIP: " + (estancia.getVip() ? "S" : "N"));
             System.out.println();

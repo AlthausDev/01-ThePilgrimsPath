@@ -28,29 +28,6 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
 
 
     /**
-     * Verifica si existe un usuario con el nombre de usuario proporcionado.
-     *
-     * @param username El nombre de usuario a verificar.
-     * @return `true` si existe un usuario con el nombre de usuario, `false` de lo contrario.
-     */
-    @Override
-    public boolean existeUsuario(String username) {
-        return credencialesRepository.existsByUsername(username);
-    }
-
-    /**
-     * Verifica si existe una credencial con la contraseña proporcionada.
-     *
-     * @param password La contraseña a verificar.
-     * @return `true` si existe una credencial con la contraseña, `false` de lo contrario.
-     */
-    @Override
-    public boolean existePassword(String password) {
-        return credencialesRepository.existsByPassword(password);
-    }
-
-
-    /**
      * Inicia sesión con las credenciales proporcionadas.
      *
      * @param username El nombre de usuario para iniciar sesión.
@@ -59,7 +36,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
      */
     public boolean iniciarSesion(String username, String password) {
         try {
-            Optional<Credenciales> optionalCredenciales = credencialesRepository.findByUsername(username);
+            Optional<Credenciales> optionalCredenciales = credencialesRepository.findByUserName(username);
 
             if (optionalCredenciales.isPresent()) {
                 Credenciales credenciales = optionalCredenciales.get();

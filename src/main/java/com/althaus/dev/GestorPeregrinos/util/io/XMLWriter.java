@@ -82,7 +82,7 @@ public class XMLWriter {
                 createEstanciasElement(doc, root, pilgrim);
 
                 Source src = new DOMSource(doc);
-                File fileXML = new File(PATH_EXPORTS + pilgrim.getNombre() + ".xml");
+                File fileXML = new File(PATH_EXPORTS + pilgrim.getName() + ".xml");
                 StreamResult rslt = new StreamResult(fileXML);
 
                 try {
@@ -112,7 +112,7 @@ public class XMLWriter {
     private static void createPeregrinoElement(Document doc, Element root, Peregrino pilgrim) {
         Element peregrino = doc.createElement("peregrino");
         root.appendChild(peregrino);
-        newElementXML("nombre", pilgrim.getNombre(), peregrino, doc);
+        newElementXML("nombre", pilgrim.getName(), peregrino, doc);
         newElementXML("nacionalidad", pilgrim.getNacionalidad(), peregrino, doc);
     }
 

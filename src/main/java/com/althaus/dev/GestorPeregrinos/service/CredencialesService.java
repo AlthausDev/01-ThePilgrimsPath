@@ -11,21 +11,6 @@ public interface CredencialesService extends CoreService<Credenciales> {
 
     public Long getLastId();
 
-    /**
-     * Verifica si existe un usuario con el nombre de usuario dado.
-     *
-     * @param username Nombre de usuario a verificar.
-     * @return true si existe, false de lo contrario.
-     */
-    boolean existeUsuario(String username);
-
-    /**
-     * Verifica si existen credenciales asociadas a la contraseña proporcionada.
-     *
-     * @param password Contraseña a verificar.
-     * @return true si existen, false de lo contrario.
-     */
-    boolean existePassword(String password);
 
     /**
      * Intenta iniciar sesión con el nombre de usuario y la contraseña proporcionados.
