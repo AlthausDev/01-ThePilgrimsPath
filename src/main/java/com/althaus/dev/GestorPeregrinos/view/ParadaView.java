@@ -41,6 +41,7 @@ public class ParadaView {
         }
     }
 
+
     private String obtenerNombre() {
         boolean cont = false;
         String nombre = null;

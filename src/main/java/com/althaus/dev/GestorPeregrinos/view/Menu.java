@@ -79,7 +79,7 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    login.login();
+                    //login.login();
                     opcion = 0;
                     break;
                 case 2:
@@ -250,33 +250,8 @@ public class Menu {
         System.out.println("Nombre: " + paradaActual.getNombre());
         System.out.println("Región: " + paradaActual.getRegion());
 
-        Peregrino peregrino;
-        do {
-            System.out.println("Ingrese el identificador del peregrino:");
-            long idPeregrino = sc.nextLong();
-            sc.nextLine();
+        estanciaController.RecibirPeregrinoEnParada(paradaActual);
 
-            PeregrinoDAOImpl peregrinoDAO = new PeregrinoDAOImpl();
-            peregrino = peregrinoDAO.read(idPeregrino);
-
-            if (peregrino == null) {
-                System.out.println("No se encontró un peregrino con ese identificador. Vuelva a introducir su ID");
-            }
-        } while (peregrino == null);
-
-        System.out.println("Datos del peregrino:");
-        System.out.println("ID: " + peregrino.getId());
-        System.out.println("Nombre: " + peregrino.getNombre());
-        System.out.println("Nacionalidad: " + peregrino.getNacionalidad());
-
-        System.out.println("¿Desea sellar el carnet del peregrino? (S/N):");
-        String confirmacion = sc.nextLine().trim();
-
-        if (confirmacion.equalsIgnoreCase("S")) {
-            sellarCarnet(peregrino, paradaActual);
-        } else {
-            System.out.println("Operación cancelada. No se ha sellado el carnet.");
-        }
     }
 
     private void mostrarDatosParadaActual() {
