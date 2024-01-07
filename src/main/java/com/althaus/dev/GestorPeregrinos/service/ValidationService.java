@@ -49,7 +49,7 @@ public class ValidationService {
         }
     }
 
-    private LocalDate validarFormatoFecha(Scanner sc) {
+    public LocalDate validarFormatoFecha(Scanner sc) {
         while (true) {
             try {
                 String fechaStr = sc.nextLine();

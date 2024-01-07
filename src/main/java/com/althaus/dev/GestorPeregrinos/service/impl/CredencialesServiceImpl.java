@@ -1,7 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.config.SecurityContext;
-import com.althaus.dev.GestorPeregrinos.model.AdminParada;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
 import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
@@ -67,7 +66,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
                 System.out.println(credenciales);
 
                 if (PasswordUtils.checkPassword(password, credenciales.getPassword())) {
-                    User usuario = getUserFromCredentials(credenciales);
+                    User usuario = credenciales.getUser();
 
                     SecurityContext.setUsuarioAutenticado(usuario);
                     return true;
@@ -77,19 +76,6 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
         } catch (DataAccessException e) {
             throw new RuntimeException("Error al acceder a la base de datos", e);
         }
-    }
-
-    /**
-     * @param credenciales
-     * @return
-     */
-    @Override
-    public User getUserFromCredentials(Credenciales credenciales) {
-        Optional <AdminParada> adminParada = adminParadaService.findById(credenciales.getId());
-        if (adminParada.isPresent()) {
-            return adminParada.get();
-        } else
-        return null;
     }
 
     public Long getLastId() {

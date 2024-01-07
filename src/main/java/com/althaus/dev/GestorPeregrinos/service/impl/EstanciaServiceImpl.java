@@ -6,6 +6,9 @@ import com.althaus.dev.GestorPeregrinos.service.EstanciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  * Implementación del servicio para la gestión de Estancias.
  *
@@ -26,5 +29,16 @@ public class EstanciaServiceImpl extends CoreServiceImpl<Estancia> implements Es
     public EstanciaServiceImpl(EstanciaRepository estanciaRepository) {
         super(estanciaRepository);
         this.estanciaRepository = estanciaRepository;
+    }
+
+    /**
+     * @param idParada
+     * @param fechaInicio
+     * @param fechaFin
+     * @return
+     */
+
+    public List<Estancia> getEstanciasByParadaAndFecha(long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
+        return estanciaRepository.findByParadaIdAndFechaBetween(idParada, fechaInicio, fechaFin);
     }
 }
