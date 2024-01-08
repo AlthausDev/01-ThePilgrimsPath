@@ -22,7 +22,6 @@ public class PeregrinoController {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final CredencialesService credencialService;
-    private final UserService userService;
     private static final Scanner scanner = new Scanner(System.in);
 
     @Autowired
@@ -31,14 +30,14 @@ public class PeregrinoController {
             ParadaService paradaService,
             PeregrinoService peregrinoService,
             CarnetService carnetService,
-            CredencialesService credencialService,
-            UserService userService) {
+            CredencialesService credencialService
+            ) {
         this.peregrinoView = peregrinoView;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.credencialService = credencialService;
-        this.userService = userService;
+
     }
 
     @Transactional
@@ -56,17 +55,13 @@ public class PeregrinoController {
                 ArrayList <Parada> paradas = new ArrayList<>();
                 paradas.add(parada);
 
-                User nuevoUser = new User(nombre, Perfil.PEREGRINO);
-                userService.create(nuevoUser);
-
-                Long newIdCredencial = nuevoUser.getId();
-
-                Credenciales credencial = new Credenciales(nuevoUser, pass);
-                credencialService.create(credencial);
+                Long newIdCredencial = credencialService.getLastId();
 
                 Carnet nuevoCarnet = new Carnet(newIdCredencial, paradas.get(0));
                 Peregrino nuevoPeregrino = new Peregrino(newIdCredencial, nombre, nacionalidad, nuevoCarnet, paradas);
+                Credenciales credencial = new Credenciales(nuevoPeregrino, pass);
 
+                credencialService.create(credencial);
                 peregrinoService.create(nuevoPeregrino);
                 carnetService.create(nuevoCarnet);
 

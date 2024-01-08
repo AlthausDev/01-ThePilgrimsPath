@@ -50,13 +50,13 @@ public class LoginController {
             } else {
                 System.err.println("El proceso ha finalizado con un código de salida no válido: " + exitCode);
             }
-            System.exit(exitCode);
+            //System.exit(exitCode);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("Saliendo del programa");
-            System.exit(1);
+            //System.exit(1);
         }
     }
 

@@ -4,5 +4,5 @@ import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PeregrinoRepository extends  CoreRepository<Peregrino, Long> {
+public interface PeregrinoRepository extends CoreRepository<Peregrino, Long> {
 }

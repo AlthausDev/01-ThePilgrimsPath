@@ -24,6 +24,7 @@ public class AppLauncher implements CommandLineRunner {
 
 	@Autowired
 	private CredencialesService credencialesService;
+	private UserSession userSession;
 
 	/**
 	 * Método principal que inicia la aplicación Spring Boot.
@@ -42,13 +43,11 @@ public class AppLauncher implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		try {
-			UserSession userSession = new UserSession();
+			userSession = new UserSession();
 		} catch (RuntimeException e) {
-			logger.error("Error durante la inicialización de UserSession.", e);
-			// Manejar la excepción de manera más específica si es necesario.
+			logger.error("Error durante la inicialización de la sesion.", e);
 		} catch (Exception e) {
 			logger.error("Ocurrió un error durante la inicialización.", e);
-			// Manejar la excepción de manera más específica si es necesario.
 		}
 	}
 }

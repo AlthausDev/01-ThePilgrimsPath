@@ -31,16 +31,6 @@ public class AdminParada extends User {
     }
 
     /**
-     * Constructor que inicializa las propiedades del usuario.
-     *
-     * @param nombre Nombre del usuario.
-     */
-    public AdminParada(String nombre, Parada parada) {
-        super(nombre, ADMIN_PARADA);
-        this.parada = parada;
-    }
-
-    /**
      * Constructor que inicializa las propiedades del administrador de parada.
      *
      * @param id     Identificador único del administrador de parada.
@@ -51,6 +41,7 @@ public class AdminParada extends User {
         super(id, nombre, ADMIN_PARADA);
         this.parada = parada;
     }
+
 
     /**
      * Representación de cadena del administrador de parada.

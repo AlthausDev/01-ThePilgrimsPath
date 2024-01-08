@@ -17,26 +17,20 @@ import java.util.Optional;
 @Controller
 public class ParadaController {
 
-    private final ValidationService validationService;
     private final ParadaView paradaView;
     private final AdminParadaService adminParadaService;
     private final ParadaService paradaService;
-    private final UserService userService;
     private final CredencialesService credencialesService;
 
     @Autowired
     public ParadaController(
-            ValidationService validationService,
             ParadaView paradaView,
             AdminParadaService adminParadaService,
             ParadaService paradaService,
-            UserService userService,
             CredencialesService credencialesService) {
-        this.validationService = validationService;
         this.paradaView = paradaView;
         this.adminParadaService = adminParadaService;
         this.paradaService = paradaService;
-        this.userService = userService;
         this.credencialesService = credencialesService;
     }
 
@@ -54,21 +48,17 @@ public class ParadaController {
                 String nombreAdmin = (String) paradaData.get("nombreAdmin");
                 String passAdmin = (String) paradaData.get("passAdmin");
 
-                User nuevoUser = new User(nombreAdmin, Perfil.ADMIN_PARADA);
-                userService.create(nuevoUser);
-
-                Long newIdCredencial = nuevoUser.getId();
-
-                Credenciales credencial = new Credenciales(nuevoUser, passAdmin);
-                credencialesService.create(credencial);
+                Long newIdCredencial = credencialesService.getLastId();
 
                 Parada nuevaParada = new Parada(nombreParada, regionParada, null);
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
+                Credenciales credencial = new Credenciales(adminParada, passAdmin);
 
                 //Necesario para establecer correctamente la relación bidireccional
                 nuevaParada.setAdminParada(adminParada);
                 adminParada.setParada(nuevaParada);
 
+                credencialesService.create(credencial);
                 adminParadaService.create(adminParada);
                 paradaService.create(nuevaParada);
 

@@ -22,6 +22,7 @@ import java.util.Objects;
 public class Credenciales implements Identifiable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded

@@ -9,6 +9,8 @@ import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -21,41 +23,46 @@ import java.util.Scanner;
  *
  * @author S.Althaus
  */
+@Component
 public class Menu {
-    Scanner sc = new Scanner(System.in);
-    private UserSession session;
-    private LoginController loginController;
-    private ParadaController paradaController;
-    private PeregrinoController peregrinoController;
-    private EstanciaController estanciaController;
+    private final Scanner sc = new Scanner(System.in);
+    private final UserSession session;
+    private final LoginController loginController;
+    private final ParadaController paradaController;
+    private final PeregrinoController peregrinoController;
+    private final EstanciaController estanciaController;
+    private final ValidationService validationService;
 
-    private final ValidationService validationService = new ValidationService();
-
-
-    /**
-     * Constructor de la clase `Menu` que muestra el menú correspondiente al perfil de usuario.
-     *
-     * @param session La instancia de UserSession para realizar operaciones relacionadas con la sesión del usuario.
-     */
-    public Menu(UserSession session) {
+    @Autowired
+    public Menu(
+            UserSession session,
+            LoginController loginController,
+            ParadaController paradaController,
+            PeregrinoController peregrinoController,
+            EstanciaController estanciaController,
+            ValidationService validationService) {
         this.session = session;
+        this.loginController = loginController;
+        this.paradaController = paradaController;
+        this.peregrinoController = peregrinoController;
+        this.estanciaController = estanciaController;
+        this.validationService = validationService;
+
         Perfil perfil = session.getPerfil();
-
-            switch (perfil) {
-                case PEREGRINO:
-                    menuPeregrino();
-                    break;
-                case ADMIN_PARADA:
-                    menuAdminParada();
-                    break;
-                case ADMIN_GENERAL:
-                    menuAdmin();
-                    break;
-                case INVITADO:
-                default:
-                    menuInvitado();
-                    break;
-
+        switch (perfil) {
+            case PEREGRINO:
+                menuPeregrino();
+                break;
+            case ADMIN_PARADA:
+                menuAdminParada();
+                break;
+            case ADMIN_GENERAL:
+                menuAdmin();
+                break;
+            case INVITADO:
+            default:
+                menuInvitado();
+                break;
         }
     }
 
@@ -79,7 +86,9 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    //login.login();
+//                    if (loginController == null) {
+//                        loginController = new LoginController();
+//                    }
                     opcion = 0;
                     break;
                 case 2:
@@ -200,7 +209,8 @@ public class Menu {
     }
 
     private void salir(){
-        session.setContinuar(false);
+        ///session.setContinuar(false);
+        System.exit(0);
     }
 
     private int obtenerOpcionUsuario() {

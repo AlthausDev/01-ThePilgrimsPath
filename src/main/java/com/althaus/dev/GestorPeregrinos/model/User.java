@@ -10,9 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Embeddable
-public class User implements Identifiable {
+public abstract class User implements Identifiable {
 
     /**
      * Identificador único del usuario.
