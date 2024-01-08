@@ -57,6 +57,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     }
 
     public Long getLastId() {
-        return credencialesRepository.findMaxId();
+        Long maxId = credencialesRepository.findMaxId();
+        return (maxId != null) ? maxId : 1L;
     }
 }

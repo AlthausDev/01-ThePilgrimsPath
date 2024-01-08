@@ -55,11 +55,11 @@ public class PeregrinoController {
                 ArrayList <Parada> paradas = new ArrayList<>();
                 paradas.add(parada);
 
-                Long newIdCredencial = credencialService.getLastId();
+                Long newIdCredencial = credencialService.getLastId() + 1;
 
                 Carnet nuevoCarnet = new Carnet(newIdCredencial, paradas.get(0));
                 Peregrino nuevoPeregrino = new Peregrino(newIdCredencial, nombre, nacionalidad, nuevoCarnet, paradas);
-                Credenciales credencial = new Credenciales(nuevoPeregrino, pass);
+                Credenciales credencial = new Credenciales(newIdCredencial, nuevoPeregrino, pass);
 
                 credencialService.create(credencial);
                 peregrinoService.create(nuevoPeregrino);

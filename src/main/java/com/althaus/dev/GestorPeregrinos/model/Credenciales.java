@@ -22,7 +22,7 @@ import java.util.Objects;
 public class Credenciales implements Identifiable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
@@ -47,6 +47,11 @@ public class Credenciales implements Identifiable {
         this.password = PasswordUtils.hashPassword(password);
     }
 
+    public Credenciales(Long id, User user, String password) {
+        this.id = id;
+        this.user = user;
+        this.password = password;
+    }
 
     /**
      * @return

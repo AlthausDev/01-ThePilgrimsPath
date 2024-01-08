@@ -24,7 +24,7 @@ public class PeregrinoView {
             peregrinoData.put("nombre", obtenerNombre());
             peregrinoData.put("password", obtenerPassword());
             peregrinoData.put("parada", parada);
-            peregrinoData.put("pais", obtenerNacionalidad());
+            peregrinoData.put("nacionalidad", obtenerNacionalidad());
 
             System.out.println("Datos Introducidos:"
                     + "\nNombre del nuevo peregrino: " + peregrinoData.get("nombre")
@@ -57,14 +57,14 @@ public class PeregrinoView {
                 System.out.println(k + " - " + v));
 
         System.out.println("Inserte el código de su país (2 caracteres): ");
-        String nacionalidad = validationService.validarCodigoNacionalidad(scanner.nextLine().toUpperCase(), nacionalidades);
+        String nacionalidad = validationService.validarCodigoNacionalidad(scanner, nacionalidades);
 
         return nacionalidad;
     }
 
 
     private String obtenerNombre() {
-        boolean cont = false;
+        boolean cont = true;
         String nombre = null;
 
         while (cont) {

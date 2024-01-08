@@ -22,17 +22,17 @@ public class ValidationService {
         if (nombreUsuario.length() >= 3 && nombreUsuario.matches("[A-Za-z]+")) {
             if (nombreUsuario.contains(" ")) {
                 System.err.println("El nombre de usuario no puede contener espacios en blanco. Vuelva a introducirlo.");
-                return false;
+                return true;
             }
             // Comentado por ahora
             // if (credencialesService.existeUsuario(nombreUsuario)) {
             //     System.err.println("El nombre de usuario ya existe. Introduce otro nombre de usuario.");
             //     return false;
             // }
-            return true;
+            return false;
         } else {
             System.err.println("El nombre de usuario debe tener al menos 3 caracteres y solo puede contener letras. Vuelva a introducirlo.");
-            return false;
+            return true;
         }
     }
 
@@ -60,8 +60,9 @@ public class ValidationService {
         }
     }
 
-    public String validarCodigoNacionalidad(String codigo, HashMap<String, String> nacionalidades) {
+    public String validarCodigoNacionalidad(Scanner sc, HashMap<String, String> nacionalidades) {
         while (true) {
+            String codigo = sc.nextLine().toUpperCase().trim();
             if (codigo.length() == 2 && nacionalidades.containsKey(codigo)) {
                 return nacionalidades.get(codigo);
             } else {
