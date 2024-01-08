@@ -1,13 +1,26 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
+import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
+import com.althaus.dev.GestorPeregrinos.controller.LoginController;
+import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
+import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
+import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -15,15 +28,36 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author Althaus_Dev
  */
+@Slf4j
 @SpringBootApplication
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.althaus.dev.GestorPeregrinos.config"})
+@ComponentScan(basePackages = {"com.althaus.dev.GestorPeregrinos"})
+@EnableJpaRepositories("com.althaus.dev.GestorPeregrinos.repository")
+@EntityScan("com.althaus.dev.GestorPeregrinos.model")
+@PropertySource("classpath:application.properties")
 public class AppLauncher implements CommandLineRunner {
-
-	private static final Logger logger = LoggerFactory.getLogger(AppLauncher.class);
 
 	@Autowired
 	private CredencialesService credencialesService;
+
+	@Autowired
+	private ParadaRepository paradaRepository;
+
+	@Autowired
+	private LoginController loginController;
+
+	@Autowired
+	private ParadaController paradaController;
+
+	@Autowired
+	private PeregrinoController peregrinoController;
+
+	@Autowired
+	private EstanciaController estanciaController;
+
+	@Autowired
+	private ValidationService validationService;
+
 	private UserSession userSession;
 
 	/**
@@ -42,12 +76,19 @@ public class AppLauncher implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) {
+
+	}
+
+	@EventListener(ContextRefreshedEvent.class)
+	public void generarSesionTrasCargar() {
 		try {
-			userSession = new UserSession();
+			userSession = new UserSession(loginController, paradaController,
+					peregrinoController, estanciaController,
+					validationService, paradaRepository);
 		} catch (RuntimeException e) {
-			logger.error("Error durante la inicialización de la sesion.", e);
+			log.error("Error durante la inicialización de la sesion.", e);
 		} catch (Exception e) {
-			logger.error("Ocurrió un error durante la inicialización.", e);
+			log.error("Ocurrió un error durante la inicialización.", e);
 		}
 	}
 }

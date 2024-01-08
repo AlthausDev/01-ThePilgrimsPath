@@ -23,7 +23,7 @@ import java.util.Scanner;
  *
  * @author S.Althaus
  */
-@Component
+
 public class Menu {
     private final Scanner sc = new Scanner(System.in);
     private final UserSession session;
@@ -209,8 +209,8 @@ public class Menu {
     }
 
     private void salir(){
-        ///session.setContinuar(false);
-        System.exit(0);
+        session.setContinuar(false);
+        //System.exit(0);
     }
 
     private int obtenerOpcionUsuario() {
