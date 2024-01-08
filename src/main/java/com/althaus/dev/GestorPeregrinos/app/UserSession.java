@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -23,6 +22,12 @@ import java.util.Optional;
  * Clase que representa la información de sesión del usuario en la aplicación.
  * Esta clase mantiene detalles sobre el usuario actual y la sesión en curso.
  * Se utiliza para gestionar la interacción del usuario con la aplicación.
+ *
+ * <p>
+ * La sesión del usuario se inicializa al crear una instancia de esta clase.
+ * La clase también incluye operaciones para cerrar la sesión del usuario y
+ * realizar inicializaciones específicas durante el inicio de la aplicación.
+ * </p>
  *
  * @author Althaus_Dev
  */
@@ -37,28 +42,23 @@ public class UserSession {
     private Parada paradaActual;
     private Menu menu;
 
-
-
-    private LoginController loginController;
-
-    private ParadaController paradaController;
-
-
-    private PeregrinoController peregrinoController;
-
-
-    private EstanciaController estanciaController;
-
-
-    private ValidationService validationService;
-
-
-    private ParadaRepository paradaRepository;
-
+    private final LoginController loginController;
+    private final ParadaController paradaController;
+    private final PeregrinoController peregrinoController;
+    private final EstanciaController estanciaController;
+    private final ValidationService validationService;
+    private final ParadaRepository paradaRepository;
 
     /**
      * Constructor de la clase UserSession.
      * Inicializa la sesión del usuario y crea un menú para interactuar.
+     *
+     * @param loginController      Controlador de inicio de sesión.
+     * @param paradaController     Controlador de paradas.
+     * @param peregrinoController  Controlador de peregrinos.
+     * @param estanciaController   Controlador de estancias.
+     * @param validationService    Servicio de validación.
+     * @param paradaRepository     Repositorio de paradas.
      */
     @Autowired
     public UserSession(
@@ -67,8 +67,8 @@ public class UserSession {
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
             ValidationService validationService,
-            ParadaRepository paradaRepository
-    ) {
+            ParadaRepository paradaRepository) {
+
         this.loginController = loginController;
         this.paradaController = paradaController;
         this.peregrinoController = peregrinoController;
@@ -81,7 +81,6 @@ public class UserSession {
         } while (continuar);
     }
 
-
     /**
      * Método para cerrar la sesión del usuario.
      * Restablece el perfil y usuario a valores predeterminados.
@@ -91,21 +90,28 @@ public class UserSession {
         setUsuario(null);
     }
 
+    /**
+     * Inicializa el menú de la aplicación.
+     */
     public void inicializarMenu() {
-        this.menu = new Menu(this, loginController, paradaController, peregrinoController, estanciaController, validationService);
+        this.menu = new Menu(this,
+                loginController,
+                paradaController,
+                peregrinoController,
+                estanciaController,
+                validationService);
     }
-
 
     /**
      * Realiza operaciones específicas durante el inicio de la aplicación.
      */
     @PostConstruct
-    private void init() {
+    private void establecerParada() {
         try {
             long numParadas = paradaRepository.count();
             log.info("Número de paradas en la base de datos: {}", numParadas);
             if (numParadas > 0) {
-                paradaActual = getParadaRandom(numParadas).get();
+                paradaActual = getParadaAleatoria(numParadas).get();
                 log.info("Parada actual asignada: {}", paradaActual);
             } else {
                 log.warn("No hay paradas disponibles en la base de datos.");
@@ -121,9 +127,8 @@ public class UserSession {
      * @param numParadas Número total de paradas.
      * @return Una parada aleatoria.
      */
-    private Optional<Parada> getParadaRandom(long numParadas) {
+    private Optional<Parada> getParadaAleatoria(long numParadas) {
         long paradaAleatoria = (long) (Math.random() * numParadas);
         return paradaRepository.findById(paradaAleatoria);
     }
-
 }

@@ -35,6 +35,11 @@ public class LoginController {
         this.credencialesService = credencialesService;
         this.validationService = validationService;
 
+    }
+
+    public void login(UserSession userSession){
+        this.userSession = userSession;
+
         try {
             String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/Login.exe";
             String[] command = {path};
@@ -100,7 +105,7 @@ public class LoginController {
 
     private void verificarCredenciales(String username, String password) {
 
-        boolean inicioSesionExitoso = credencialesService.iniciarSesion(username, password);
+        boolean inicioSesionExitoso = credencialesService.iniciarSesion(username, password, userSession);
 
         if (inicioSesionExitoso) {
             System.out.println("Inicio de sesión exitoso.");

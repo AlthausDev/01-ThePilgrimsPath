@@ -1,5 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.service;
 
+import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,6 @@ public interface CredencialesService extends CoreService<Credenciales> {
      * @return true si la autenticación es exitosa, false de lo contrario.
      * @throws RuntimeException Si hay un error al acceder a la base de datos.
      */
-    boolean iniciarSesion(String username, String password);
+    boolean iniciarSesion(String username, String password, UserSession userSession);
 
 }

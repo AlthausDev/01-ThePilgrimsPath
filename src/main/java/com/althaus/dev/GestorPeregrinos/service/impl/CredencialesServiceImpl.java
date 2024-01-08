@@ -1,8 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
-import com.althaus.dev.GestorPeregrinos.config.SecurityContext;
+import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
-import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
@@ -34,7 +33,7 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
      * @param password La contraseña para iniciar sesión.
      * @return `true` si la sesión se inicia correctamente, `false` de lo contrario.
      */
-    public boolean iniciarSesion(String username, String password) {
+    public boolean iniciarSesion(String username, String password, UserSession userSession) {
         try {
             Optional<Credenciales> optionalCredenciales = credencialesRepository.findByUserName(username);
 
@@ -42,10 +41,12 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
                 Credenciales credenciales = optionalCredenciales.get();
                 System.out.println(credenciales);
 
-                if (PasswordUtils.checkPassword(password, credenciales.getPassword())) {
-                    User usuario = credenciales.getUser();
+                boolean passwordCorrecto = PasswordUtils.checkPassword(password, credenciales.getPassword());
 
-                    SecurityContext.setUsuarioAutenticado(usuario);
+                if (passwordCorrecto) {
+                    userSession.setPerfil(credenciales.getUser().getPerfil());
+                    userSession.setUsuario(credenciales.getUser());
+
                     return true;
                 }
             }

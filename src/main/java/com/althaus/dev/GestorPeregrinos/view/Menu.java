@@ -86,9 +86,7 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-//                    if (loginController == null) {
-//                        loginController = new LoginController();
-//                    }
+                    loginController.login(session);
                     opcion = 0;
                     break;
                 case 2:

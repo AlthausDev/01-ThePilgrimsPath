@@ -5,11 +5,8 @@ import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
-import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,6 +23,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * Clase principal que inicia la aplicación y realiza operaciones al inicio.
  *
+ * <p>
+ * Esta clase configura y lanza la aplicación Spring Boot. También inicializa
+ * la sesión de usuario después de que el contexto de la aplicación se haya
+ * actualizado.
+ * </p>
+ *
  * @author Althaus_Dev
  */
 @Slf4j
@@ -38,25 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppLauncher implements CommandLineRunner {
 
 	@Autowired
-	private CredencialesService credencialesService;
-
-	@Autowired
-	private ParadaRepository paradaRepository;
-
-	@Autowired
-	private LoginController loginController;
-
-	@Autowired
-	private ParadaController paradaController;
-
-	@Autowired
-	private PeregrinoController peregrinoController;
-
-	@Autowired
-	private EstanciaController estanciaController;
-
-	@Autowired
-	private ValidationService validationService;
+	private ApplicationContext applicationContext;
 
 	private UserSession userSession;
 
@@ -76,19 +61,33 @@ public class AppLauncher implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) {
-
+		// Este método puede contener lógica adicional que se ejecutará al iniciar la aplicación.
 	}
 
+	/**
+	 * EventListener que genera la sesión de usuario después de que el contexto de la aplicación se haya actualizado.
+	 */
 	@EventListener(ContextRefreshedEvent.class)
 	public void generarSesionTrasCargar() {
 		try {
-			userSession = new UserSession(loginController, paradaController,
-					peregrinoController, estanciaController,
-					validationService, paradaRepository);
-		} catch (RuntimeException e) {
-			log.error("Error durante la inicialización de la sesion.", e);
+			inicializarSesionDeUsuario();
 		} catch (Exception e) {
 			log.error("Ocurrió un error durante la inicialización.", e);
 		}
+	}
+
+	private void inicializarSesionDeUsuario() {
+		// Obtener instancias de controladores desde el contexto de la aplicación
+		LoginController loginController = applicationContext.getBean(LoginController.class);
+		ParadaController paradaController = applicationContext.getBean(ParadaController.class);
+		PeregrinoController peregrinoController = applicationContext.getBean(PeregrinoController.class);
+		EstanciaController estanciaController = applicationContext.getBean(EstanciaController.class);
+		ValidationService validationService = applicationContext.getBean(ValidationService.class);
+		ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
+
+		// Inyectar dependencias en UserSession
+		userSession = new UserSession(loginController, paradaController,
+				peregrinoController, estanciaController,
+				validationService, paradaRepository);
 	}
 }
