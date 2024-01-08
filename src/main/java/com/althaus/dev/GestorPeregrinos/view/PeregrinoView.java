@@ -4,10 +4,12 @@ import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
+@Component
 public class PeregrinoView {
 
     private static final Scanner scanner = new Scanner(System.in);
