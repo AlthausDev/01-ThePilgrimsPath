@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Controlador encargado de gestionar las operaciones relacionadas con las estancias de los peregrinos en las paradas.
+ *
+ * @author Althaus_Dev
+ */
 @Controller
 public class EstanciaController {
 
@@ -28,6 +33,15 @@ public class EstanciaController {
     private final PeregrinoView peregrinoView;
     private Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Constructor que inicializa las dependencias del controlador.
+     *
+     * @param estanciaService   Servicio de Estancias.
+     * @param estanciaView      Vista de Estancias.
+     * @param peregrinoService  Servicio de Peregrinos.
+     * @param carnetService     Servicio de Carnets.
+     * @param peregrinoView     Vista de Peregrinos.
+     */
     @Autowired
     public EstanciaController(EstanciaService estanciaService, EstanciaView estanciaView, PeregrinoService peregrinoService, CarnetService carnetService, PeregrinoView peregrinoView) {
         this.estanciaService = estanciaService;
@@ -37,11 +51,23 @@ public class EstanciaController {
         this.peregrinoView = peregrinoView;
     }
 
+    /**
+     * Exporta las estancias para una parada específica en un rango de fechas.
+     *
+     * @param idParada      Identificador de la parada.
+     * @param fechaInicio   Fecha de inicio del rango.
+     * @param fechaFin      Fecha de fin del rango.
+     */
     public void exportarEstancias(long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
         List<Estancia> estancias = estanciaService.getEstanciasByParadaAndFecha(idParada, fechaInicio, fechaFin);
         estanciaView.mostrarEstancias(estancias, idParada, fechaInicio, fechaFin);
     }
 
+    /**
+     * Realiza la recepción de un peregrino en una parada.
+     *
+     * @param paradaActual  Parada en la que se recibe al peregrino.
+     */
     @Transactional
     public void RecibirPeregrinoEnParada(Parada paradaActual) {
         Optional<Peregrino> peregrino;
@@ -70,6 +96,12 @@ public class EstanciaController {
         }
     }
 
+    /**
+     * Realiza el sellado del carnet del peregrino en la parada actual.
+     *
+     * @param paradaActual  Parada en la que se realiza el sellado.
+     * @param peregrino     Peregrino al que se le sella el carnet.
+     */
     private void sellarCarnet(Parada paradaActual, Peregrino peregrino) {
         Carnet carnet = peregrino.getCarnet();
 
@@ -85,6 +117,12 @@ public class EstanciaController {
         System.out.println("Carnet sellado exitosamente.");
     }
 
+    /**
+     * Crea una nueva estancia para el peregrino en la parada actual.
+     *
+     * @param peregrino         Peregrino al que se le crea la estancia.
+     * @param paradaActual      Parada en la que se realiza la estancia.
+     */
     public void crearEstancia(Peregrino peregrino, Parada paradaActual) {
         System.out.println("¿Hubo estancia para el peregrino en esta parada? (S/N):");
         String confirmacion = scanner.nextLine().trim();
@@ -102,6 +140,11 @@ public class EstanciaController {
         }
     }
 
+    /**
+     * Calcula una distancia aleatoria entre 1 y 500 (simulación de distancia entre paradas).
+     *
+     * @return Distancia aleatoria entre 1 y 500.
+     */
     private static double calcularDistancia() {
         return 1 + (500 - 1) * Math.random();
     }

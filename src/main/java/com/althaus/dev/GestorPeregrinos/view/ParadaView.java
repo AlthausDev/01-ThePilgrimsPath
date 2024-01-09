@@ -12,6 +12,15 @@ public class ParadaView {
     private static final Scanner scanner = new Scanner(System.in);
     private static final ValidationService validationService = new ValidationService();
 
+
+    /**
+     * Método para recopilar la información necesaria para agregar una nueva parada.
+     * Solicita el nombre, la región y los detalles del administrador de la parada.
+     *
+     * @return Un HashMap que contiene la información recopilada para la nueva parada.
+     *         Devuelve null si el usuario cancela el proceso de registro.
+     * @throws RuntimeException Si ocurre un error durante la ejecución.
+     */
     public HashMap<String, Object> agregarParada() {
         HashMap<String, Object> paradaData = new HashMap<>();
 
@@ -42,6 +51,12 @@ public class ParadaView {
     }
 
 
+    /**
+     * Método para obtener el nombre de la parada del usuario.
+     * Valida el formato del nombre.
+     *
+     * @return El nombre de la parada ingresado por el usuario.
+     */
     private String obtenerNombre() {
         boolean cont = false;
         String nombre = null;
@@ -54,6 +69,11 @@ public class ParadaView {
         return nombre;
     }
 
+    /**
+     * Método para obtener la contraseña del administrador de la parada del usuario.
+     *
+     * @return La contraseña ingresada por el usuario.
+     */
     private String obtenerPassword() {
         while (true) {
             System.out.println("Indique una contraseña (mínimo 3 caracteres): ");
@@ -67,6 +87,12 @@ public class ParadaView {
         }
     }
 
+    /**
+     * Método para obtener la región de la parada del usuario.
+     * Valida el formato de la región.
+     *
+     * @return La región ingresada por el usuario.
+     */
     private char obtenerRegion() {
         while (true) {
             String input = scanner.nextLine();
@@ -80,6 +106,11 @@ public class ParadaView {
         }
     }
 
+    /**
+     * Método para confirmar si los datos ingresados son correctos.
+     *
+     * @return true si los datos son correctos, false si el usuario elige cancelar el proceso de registro.
+     */
     private boolean isCorrecto() {
         char valido;
         do {

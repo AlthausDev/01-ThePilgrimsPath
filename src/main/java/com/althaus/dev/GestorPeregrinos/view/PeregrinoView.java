@@ -16,6 +16,15 @@ public class PeregrinoView {
     private static final ValidationService validationService = new ValidationService();
     private final HashMap<String, String> nacionalidades = XMLReader.readPaises();
 
+    /**
+     * Método para recopilar la información necesaria para agregar un nuevo peregrino.
+     * Solicita el nombre, la contraseña, la parada asociada y la nacionalidad del peregrino.
+     *
+     * @param parada La parada asociada al peregrino.
+     * @return Un HashMap que contiene la información recopilada para el nuevo peregrino.
+     *         Devuelve null si el usuario cancela el proceso de registro.
+     * @throws RuntimeException Si ocurre un error durante la ejecución.
+     */
     public HashMap<String, Object> agregarPeregrino(Parada parada) {
         HashMap<String, Object> peregrinoData = new HashMap<>();
 
@@ -44,6 +53,11 @@ public class PeregrinoView {
     }
 
 
+    /**
+     * Método para mostrar los detalles de un peregrino.
+     *
+     * @param peregrino El peregrino cuyos detalles se mostrarán.
+     */
     public void mostrarDetallesPeregrino(Peregrino peregrino) {
         System.out.println("Datos del peregrino:");
         System.out.println("ID: " + peregrino.getId());
@@ -51,6 +65,11 @@ public class PeregrinoView {
         System.out.println("Nacionalidad: " + peregrino.getNacionalidad());
     }
 
+    /**
+     * Método para obtener la nacionalidad del usuario, mostrando previamente una lista de códigos de países.
+     *
+     * @return El código de la nacionalidad seleccionada por el usuario.
+     */
     private String obtenerNacionalidad() {
         System.out.println("CODIGO - PAIS");
         nacionalidades.forEach((k, v) ->
@@ -62,7 +81,11 @@ public class PeregrinoView {
         return nacionalidad;
     }
 
-
+    /**
+     * Método para obtener el nombre del usuario.
+     *
+     * @return El nombre ingresado por el usuario.
+     */
     private String obtenerNombre() {
         boolean cont = true;
         String nombre = null;
@@ -75,6 +98,11 @@ public class PeregrinoView {
         return nombre;
     }
 
+    /**
+     * Método para obtener la contraseña del usuario.
+     *
+     * @return La contraseña ingresada por el usuario.
+     */
     private String obtenerPassword() {
         while (true) {
             System.out.println("Indique una contraseña (mínimo 3 caracteres): ");
@@ -88,6 +116,11 @@ public class PeregrinoView {
         }
     }
 
+    /**
+     * Método para confirmar si los datos ingresados son correctos.
+     *
+     * @return true si los datos son correctos, false si el usuario elige cancelar el proceso de registro.
+     */
 
     private boolean isCorrecto() {
         char valido;

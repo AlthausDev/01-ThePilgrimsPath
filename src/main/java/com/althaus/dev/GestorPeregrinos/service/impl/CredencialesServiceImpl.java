@@ -12,12 +12,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Implementación de la interfaz {@link CredencialesService}.
+ * Proporciona funcionalidades relacionadas con las credenciales de usuario.
+ *
+ * @author Althaus_Dev
+ */
 @Slf4j
 @Service
 public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> implements CredencialesService {
 
     private final CredencialesRepository credencialesRepository;
 
+    /**
+     * Constructor que inicializa la instancia con el repositorio de Credenciales.
+     *
+     * @param credencialesRepository Repositorio de Credenciales.
+     */
     @Autowired
     public CredencialesServiceImpl(CredencialesRepository credencialesRepository) {
         super(credencialesRepository);
@@ -25,12 +36,12 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
         log.info("CredencialesRepository inyectado correctamente");
     }
 
-
     /**
      * Inicia sesión con las credenciales proporcionadas.
      *
-     * @param username El nombre de usuario para iniciar sesión.
-     * @param password La contraseña para iniciar sesión.
+     * @param username     El nombre de usuario para iniciar sesión.
+     * @param password     La contraseña para iniciar sesión.
+     * @param userSession  Sesión de usuario para almacenar la información de sesión.
      * @return `true` si la sesión se inicia correctamente, `false` de lo contrario.
      */
     public boolean iniciarSesion(String username, String password, UserSession userSession) {
@@ -39,7 +50,6 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
 
             if (optionalCredenciales.isPresent()) {
                 Credenciales credenciales = optionalCredenciales.get();
-                System.out.println(credenciales);
 
                 boolean passwordCorrecto = PasswordUtils.checkPassword(password, credenciales.getPassword());
 
@@ -56,6 +66,11 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
         }
     }
 
+    /**
+     * Obtiene el último ID registrado en el repositorio de Credenciales.
+     *
+     * @return El último ID registrado, o 1L si no hay registros.
+     */
     public Long getLastId() {
         Long maxId = credencialesRepository.findMaxId();
         return (maxId != null) ? maxId : 1L;

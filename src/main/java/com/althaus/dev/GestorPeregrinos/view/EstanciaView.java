@@ -6,9 +6,29 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Clase que proporciona métodos para visualizar información relacionada con las estancias.
+ *
+ * <p>
+ * Esta clase contiene un método para mostrar detalles de las estancias, incluyendo la parada asociada,
+ * el rango de fechas y la información de cada estancia en el formato deseado.
+ * </p>
+ *
+ * <p>
+ * Se utiliza la anotación {@code Component} para que Spring la reconozca como un componente de la aplicación.
+ * </p>
+ */
 @Component
 public class EstanciaView {
 
+    /**
+     * Muestra los detalles de las estancias en el formato especificado.
+     *
+     * @param estancias   Lista de estancias a mostrar.
+     * @param idParada    Identificador de la parada asociada.
+     * @param fechaInicio Fecha de inicio del rango.
+     * @param fechaFin    Fecha de fin del rango.
+     */
     public void mostrarEstancias(List<Estancia> estancias, long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
         if (estancias.isEmpty()) {
             System.out.println("No hay estancias en el rango de fechas especificado para la parada.");

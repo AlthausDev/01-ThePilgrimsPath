@@ -16,7 +16,11 @@ import java.io.InputStreamReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Controlador encargado de gestionar las operaciones relacionadas con el inicio de sesión y la seguridad de credenciales.
+ *
+ * @author Althaus_Dev
+ */
 @Controller
 public class LoginController {
 
@@ -28,16 +32,24 @@ public class LoginController {
     private final ValidationService validationService;
     private UserSession userSession;
 
-
-
+    /**
+     * Constructor que inicializa las dependencias del controlador.
+     *
+     * @param credencialesService  Servicio de Credenciales.
+     * @param validationService    Servicio de Validación.
+     */
     @Autowired
     public LoginController(CredencialesService credencialesService, ValidationService validationService) {
         this.credencialesService = credencialesService;
         this.validationService = validationService;
-
     }
 
-    public void login(UserSession userSession){
+    /**
+     * Realiza el proceso de inicio de sesión utilizando un programa externo.
+     *
+     * @param userSession Sesión de usuario para almacenar la información de sesión.
+     */
+    public void login(UserSession userSession) {
         this.userSession = userSession;
 
         try {
@@ -55,13 +67,11 @@ public class LoginController {
             } else {
                 System.err.println("El proceso ha finalizado con un código de salida no válido: " + exitCode);
             }
-            //System.exit(exitCode);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
             System.out.println("Saliendo del programa");
-            //System.exit(1);
         }
     }
 
@@ -70,8 +80,7 @@ public class LoginController {
      *
      * @param stream InputStream para leer las líneas.
      */
-
-    //Este método está pendiente de revisión. Llama a la validación de credenciales 2 veces por iteración.
+    // Este método está pendiente de revisión. Llama a la validación de credenciales 2 veces por iteración.
     private void readStreamAsync(final InputStream stream) {
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
@@ -102,9 +111,13 @@ public class LoginController {
         }).start();
     }
 
-
+    /**
+     * Verifica las credenciales ingresadas y realiza las acciones correspondientes.
+     *
+     * @param username Nombre de usuario.
+     * @param password Contraseña.
+     */
     private void verificarCredenciales(String username, String password) {
-
         boolean inicioSesionExitoso = credencialesService.iniciarSesion(username, password, userSession);
 
         if (inicioSesionExitoso) {
@@ -114,12 +127,15 @@ public class LoginController {
             System.out.println("Inicio de sesión fallido. Verifica que las credenciales introducidas son correctas.");
             System.out.println("Intentos fallidos: " + intentosFallidos++
                     + "\nLimite de intentos: " + MAX_INTENTOS_FALLIDOS);
-             if (intentosFallidos > MAX_INTENTOS_FALLIDOS){
-                 bloquearPrograma();
-             }
+            if (intentosFallidos > MAX_INTENTOS_FALLIDOS) {
+                bloquearPrograma();
+            }
         }
     }
 
+    /**
+     * Bloquea el programa si se alcanza el límite de intentos fallidos, durante un tiempo determinado.
+     */
     private void bloquearPrograma() {
         System.out.println("Se alcanzó el límite de intentos fallidos. El programa quedará bloqueado durante "
                 + TIEMPO_BLOQUEO / 1000 / 60 + " minutos.");
@@ -150,8 +166,7 @@ public class LoginController {
             Thread.sleep(TIEMPO_BLOQUEO);
 
         } catch (InterruptedException e) {
-           System.out.println("Saliendo del programa");
+            System.out.println("Saliendo del programa");
         }
     }
-
 }

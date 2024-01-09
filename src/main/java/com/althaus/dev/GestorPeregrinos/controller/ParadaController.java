@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 import java.util.Optional;
 
-
+/**
+ * Controlador encargado de gestionar las operaciones relacionadas con las paradas de peregrinos.
+ *
+ * @author Althaus_Dev
+ */
 @RequestMapping("/paradas")
 @Controller
 public class ParadaController {
@@ -22,6 +26,14 @@ public class ParadaController {
     private final ParadaService paradaService;
     private final CredencialesService credencialesService;
 
+    /**
+     * Constructor que inicializa las dependencias del controlador.
+     *
+     * @param paradaView           Vista de Paradas.
+     * @param adminParadaService   Servicio de Administradores de Parada.
+     * @param paradaService        Servicio de Paradas.
+     * @param credencialesService  Servicio de Credenciales.
+     */
     @Autowired
     public ParadaController(
             ParadaView paradaView,
@@ -34,7 +46,10 @@ public class ParadaController {
         this.credencialesService = credencialesService;
     }
 
-
+    /**
+     * Método que maneja la creación de una nueva parada.
+     * Realiza la captura de datos desde la vista, valida y crea la nueva parada junto con sus entidades asociadas.
+     */
     @Transactional
     @PostMapping("/nuevaParada")
     public void nuevaParada() {
@@ -54,7 +69,7 @@ public class ParadaController {
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
                 Credenciales credencial = new Credenciales(adminParada, passAdmin);
 
-                //Necesario para establecer correctamente la relación bidireccional
+                // Necesario para establecer correctamente la relación bidireccional
                 nuevaParada.setAdminParada(adminParada);
                 adminParada.setParada(nuevaParada);
 
