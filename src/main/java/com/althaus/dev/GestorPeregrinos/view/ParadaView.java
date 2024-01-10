@@ -64,7 +64,7 @@ public class ParadaView {
         while (cont) {
             System.out.println("Indique un nombre (mínimo 3 caracteres): ");
             nombre = scanner.nextLine().toLowerCase();
-            cont = validationService.validarFormatoNombreUsuario(nombre);
+            cont = !validationService.validarFormatoNombreUsuario(nombre);
         }
         return nombre;
     }

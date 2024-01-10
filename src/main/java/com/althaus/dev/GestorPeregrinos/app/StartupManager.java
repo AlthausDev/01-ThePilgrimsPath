@@ -1,10 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.service.CarnetService;
-import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
-import com.althaus.dev.GestorPeregrinos.service.ParadaService;
-import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
+import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.apache.coyote.http11.Constants.a;
-
 @Component
 public class StartupManager implements CommandLineRunner {
 
@@ -25,45 +20,87 @@ public class StartupManager implements CommandLineRunner {
     private final ParadaService paradaService;
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
+    private final AdminParadaService adminParadaService;
 
     @Autowired
     public StartupManager(CredencialesService credencialesService, ParadaService paradaService,
-                          PeregrinoService peregrinoService, CarnetService carnetService) {
+                          PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService) {
         this.credencialesService = credencialesService;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
+        this.adminParadaService = adminParadaService;
     }
 
     @Override
     public void run(String... args) throws Exception {
         cargarAdminGeneral();
+        cargarDatosIniciales();
     }
 
     @Transactional
     private void cargarDatosIniciales() {
         // Nombres humanos predefinidos
-        List<String> nombresPeregrino = Arrays.asList("Juan", "Maria", "Pedro", "Ana", "Carlos", "Laura");
         List<String> nombresParada = Arrays.asList("Avilés", "León", "Madrid", "Coruña", "Santander");
+        List<String> nombresNacionalidades = Arrays.asList("España", "Portugal", "Hungría", "Francia", "China", "Laos");
+        List<Character> listaRegiones = Arrays.asList('A', 'C', 'M', 'G', 'R');
+        List<String> nombres = Arrays.asList("Juan", "Maria", "Pedro", "Ana", "Carlos", "Laura", "Gabriel"
+                , "Lucía", "Miguel", "Elena", "Sergio", "Claudia", "Daniel", "Patricia", "Javier", "Carmen");
+        List<String> nombresUtilizados = new ArrayList<>();
+
 
         // Cargar paradas
         List<Parada> paradas = new ArrayList<>();
-        for (int i = 1; i <= nombresParada.size(); i++) {
+        for (int i = 0; i < nombresParada.size(); i++) {
             Parada parada = new Parada();
             parada.setNombre(nombresParada.get(i));
-
             paradas.add(paradaService.create(parada));
+
+            String nombreParada = nombresParada.get(i);
+            char regionParada = listaRegiones.get(i);
+
+            String nombreAdmin;
+
+            do {
+                int indiceAleatorio = (int) (Math.random() * nombres.size());
+                nombreAdmin = nombres.get(indiceAleatorio);
+            } while (nombresUtilizados.contains(nombreAdmin));
+            nombresUtilizados.add(nombreAdmin);
+
+            String passAdmin = PasswordUtils.generateRandomPassword();
+
+            Long newIdCredencial = credencialesService.getLastId();
+
+            Parada nuevaParada = new Parada(nombreParada, regionParada, null);
+            AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
+            Credenciales credencial = new Credenciales(newIdCredencial, adminParada, passAdmin);
+
+            // Necesario para establecer correctamente la relación bidireccional
+            nuevaParada.setAdminParada(adminParada);
+            adminParada.setParada(nuevaParada);
+
+            credencialesService.create(credencial);
+            adminParadaService.create(adminParada);
+            paradaService.create(nuevaParada);
+
+            System.out.println("Nueva parada agregada con éxito.");
         }
 
         // Cargar peregrinos
-        for (int i = 0; i < nombresPeregrino.size(); i++) {
+        for (int i = 0; i < nombres.size(); i++) {
             List <Parada> paradaPeregrino = new ArrayList<>();
 
-            String nombre = nombresPeregrino.get(i);
-            String nacionalidad = "Nacionalidad" + (i + 1);
+            String nombre;
+
+            do {
+                int indiceAleatorio = (int) (Math.random() * nombres.size());
+                nombre = nombres.get(indiceAleatorio);
+            } while (nombresUtilizados.contains(nombre));
+            nombresUtilizados.add(nombre);
+
+            String nacionalidad = nombresNacionalidades.get(i);
             String password = PasswordUtils.generateRandomPassword();
             paradaPeregrino.add(paradas.get((int) (Math.random() * nombresParada.size())));
-
 
             Long newIdCredencial = credencialesService.getLastId() + 1;
 

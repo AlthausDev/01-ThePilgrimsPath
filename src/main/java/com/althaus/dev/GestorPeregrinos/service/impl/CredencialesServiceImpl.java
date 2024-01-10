@@ -50,13 +50,12 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
 
             if (optionalCredenciales.isPresent()) {
                 Credenciales credenciales = optionalCredenciales.get();
-
+                System.out.println(credenciales);
                 boolean passwordCorrecto = PasswordUtils.checkPassword(password, credenciales.getPassword());
 
                 if (passwordCorrecto) {
                     userSession.setPerfil(credenciales.getUser().getPerfil());
                     userSession.setUsuario(credenciales.getUser());
-
                     return true;
                 }
             }

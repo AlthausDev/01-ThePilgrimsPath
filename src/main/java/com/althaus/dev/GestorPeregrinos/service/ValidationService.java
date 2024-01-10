@@ -22,17 +22,17 @@ public class ValidationService {
         if (nombreUsuario.length() >= 3 && nombreUsuario.matches("[A-Za-z]+")) {
             if (nombreUsuario.contains(" ")) {
                 System.err.println("El nombre de usuario no puede contener espacios en blanco. Vuelva a introducirlo.");
-                return true;
+                return false;
             }
             // Comentado por ahora
             // if (credencialesService.existeUsuario(nombreUsuario)) {
             //     System.err.println("El nombre de usuario ya existe. Introduce otro nombre de usuario.");
             //     return false;
             // }
-            return false;
+            return true;
         } else {
             System.err.println("El nombre de usuario debe tener al menos 3 caracteres y solo puede contener letras. Vuelva a introducirlo.");
-            return true;
+            return false;
         }
     }
 
