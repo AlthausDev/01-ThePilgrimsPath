@@ -76,9 +76,8 @@ public class PeregrinoView {
                 System.out.println(k + " - " + v));
 
         System.out.println("Inserte el código de su país (2 caracteres): ");
-        String nacionalidad = validationService.validarCodigoNacionalidad(scanner, nacionalidades);
 
-        return nacionalidad;
+        return validationService.validarCodigoNacionalidad(scanner, nacionalidades);
     }
 
     /**

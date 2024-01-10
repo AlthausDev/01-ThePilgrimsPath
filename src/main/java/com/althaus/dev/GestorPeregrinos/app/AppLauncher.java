@@ -4,6 +4,8 @@ import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import static com.althaus.dev.GestorPeregrinos.model.Perfil.ADMIN_GENERAL;
 
 /**
  * Clase principal que inicia la aplicación y realiza operaciones al inicio.
@@ -61,7 +65,6 @@ public class AppLauncher implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) {
-		// Este método puede contener lógica adicional que se ejecutará al iniciar la aplicación.
 	}
 
 	/**
