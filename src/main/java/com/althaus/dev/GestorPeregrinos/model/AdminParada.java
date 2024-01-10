@@ -14,13 +14,14 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.ADMIN_PARADA;
 @Getter
 @Setter
 @Entity
+@Embeddable
 @Table(name = "admin_parada", uniqueConstraints = @UniqueConstraint(columnNames = {"parada_id"}))
 public class AdminParada extends User {
 
     /**
      * Parada asociada al administrador de parada.
      */
-    @OneToOne
+    @OneToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "parada_id", unique = true)
     private Parada parada;
 

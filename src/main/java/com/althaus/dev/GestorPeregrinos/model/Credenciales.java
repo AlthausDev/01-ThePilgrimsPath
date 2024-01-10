@@ -41,11 +41,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@Embeddable
 @Table(name = "credenciales")
 public class Credenciales implements Identifiable {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
@@ -64,18 +64,6 @@ public class Credenciales implements Identifiable {
     }
 
     /**
-     * Constructor que toma un usuario y una contraseña y crea las credenciales asociadas.
-     * La contraseña se almacena de manera segura utilizando hash.
-     *
-     * @param user     Usuario asociado a las credenciales.
-     * @param password Contraseña a asociar y almacenar de manera segura.
-     */
-    public Credenciales(User user, String password) {
-        this.user = user;
-        this.password = PasswordUtils.hashPassword(password);
-    }
-
-    /**
      * Constructor que toma un identificador, un usuario y una contraseña y crea las credenciales asociadas.
      *
      * @param id       Identificador único de las credenciales.
@@ -85,8 +73,9 @@ public class Credenciales implements Identifiable {
     public Credenciales(Long id, User user, String password) {
         this.id = id;
         this.user = user;
-        this.password = password;
+        this.password = PasswordUtils.hashPassword(password);
     }
+
 
     /**
      * Devuelve el identificador único de las credenciales, que es el mismo que el identificador del usuario asociado.

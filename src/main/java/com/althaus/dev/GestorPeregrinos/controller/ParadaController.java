@@ -67,7 +67,7 @@ public class ParadaController {
 
                 Parada nuevaParada = new Parada(nombreParada, regionParada, null);
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
-                Credenciales credencial = new Credenciales(adminParada, passAdmin);
+                Credenciales credencial = new Credenciales(newIdCredencial, adminParada, passAdmin);
 
                 // Necesario para establecer correctamente la relación bidireccional
                 nuevaParada.setAdminParada(adminParada);

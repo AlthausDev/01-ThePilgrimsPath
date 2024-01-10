@@ -15,6 +15,7 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.PEREGRINO;
 @Getter
 @Setter
 @Entity
+@Embeddable
 @Table(name = "peregrino")
 public class Peregrino extends User {
 
@@ -27,7 +28,7 @@ public class Peregrino extends User {
     /**
      * Carnet asociado al peregrino.
      */
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Carnet carnet;
 
@@ -43,7 +44,7 @@ public class Peregrino extends User {
     /**
      * Lista de estancias asociadas a un peregrino.
      */
-    @OneToMany(mappedBy = "peregrino")
+    @OneToMany(mappedBy = "peregrino", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Estancia> estancias;
 
     /**

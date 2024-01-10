@@ -27,7 +27,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 @Embeddable
-public abstract class User implements Identifiable {
+public class User implements Identifiable {
 
     /**
      * Identificador único del usuario.
@@ -53,17 +53,6 @@ public abstract class User implements Identifiable {
      * Constructor predeterminado sin argumentos.
      */
     public User() {
-    }
-
-    /**
-     * Constructor que toma el nombre y el perfil del usuario.
-     *
-     * @param name   Nombre del usuario.
-     * @param perfil Perfil del usuario.
-     */
-    public User(String name, Perfil perfil) {
-        this.name = name;
-        this.perfil = perfil;
     }
 
     /**
