@@ -21,7 +21,7 @@ public final class Constantes {
 	/**
 	 * Ruta base para exportar archivos XML.
 	 */
-	public final static String PATH_EXPORTS = "src/main/java/com/althaus/dev/GestorPeregrinos/model/data/xml_exports";
+	public final static String PATH_EXPORTS = "src/main/java/com/althaus/dev/GestorPeregrinos/model/data/xml_exports/";
 
 	/**
 	 * Formateador de fecha utilizado en toda la aplicación.

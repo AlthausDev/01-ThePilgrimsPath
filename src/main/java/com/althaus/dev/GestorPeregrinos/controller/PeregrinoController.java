@@ -2,6 +2,7 @@ package com.althaus.dev.GestorPeregrinos.controller;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.service.*;
+import com.althaus.dev.GestorPeregrinos.util.io.XMLWriter;
 import com.althaus.dev.GestorPeregrinos.view.PeregrinoView;
 import jakarta.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
@@ -23,6 +24,7 @@ public class PeregrinoController {
     private final CarnetService carnetService;
     private final CredencialesService credencialService;
     private static final Scanner scanner = new Scanner(System.in);
+    private XMLWriter writer;
 
     @Autowired
     public PeregrinoController(
@@ -37,6 +39,7 @@ public class PeregrinoController {
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.credencialService = credencialService;
+        this.writer = new XMLWriter();
 
     }
 
@@ -75,6 +78,15 @@ public class PeregrinoController {
         } catch (Exception e) {
             System.err.println("Error al agregar el nuevo peregrino: " + e.getMessage());
         }
+    }
+
+    public void exportarCarnet(User usuario){
+        Long id = usuario.getId();
+        Peregrino peregrino = peregrinoService.read(id).get();
+        Carnet carnet = carnetService.read(id).get();
+
+        writer.exportarCarnet(peregrino, carnet);
+        peregrino.toString();
     }
 
 

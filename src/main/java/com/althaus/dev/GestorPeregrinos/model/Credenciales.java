@@ -81,13 +81,4 @@ public class Credenciales implements Identifiable {
     }
 
 
-    /**
-     * Devuelve el identificador único de las credenciales, que es el mismo que el identificador del usuario asociado.
-     *
-     * @return Identificador único de las credenciales.
-     */
-    @Override
-    public Long getId() {
-        return user.getId();
-    }
 }

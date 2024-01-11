@@ -10,5 +10,4 @@ public interface ParadaRepository extends CoreRepository<Parada, Long> {
     @Query("SELECT COUNT(p) > 0 FROM Parada p WHERE p.nombre = :nombre")
     Boolean existsByNombre(@Param("nombre") String nombre);
 
-
 }

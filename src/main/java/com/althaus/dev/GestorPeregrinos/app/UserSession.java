@@ -4,10 +4,9 @@ import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
-import com.althaus.dev.GestorPeregrinos.model.Parada;
-import com.althaus.dev.GestorPeregrinos.model.Perfil;
-import com.althaus.dev.GestorPeregrinos.model.User;
+import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
+import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import com.althaus.dev.GestorPeregrinos.view.Menu;
 import lombok.Getter;
@@ -53,23 +52,25 @@ public class UserSession {
     @Setter
     private static Menu menu;
 
-    public static LoginController loginController;
+    private static LoginController loginController;
     private static ParadaController paradaController;
     private static PeregrinoController peregrinoController;
     private static EstanciaController estanciaController;
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
+    private static AdminParadaService adminParadaService;
 
 
     /**
      * Método estático para inicializar la sesión del usuario.
      *
-     * @param loginController      Controlador de inicio de sesión.
-     * @param paradaController     Controlador de paradas.
-     * @param peregrinoController  Controlador de peregrinos.
-     * @param estanciaController   Controlador de estancias.
-     * @param validationService    Servicio de validación.
-     * @param paradaRepository     Repositorio de paradas.
+     * @param loginController     Controlador de inicio de sesión.
+     * @param paradaController    Controlador de paradas.
+     * @param peregrinoController Controlador de peregrinos.
+     * @param estanciaController  Controlador de estancias.
+     * @param validationService   Servicio de validación.
+     * @param paradaRepository    Repositorio de paradas.
+     * @param adminParadaService
      */
     @Autowired
     public static void Session(
@@ -78,7 +79,8 @@ public class UserSession {
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
             ValidationService validationService,
-            ParadaRepository paradaRepository) {
+            ParadaRepository paradaRepository,
+            AdminParadaService adminParadaService) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -87,6 +89,7 @@ public class UserSession {
         UserSession.estanciaController = estanciaController;
         UserSession.validationService = validationService;
         UserSession.paradaRepository = paradaRepository;
+        UserSession.adminParadaService = adminParadaService;
 
         do {
             inicializarMenu();
@@ -114,16 +117,38 @@ public class UserSession {
                 validationService);
     }
 
+    public static void iniciarSesion(Credenciales credenciales, User user){
+        Perfil perfil = credenciales.getUser().getPerfil();
+        switch (perfil) {
+            case PEREGRINO:
+                UserSession.setPerfil(PEREGRINO);
+                UserSession.setUsuario(user);
+                UserSession.establecerParada();
+                break;
+            case ADMIN_PARADA:
+                UserSession.setPerfil(ADMIN_PARADA);
+                UserSession.setUsuario(user);
+                AdminParada adminParada = adminParadaService.read(credenciales.getId()).get();
+
+                UserSession.setParadaActual(adminParada.getParada());
+                break;
+            case ADMIN_GENERAL:
+                UserSession.setPerfil(ADMIN_GENERAL);
+            default:
+                break;
+        }
+    }
+
 
     /**
      * Realiza operaciones específicas durante el inicio de la aplicación.
      */
-    private void establecerParada() {
+    public static void establecerParada() {
         try {
             long numParadas = paradaRepository.count();
             log.info("Número de paradas en la base de datos: {}", numParadas);
             if (numParadas > 0) {
-                paradaActual = getParadaAleatoria(numParadas).get();
+                paradaActual = getParadaAleatoria(numParadas-1).get();
                 log.info("Parada actual asignada: {}", paradaActual);
             } else {
                 log.warn("No hay paradas disponibles en la base de datos.");
@@ -139,7 +164,7 @@ public class UserSession {
      * @param numParadas Número total de paradas.
      * @return Una parada aleatoria.
      */
-    private Optional<Parada> getParadaAleatoria(long numParadas) {
+    private static Optional<Parada> getParadaAleatoria(long numParadas) {
         long paradaAleatoria = (long) (Math.random() * numParadas);
         return paradaRepository.findById(paradaAleatoria);
     }

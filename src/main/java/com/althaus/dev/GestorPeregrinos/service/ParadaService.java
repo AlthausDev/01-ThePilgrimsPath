@@ -5,5 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ParadaService extends CoreService<Parada> {
+
     boolean existsByNombre(String nombre);
 }

@@ -5,6 +5,7 @@ import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
+import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,6 @@ public class AppLauncher implements CommandLineRunner {
 
 	@Autowired
 	private ApplicationContext applicationContext;
-
-	private UserSession userSession;
 
 	/**
 	 * Método principal que inicia la aplicación Spring Boot.
@@ -83,6 +82,7 @@ public class AppLauncher implements CommandLineRunner {
 		EstanciaController estanciaController = applicationContext.getBean(EstanciaController.class);
 		ValidationService validationService = applicationContext.getBean(ValidationService.class);
 		ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
+		AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
 
 		// Inyectar dependencias en UserSession
 		UserSession.Session(loginController,
@@ -90,6 +90,7 @@ public class AppLauncher implements CommandLineRunner {
 				peregrinoController,
 				estanciaController,
 				validationService,
-				paradaRepository);
+				paradaRepository,
+				adminParadaService);
 	}
 }

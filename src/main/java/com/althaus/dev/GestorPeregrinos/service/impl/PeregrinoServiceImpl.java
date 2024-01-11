@@ -13,55 +13,13 @@ import java.util.Optional;
 @Service
 public class PeregrinoServiceImpl extends CoreServiceImpl<Peregrino> implements PeregrinoService {
 
-   // private final XMLWriter xmlWriter;
     private final PeregrinoRepository peregrinoRepository;
 
     @Autowired
     public PeregrinoServiceImpl(PeregrinoRepository peregrinoRepository) {
         super(peregrinoRepository);
-        //this.xmlWriter = xmlWriter;
         this.peregrinoRepository = peregrinoRepository;
     }
 
-    /**
-     * @param nombre
-     * @param nacionalidad
-     * @param paradaId
-     * @return
-     */
-    @Override
-    public Optional<Peregrino> registrarNuevoPeregrino(String nombre, String nacionalidad, Long paradaId) {
-        return Optional.empty();
-    }
 
-    /**
-     * @param peregrinoId
-     * @return
-     */
-    @Override
-    public List<Parada> obtenerParadasDePeregrino(Long peregrinoId) {
-        return null;
-    }
-
-   /* public void exportarCarnetToXml(Long peregrinoId) {
-        xmlWriter.exportarCarnet(peregrinoId);
-    }*/
-
-    /**
-     * @param nacionalidad
-     * @return
-     */
-    @Override
-    public List<Peregrino> obtenerPeregrinosPorNacionalidad(String nacionalidad) {
-        return null;
-    }
-
-    /**
-     * @param paradaId
-     * @return
-     */
-    @Override
-    public List<Peregrino> obtenerPeregrinosPorParada(Long paradaId) {
-        return null;
-    }
 }

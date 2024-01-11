@@ -1,7 +1,10 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
+import com.althaus.dev.GestorPeregrinos.model.AdminParada;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import com.althaus.dev.GestorPeregrinos.model.Perfil;
+import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
@@ -11,6 +14,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static com.althaus.dev.GestorPeregrinos.model.Perfil.*;
 
 /**
  * Implementación de la interfaz {@link CredencialesService}.
@@ -53,9 +58,10 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
                 boolean passwordCorrecto = PasswordUtils.checkPassword(password, credenciales.getPassword());
 
                 if (passwordCorrecto) {
-                    UserSession.setPerfil(credenciales.getUser().getPerfil());
-                    //TODO establecer parada actual en función del Perfil, si AdminParada = getParada(), si Peregrino, seleccionar? random?
-                    UserSession.setUsuario(credenciales.getUser());
+                    User user = credenciales.getUser();
+                    user.setId(credenciales.getId());
+
+                    UserSession.iniciarSesion(credenciales, user);
                     return true;
                 }
             }

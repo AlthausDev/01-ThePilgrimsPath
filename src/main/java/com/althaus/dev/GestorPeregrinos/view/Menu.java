@@ -6,11 +6,9 @@ import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
-import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -32,6 +30,7 @@ public class Menu {
     private final PeregrinoController peregrinoController;
     private final EstanciaController estanciaController;
     private final ValidationService validationService;
+
 
     @Autowired
     public Menu(
@@ -85,7 +84,7 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    UserSession.loginController.login();
+                    loginController.login();
                     opcion = 0;
                     break;
                 case 2:
@@ -118,7 +117,7 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    System.out.println(((Peregrino) UserSession.getUsuario()).getCarnet().toString());
+                    peregrinoController.exportarCarnet(UserSession.getUsuario());
                     break;
                 case 2:
                     UserSession.cerrarSesion();
