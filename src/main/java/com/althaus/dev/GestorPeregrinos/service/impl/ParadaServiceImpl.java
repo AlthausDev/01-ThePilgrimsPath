@@ -1,7 +1,5 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
-import com.althaus.dev.GestorPeregrinos.model.AdminParada;
-import com.althaus.dev.GestorPeregrinos.model.Credenciales;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
@@ -13,20 +11,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements ParadaService {
 
-    @Autowired
-    private AdminParadaService adminParadaService;
-
-    @Autowired
-    private CredencialesService credencialesService;
-    @Autowired
+    private final AdminParadaService adminParadaService;
+    private final CredencialesService credencialesService;
     private final ParadaRepository paradaRepository;
 
     @Autowired
     public ParadaServiceImpl(ParadaRepository repository,
+                             AdminParadaService adminParadaService,
+                             CredencialesService credencialesService,
                              ParadaRepository paradaRepository) {
         super(repository);
+        this.adminParadaService = adminParadaService;
+        this.credencialesService = credencialesService;
         this.paradaRepository = paradaRepository;
     }
 
-}
+    @Override
+    public boolean existsByNombre(String nombre) {
+        return paradaRepository.existsByNombre(nombre);
+    }
 
+}

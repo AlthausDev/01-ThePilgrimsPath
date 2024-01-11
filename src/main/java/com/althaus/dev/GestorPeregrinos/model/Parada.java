@@ -42,7 +42,7 @@ public class Parada implements Identifiable {
      * Administrador de parada asociado a la parada.
      */
     @OneToOne
-    @JoinColumn(name = "admin_parada", nullable = false)
+    @JoinColumn(name = "admin_parada")
     private AdminParada adminParada;
 
     /**

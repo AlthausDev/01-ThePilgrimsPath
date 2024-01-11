@@ -63,7 +63,7 @@ public class ParadaController {
                 String nombreAdmin = (String) paradaData.get("nombreAdmin");
                 String passAdmin = (String) paradaData.get("passAdmin");
 
-                Long newIdCredencial = credencialesService.getLastId();
+                Long newIdCredencial = credencialesService.getLastId() + 1;
 
                 Parada nuevaParada = new Parada(nombreParada, regionParada, null);
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);

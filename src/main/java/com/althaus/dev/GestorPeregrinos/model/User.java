@@ -67,14 +67,4 @@ public class User implements Identifiable {
         this.name = name;
         this.perfil = perfil;
     }
-
-    /**
-     * Devuelve el identificador único del usuario.
-     *
-     * @return Identificador único del usuario.
-     */
-    public Long getId() {
-        return id;
-    }
-
 }

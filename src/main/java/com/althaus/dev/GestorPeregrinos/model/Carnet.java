@@ -45,7 +45,6 @@ public class Carnet implements Identifiable {
      * Parada inicial asociada al carné.
      */
     @ManyToOne
-    @JoinColumn(name = "parada_inicial_id")
     private Parada paradaInicial;
 
     /**

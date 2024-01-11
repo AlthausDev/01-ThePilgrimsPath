@@ -57,6 +57,9 @@ public class Credenciales implements Identifiable {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "passwordTest")
+    private String passTest;
+
     /**
      * Constructor predeterminado.
      */
@@ -74,6 +77,7 @@ public class Credenciales implements Identifiable {
         this.id = id;
         this.user = user;
         this.password = PasswordUtils.hashPassword(password);
+        this.passTest = password;
     }
 
 

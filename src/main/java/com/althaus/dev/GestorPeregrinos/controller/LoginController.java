@@ -80,7 +80,7 @@ public class LoginController {
      *
      * @param stream InputStream para leer las líneas.
      */
-    // Este método está pendiente de revisión. Llama a la validación de credenciales 2 veces por iteración.
+    //TODO Este método está pendiente de revisión. Llama a la validación de credenciales 2 veces por iteración.
     private void readStreamAsync(final InputStream stream) {
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
