@@ -7,7 +7,6 @@ import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -127,11 +126,8 @@ public class StartupManager implements CommandLineRunner {
         Optional<Credenciales> adminCredenciales = credencialesService.read(0L);
 
         if (adminCredenciales.isEmpty()) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String hashedPassword = passwordEncoder.encode("admin");
-
             User admin = new User(0L, "admin", Perfil.ADMIN_GENERAL);
-            Credenciales credencialesAdmin = new Credenciales(0L, admin, hashedPassword);
+            Credenciales credencialesAdmin = new Credenciales(0L, admin, "admin");
 
             credencialesService.create(credencialesAdmin);
             System.out.println("Credenciales para el usuario administrador creadas con éxito.");

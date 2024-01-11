@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class Menu {
     private final Scanner sc = new Scanner(System.in);
-    private final UserSession session;
+
     private final LoginController loginController;
     private final ParadaController paradaController;
     private final PeregrinoController peregrinoController;
@@ -35,20 +35,19 @@ public class Menu {
 
     @Autowired
     public Menu(
-            UserSession session,
             LoginController loginController,
             ParadaController paradaController,
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
             ValidationService validationService) {
-        this.session = session;
+
         this.loginController = loginController;
         this.paradaController = paradaController;
         this.peregrinoController = peregrinoController;
         this.estanciaController = estanciaController;
         this.validationService = validationService;
 
-        Perfil perfil = session.getPerfil();
+        Perfil perfil = UserSession.getPerfil();
         switch (perfil) {
             case PEREGRINO:
                 menuPeregrino();
@@ -86,7 +85,7 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    loginController.login(session);
+                    UserSession.loginController.login();
                     opcion = 0;
                     break;
                 case 2:
@@ -119,10 +118,10 @@ public class Menu {
                     salir();
                     break;
                 case 1:
-                    System.out.println(((Peregrino) session.getUsuario()).getCarnet().toString());
+                    System.out.println(((Peregrino) UserSession.getUsuario()).getCarnet().toString());
                     break;
                 case 2:
-                    session.cerrarSesion();
+                    UserSession.cerrarSesion();
                     opcion = 0;
                     break;
                 default:
@@ -164,7 +163,7 @@ public class Menu {
                     menuRecibirPeregrinoEnParada();
                     break;
                 case 4:
-                    session.cerrarSesion();
+                    UserSession.cerrarSesion();
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
@@ -196,7 +195,7 @@ public class Menu {
                     paradaController.nuevaParada();
                     break;
                 case 2:
-                    session.cerrarSesion();
+                    UserSession.cerrarSesion();
                     opcion = 0;
                     break;
                 default:
@@ -207,8 +206,8 @@ public class Menu {
     }
 
     private void salir(){
-        session.setContinuar(false);
-        //System.exit(0);
+        UserSession.setContinuar(false);
+        //TODO establecer salir en System.exit(0);
     }
 
     private int obtenerOpcionUsuario() {
@@ -238,7 +237,7 @@ public class Menu {
             }
         } while (fechaFin.isBefore(fechaInicio));
 
-        estanciaController.exportarEstancias(session.getUsuario().getId(), fechaInicio, fechaFin);
+        estanciaController.exportarEstancias(UserSession.getUsuario().getId(), fechaInicio, fechaFin);
     }
 
 
@@ -246,7 +245,7 @@ public class Menu {
     private void menuRecibirPeregrinoEnParada() {
 
         System.out.println("Recibir peregrino en parada:");
-        Parada paradaActual = session.getParadaActual();
+        Parada paradaActual = UserSession.getParadaActual();
 
         if (paradaActual == null) {
             System.out.println("Error: No se ha seleccionado una parada válida.");
@@ -263,6 +262,6 @@ public class Menu {
     }
 
     private void mostrarDatosParadaActual() {
-       System.out.println(session.getParadaActual().toString());
+       System.out.println(UserSession.getParadaActual().toString());
     }
 }

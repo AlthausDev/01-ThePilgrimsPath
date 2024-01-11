@@ -1,7 +1,11 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
-import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.service.*;
+import com.althaus.dev.GestorPeregrinos.model.AdminParada;
+import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
+import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
+import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
+import com.althaus.dev.GestorPeregrinos.service.ParadaService;
 import com.althaus.dev.GestorPeregrinos.view.ParadaView;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * Controlador encargado de gestionar las operaciones relacionadas con las paradas de peregrinos.

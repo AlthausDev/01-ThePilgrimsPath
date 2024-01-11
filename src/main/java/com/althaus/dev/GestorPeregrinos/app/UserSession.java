@@ -10,13 +10,14 @@ import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import com.althaus.dev.GestorPeregrinos.view.Menu;
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
+
+import static com.althaus.dev.GestorPeregrinos.model.Perfil.*;
 
 /**
  * Clase que representa la información de sesión del usuario en la aplicación.
@@ -36,22 +37,32 @@ import java.util.Optional;
 @Setter
 public class UserSession {
 
-    private boolean continuar = true;
-    private Perfil perfil = Perfil.INVITADO;
-    private User usuario = null;
-    private Parada paradaActual;
-    private Menu menu;
+    @Getter
+    @Setter
+    private static boolean continuar = true;
+    @Getter
+    @Setter
+    private static Perfil perfil = INVITADO;
+    @Getter
+    @Setter
+    private static User usuario = null;
+    @Getter
+    @Setter
+    private static Parada paradaActual;
+    @Getter
+    @Setter
+    private static Menu menu;
 
-    private final LoginController loginController;
-    private final ParadaController paradaController;
-    private final PeregrinoController peregrinoController;
-    private final EstanciaController estanciaController;
-    private final ValidationService validationService;
-    private final ParadaRepository paradaRepository;
+    public static LoginController loginController;
+    private static ParadaController paradaController;
+    private static PeregrinoController peregrinoController;
+    private static EstanciaController estanciaController;
+    private static ValidationService validationService;
+    private static ParadaRepository paradaRepository;
+
 
     /**
-     * Constructor de la clase UserSession.
-     * Inicializa la sesión del usuario y crea un menú para interactuar.
+     * Método estático para inicializar la sesión del usuario.
      *
      * @param loginController      Controlador de inicio de sesión.
      * @param paradaController     Controlador de paradas.
@@ -61,7 +72,7 @@ public class UserSession {
      * @param paradaRepository     Repositorio de paradas.
      */
     @Autowired
-    public UserSession(
+    public static void Session(
             LoginController loginController,
             ParadaController paradaController,
             PeregrinoController peregrinoController,
@@ -69,12 +80,13 @@ public class UserSession {
             ValidationService validationService,
             ParadaRepository paradaRepository) {
 
-        this.loginController = loginController;
-        this.paradaController = paradaController;
-        this.peregrinoController = peregrinoController;
-        this.estanciaController = estanciaController;
-        this.validationService = validationService;
-        this.paradaRepository = paradaRepository;
+        // Inicializar la sesión y realizar las operaciones necesarias
+        UserSession.loginController = loginController;
+        UserSession.paradaController = paradaController;
+        UserSession.peregrinoController = peregrinoController;
+        UserSession.estanciaController = estanciaController;
+        UserSession.validationService = validationService;
+        UserSession.paradaRepository = paradaRepository;
 
         do {
             inicializarMenu();
@@ -85,16 +97,16 @@ public class UserSession {
      * Método para cerrar la sesión del usuario.
      * Restablece el perfil y usuario a valores predeterminados.
      */
-    public void cerrarSesion() {
-        setPerfil(Perfil.INVITADO);
-        setUsuario(null);
+    public static void cerrarSesion() {
+        perfil = INVITADO;
+        usuario = null;
     }
 
     /**
      * Inicializa el menú de la aplicación.
      */
-    public void inicializarMenu() {
-        this.menu = new Menu(this,
+    public static void inicializarMenu() {
+        menu = new Menu(
                 loginController,
                 paradaController,
                 peregrinoController,
@@ -102,10 +114,10 @@ public class UserSession {
                 validationService);
     }
 
+
     /**
      * Realiza operaciones específicas durante el inicio de la aplicación.
      */
-    @PostConstruct
     private void establecerParada() {
         try {
             long numParadas = paradaRepository.count();

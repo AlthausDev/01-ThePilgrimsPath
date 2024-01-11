@@ -26,18 +26,20 @@ public class ParadaView {
 
         try {
             System.out.println("Agregar nueva parada");
+            System.out.println("Nombre de parada:");
             paradaData.put("nombreParada", obtenerNombre());
 
-            System.out.println("Indique la región a la que pertenece de la nueva parada:");
+            System.out.println("Indique la región a la que pertenece de la nueva parada: (1 carácter)");
             paradaData.put("regionParada", obtenerRegion());
 
             System.out.println("Nuevo administrador de Parada");
+            System.out.println("Nombre de administrador de parada:");
             paradaData.put("nombreAdmin", obtenerNombre());
             paradaData.put("passAdmin", obtenerPassword());
 
             System.out.println("Datos Introducidos:"
-                    + "\nNombre de la nueva parada: " + paradaData.get("nombre")
-                    + "\nRegión de la nueva parada: " + paradaData.get("region")
+                    + "\nNombre de la nueva parada: " + paradaData.get("nombreParada")
+                    + "\nRegión de la nueva parada: " + paradaData.get("regionParada")
                     + "\nNombre del administrador de parada: " + paradaData.get("nombreAdmin"));
 
             if (!isCorrecto()) {
@@ -58,12 +60,12 @@ public class ParadaView {
      * @return El nombre de la parada ingresado por el usuario.
      */
     private String obtenerNombre() {
-        boolean cont = false;
+        boolean cont = true;
         String nombre = null;
 
         while (cont) {
-            System.out.println("Indique un nombre (mínimo 3 caracteres): ");
-            nombre = scanner.nextLine().toLowerCase();
+            System.out.println("Introduzca un nombre (mínimo 3 caracteres): ");
+            nombre = scanner.nextLine();
             cont = !validationService.validarFormatoNombreUsuario(nombre);
         }
         return nombre;

@@ -30,7 +30,7 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(AppLauncher.class);
     private final CredencialesService credencialesService;
     private final ValidationService validationService;
-    private UserSession userSession;
+    private Process process;
 
     /**
      * Constructor que inicializa las dependencias del controlador.
@@ -45,28 +45,21 @@ public class LoginController {
     }
 
     /**
-     * Realiza el proceso de inicio de sesión utilizando un programa externo.
      *
-     * @param userSession Sesión de usuario para almacenar la información de sesión.
+     * Realiza el proceso de inicio de sesión utilizando un programa externo.
      */
-    public void login(UserSession userSession) {
-        this.userSession = userSession;
+    public void login() {
 
         try {
             String path = "src/main/java/com/althaus/dev/GestorPeregrinos/view/login/Login.exe";
             String[] command = {path};
 
             ProcessBuilder processBuilder = new ProcessBuilder(command);
-            Process process = processBuilder.start();
+            this.process = processBuilder.start();
             readStreamAsync(process.getInputStream());
 
-            int exitCode = process.waitFor();
+            process.waitFor();
 
-            if (exitCode == 0) {
-                System.out.println("El proceso se ha completado correctamente.");
-            } else {
-                System.err.println("El proceso ha finalizado con un código de salida no válido: " + exitCode);
-            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -118,11 +111,13 @@ public class LoginController {
      * @param password Contraseña.
      */
     private void verificarCredenciales(String username, String password) {
-        boolean inicioSesionExitoso = credencialesService.iniciarSesion(username, password, userSession);
+        boolean inicioSesionExitoso = credencialesService.iniciarSesion(username, password);
 
         if (inicioSesionExitoso) {
             System.out.println("Inicio de sesión exitoso.");
             intentosFallidos = 0;
+            process.destroy();
+
         } else {
             System.out.println("Inicio de sesión fallido. Verifica que las credenciales introducidas son correctas.");
             System.out.println("Intentos fallidos: " + intentosFallidos++

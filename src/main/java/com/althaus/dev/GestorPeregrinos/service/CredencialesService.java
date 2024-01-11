@@ -21,6 +21,6 @@ public interface CredencialesService extends CoreService<Credenciales> {
      * @return true si la autenticación es exitosa, false de lo contrario.
      * @throws RuntimeException Si hay un error al acceder a la base de datos.
      */
-    boolean iniciarSesion(String username, String password, UserSession userSession);
+    boolean iniciarSesion(String username, String password);
 
 }

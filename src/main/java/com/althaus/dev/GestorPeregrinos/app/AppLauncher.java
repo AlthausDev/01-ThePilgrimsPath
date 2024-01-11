@@ -85,8 +85,11 @@ public class AppLauncher implements CommandLineRunner {
 		ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
 
 		// Inyectar dependencias en UserSession
-		userSession = new UserSession(loginController, paradaController,
-				peregrinoController, estanciaController,
-				validationService, paradaRepository);
+		UserSession.Session(loginController,
+				paradaController,
+				peregrinoController,
+				estanciaController,
+				validationService,
+				paradaRepository);
 	}
 }

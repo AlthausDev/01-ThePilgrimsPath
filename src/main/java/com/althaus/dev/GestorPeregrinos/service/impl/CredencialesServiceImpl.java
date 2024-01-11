@@ -41,10 +41,9 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
      *
      * @param username     El nombre de usuario para iniciar sesión.
      * @param password     La contraseña para iniciar sesión.
-     * @param userSession  Sesión de usuario para almacenar la información de sesión.
      * @return `true` si la sesión se inicia correctamente, `false` de lo contrario.
      */
-    public boolean iniciarSesion(String username, String password, UserSession userSession) {
+    public boolean iniciarSesion(String username, String password) {
         try {
             Optional<Credenciales> optionalCredenciales = credencialesRepository.findByUserName(username);
 
@@ -54,8 +53,9 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
                 boolean passwordCorrecto = PasswordUtils.checkPassword(password, credenciales.getPassword());
 
                 if (passwordCorrecto) {
-                    userSession.setPerfil(credenciales.getUser().getPerfil());
-                    userSession.setUsuario(credenciales.getUser());
+                    UserSession.setPerfil(credenciales.getUser().getPerfil());
+                    //TODO establecer parada actual en función del Perfil, si AdminParada = getParada(), si Peregrino, seleccionar? random?
+                    UserSession.setUsuario(credenciales.getUser());
                     return true;
                 }
             }
