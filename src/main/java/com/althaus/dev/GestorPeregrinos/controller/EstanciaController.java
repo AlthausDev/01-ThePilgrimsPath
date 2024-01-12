@@ -31,7 +31,7 @@ public class EstanciaController {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final PeregrinoView peregrinoView;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Constructor que inicializa las dependencias del controlador.

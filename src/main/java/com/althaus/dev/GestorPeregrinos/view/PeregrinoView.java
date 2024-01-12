@@ -10,6 +10,21 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Clase que proporciona métodos para manejar la interfaz de usuario relacionada con los peregrinos.
+ *
+ * <p>
+ * Esta clase contiene métodos para recopilar información necesaria para agregar un nuevo peregrino,
+ * mostrar detalles de un peregrino y obtener información como nombre, contraseña y nacionalidad del usuario.
+ * </p>
+ *
+ * <p>
+ * Se utiliza la anotación {@code Component} para que Spring la reconozca como un componente de la aplicación.
+ * </p>
+ *
+ * @author Althaus_Dev
+ * @since 2024-01-12
+ */
 @Component
 public class PeregrinoView {
 
@@ -22,7 +37,6 @@ public class PeregrinoView {
      * Solicita el nombre, la contraseña, la parada asociada y la nacionalidad del peregrino.
      *
      * @param parada            La parada asociada al peregrino.
-     * @param credencialService
      * @return Un HashMap que contiene la información recopilada para el nuevo peregrino.
      * Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.

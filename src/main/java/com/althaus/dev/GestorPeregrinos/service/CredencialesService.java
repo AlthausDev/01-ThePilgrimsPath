@@ -1,11 +1,20 @@
 package com.althaus.dev.GestorPeregrinos.service;
 
-import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
 import org.springframework.stereotype.Service;
 
 /**
  * Servicio para operaciones relacionadas con las credenciales de usuario.
+ *
+ * <p>
+ * Esta interfaz define las operaciones específicas para la gestión de {@link Credenciales} y hereda las operaciones CRUD básicas
+ * de la interfaz {@link CoreService}.
+ * </p>
+ *
+ * @author Althaus_Dev
+ * @see Credenciales
+ * @see CoreService
+ * @since 2024-01-12
  */
 @Service
 public interface CredencialesService extends CoreService<Credenciales> {

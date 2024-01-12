@@ -30,7 +30,7 @@ public class PeregrinoController {
     private final CarnetService carnetService;
     private final CredencialesService credencialService;
     private static final Scanner scanner = new Scanner(System.in);
-    private XMLWriter writer;
+    private final XMLWriter writer;
 
 
     /**
@@ -55,7 +55,7 @@ public class PeregrinoController {
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.credencialService = credencialService;
-        this.writer = new XMLWriter();
+        writer = new XMLWriter();
 
     }
 

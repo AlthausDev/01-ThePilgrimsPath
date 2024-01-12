@@ -12,8 +12,18 @@ import java.util.List;
 /**
  * Implementación del servicio para la gestión de Estancias.
  *
- * Esta clase proporciona la implementación concreta de las operaciones
- * específicas del servicio para la entidad Estancia.
+ * <p>Esta clase proporciona la implementación concreta de las operaciones específicas del servicio para la entidad Estancia.</p>
+ *
+ * <p>La clase utiliza un repositorio JPA ({@link EstanciaRepository}) para acceder a la capa de persistencia de la entidad {@link Estancia}.</p>
+ *
+ * <p>El servicio incluye la capacidad de obtener la lista de estancias para una parada específica y en un rango de fechas dado.</p>
+ *
+ * @author Althaus_Dev
+ * @see EstanciaService
+ * @see CoreServiceImpl
+ * @see Estancia
+ * @see EstanciaRepository
+ * @since 2024-01-12
  */
 @Service
 public class EstanciaServiceImpl extends CoreServiceImpl<Estancia> implements EstanciaService {
@@ -32,12 +42,13 @@ public class EstanciaServiceImpl extends CoreServiceImpl<Estancia> implements Es
     }
 
     /**
-     * @param idParada
-     * @param fechaInicio
-     * @param fechaFin
-     * @return
+     * Obtiene la lista de estancias para una parada específica y en un rango de fechas dado.
+     *
+     * @param idParada     El identificador de la parada.
+     * @param fechaInicio  La fecha de inicio del rango.
+     * @param fechaFin     La fecha de fin del rango.
+     * @return La lista de estancias para la parada y rango de fechas proporcionados.
      */
-
     public List<Estancia> getEstanciasByParadaAndFecha(long idParada, LocalDate fechaInicio, LocalDate fechaFin) {
         return estanciaRepository.findByParadaIdAndFechaBetween(idParada, fechaInicio, fechaFin);
     }

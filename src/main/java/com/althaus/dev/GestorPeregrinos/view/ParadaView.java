@@ -8,17 +8,26 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Esta clase proporciona métodos para interactuar con el usuario y recopilar información sobre las paradas.
+ * Permite agregar una nueva parada, solicitando al usuario el nombre, la región y los detalles del administrador de la parada.
+ * Utiliza servicios como {@link ParadaService} y {@link CredencialesService} para realizar validaciones y obtener información necesaria.
+ *
+ * @author Althaus_Dev
+ * @since 2024-01-12
+ */
 @Component
 public class ParadaView {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final ValidationService validationService = new ValidationService();
 
-
     /**
      * Método para recopilar la información necesaria para agregar una nueva parada.
      * Solicita el nombre, la región y los detalles del administrador de la parada.
      *
+     * @param paradaService       Servicio para la gestión de paradas.
+     * @param credencialesService Servicio para la gestión de credenciales.
      * @return Un HashMap que contiene la información recopilada para la nueva parada.
      *         Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.
@@ -54,6 +63,15 @@ public class ParadaView {
         }
     }
 
+    /**
+     * Método para obtener el nombre de una nueva parada del usuario.
+     * Solicita al usuario que ingrese un nombre válido, con un mínimo de 3 caracteres,
+     * y verifica que el nombre no exista ya en el sistema utilizando el servicio de paradas.
+     *
+     * @param paradaService Servicio para la gestión de paradas.
+     * @return El nombre de la nueva parada ingresado por el usuario.
+     * @throws RuntimeException Si ocurre un error durante la ejecución.
+     */
     private String obtenerNombreParada(ParadaService paradaService) {
         boolean nombreCorrecto = false;
         String nombre = null;
@@ -134,5 +152,4 @@ public class ParadaView {
         } while (valido != 'S' && valido != 'N');
         return valido == 'S';
     }
-
 }

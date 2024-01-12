@@ -19,10 +19,12 @@ import java.util.Optional;
  * Implementación abstracta del servicio central que proporciona operaciones CRUD comunes para entidades identificables.
  *
  * @param <T> El tipo de entidad identificable.
+ * @see CoreService
+ * @see Identifiable
+ * @author Althaus_Dev
+ * @since 2024-01-12
  */
-
 @Service
-
 public abstract class CoreServiceImpl<T extends Identifiable> implements CoreService<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(CoreServiceImpl.class);

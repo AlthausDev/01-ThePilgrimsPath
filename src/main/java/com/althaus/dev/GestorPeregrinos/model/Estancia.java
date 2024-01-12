@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * Clase que representa la estancia de un peregrino en una parada.
@@ -101,11 +100,6 @@ public class Estancia implements Identifiable{
         this.peregrino = peregrino;
     }
 
-    /**
-     * Representación de cadena de la estancia.
-     *
-     * @return Cadena que representa la estancia.
-     */
     /**
      * Representación de cadena de la estancia.
      *

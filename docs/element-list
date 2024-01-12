@@ -1,0 +1,9 @@
+com.althaus.dev.GestorPeregrinos.app
+com.althaus.dev.GestorPeregrinos.controller
+com.althaus.dev.GestorPeregrinos.model
+com.althaus.dev.GestorPeregrinos.repository
+com.althaus.dev.GestorPeregrinos.service
+com.althaus.dev.GestorPeregrinos.service.impl
+com.althaus.dev.GestorPeregrinos.util
+com.althaus.dev.GestorPeregrinos.util.io
+com.althaus.dev.GestorPeregrinos.view

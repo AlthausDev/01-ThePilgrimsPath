@@ -1,9 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
-import com.althaus.dev.GestorPeregrinos.model.AdminParada;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
-import com.althaus.dev.GestorPeregrinos.model.Perfil;
 import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
@@ -15,13 +13,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.althaus.dev.GestorPeregrinos.model.Perfil.*;
-
 /**
  * Implementación de la interfaz {@link CredencialesService}.
  * Proporciona funcionalidades relacionadas con las credenciales de usuario.
  *
+ * @see CredencialesService
+ * @see CoreServiceImpl
+ * @see Credenciales
  * @author Althaus_Dev
+ * @since 2024-01-12
  */
 @Slf4j
 @Service
@@ -81,8 +81,10 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     }
 
     /**
-     * @param nombre
-     * @return
+     * Verifica si existe una credencial con el nombre de usuario proporcionado.
+     *
+     * @param nombre El nombre de usuario a verificar.
+     * @return `true` si existe una credencial con el nombre de usuario, `false` de lo contrario.
      */
     @Override
     public boolean existsByUser_Name(String nombre) {

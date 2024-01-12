@@ -9,14 +9,13 @@ import java.util.List;
 /**
  * Clase que proporciona métodos para visualizar información relacionada con las estancias.
  *
- * <p>
- * Esta clase contiene un método para mostrar detalles de las estancias, incluyendo la parada asociada,
- * el rango de fechas y la información de cada estancia en el formato deseado.
- * </p>
+ * <p>Esta clase contiene un método para mostrar detalles de las estancias, incluyendo la parada asociada,
+ * el rango de fechas y la información de cada estancia en el formato deseado.</p>
  *
- * <p>
- * Se utiliza la anotación {@code Component} para que Spring la reconozca como un componente de la aplicación.
- * </p>
+ * <p>Se utiliza la anotación {@code Component} para que Spring la reconozca como un componente de la aplicación.</p>
+ *
+ * @author Althaus_Dev
+ * @since 2024-01-12
  */
 @Component
 public class EstanciaView {

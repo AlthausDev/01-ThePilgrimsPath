@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 /**
  * Implementación del servicio para la gestión de Carnets.
  *
- * Esta clase proporciona la implementación concreta de las operaciones
- * específicas del servicio para la entidad Carnet.
+ * <p>Esta clase proporciona la implementación concreta de las operaciones específicas del servicio
+ * para la entidad Carnet.</p>
+ *
+ * @see Carnet
+ * @see CarnetService
+ * @author Althaus_Dev
+ * @since 2024-01-12
  */
 @Service
 public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements CarnetService {

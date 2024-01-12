@@ -19,7 +19,38 @@ import java.util.Scanner;
  * La clase `Menu` se encarga de gestionar los menús y las opciones disponibles para diferentes perfiles de usuario.
  * Dependiendo del perfil de usuario, se muestra un menú específico con opciones personalizadas.
  *
- * @author S.Althaus
+ * <p>
+ * La clase incluye métodos para manejar menús específicos para invitados, peregrinos,
+ * administradores de parada y administradores generales. Proporciona funcionalidades para
+ * salir, obtener opciones de usuario y realizar acciones específicas según el perfil.
+ * </p>
+ *
+ * <p>
+ * La clase utiliza las clases {@code LoginController}, {@code ParadaController},
+ * {@code PeregrinoController}, {@code EstanciaController} y {@code ValidationService} para realizar
+ * operaciones relacionadas con la gestión de usuarios, paradas, peregrinos, estancias y validaciones.
+ * </p>
+ *
+ * <p>
+ * El método {@code Menu()} es el constructor de la clase, donde se inicializan las instancias
+ * de los controladores y servicios necesarios según el perfil de usuario.
+ * </p>
+ *
+ * <p>
+ * Los métodos {@code menuInvitado()}, {@code menuPeregrino()}, {@code menuAdminParada()} y {@code menuAdmin()}
+ * representan los diferentes menús que puede manejar la clase para cada perfil de usuario. Cada método
+ * presenta opciones específicas y realiza acciones correspondientes a las necesidades del usuario.
+ * </p>
+ *
+ * <p>
+ * Los métodos auxiliares {@code salir()}, {@code obtenerOpcionUsuario()}, {@code menuExportarEstanciasFechas()},
+ * {@code menuRecibirPeregrinoEnParada()} y {@code mostrarDatosParadaActual()} realizan tareas específicas
+ * dentro de los diferentes menús, como salir del programa, obtener la opción seleccionada por el usuario,
+ * exportar estancias en un rango de fechas, recibir a un peregrino en una parada y mostrar datos de la parada actual.
+ * </p>
+ *
+ * @author Althaus_Dev
+ * @since 2024-01-12
  */
 
 public class Menu {
@@ -32,6 +63,14 @@ public class Menu {
     private final ValidationService validationService;
 
 
+    /**
+     * La clase `Menu` gestiona los menús y las opciones disponibles para diferentes perfiles de usuario.
+     * Dependiendo del perfil de usuario, se muestra un menú específico con opciones personalizadas.
+     *
+     * <p>
+     * Esta clase utiliza la anotación {@code Autowired} para la inyección de dependencias.
+     * </p>
+     */
     @Autowired
     public Menu(
             LoginController loginController,
@@ -48,25 +87,17 @@ public class Menu {
 
         Perfil perfil = UserSession.getPerfil();
         switch (perfil) {
-            case PEREGRINO:
-                menuPeregrino();
-                break;
-            case ADMIN_PARADA:
-                menuAdminParada();
-                break;
-            case ADMIN_GENERAL:
-                menuAdmin();
-                break;
-            case INVITADO:
-            default:
-                menuInvitado();
-                break;
+            case PEREGRINO -> menuPeregrino();
+            case ADMIN_PARADA -> menuAdminParada();
+            case ADMIN_GENERAL -> menuAdmin();
+            default -> menuInvitado();
         }
     }
 
     /**
      * Menú para usuarios invitados (perfil INVITADO).
      * Permite iniciar sesión, crear un nuevo usuario o salir del programa.
+     *
      */
     private void menuInvitado() {
         int opcion = -1;
@@ -79,20 +110,16 @@ public class Menu {
 
             opcion = obtenerOpcionUsuario();
             switch (opcion) {
-                case 0:
+                case 0 -> {
                     System.out.println("Saliendo del programa.");
                     salir();
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     loginController.login();
                     opcion = 0;
-                    break;
-                case 2:
-                    peregrinoController.nuevoPeregrino();
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
-                    break;
+                }
+                case 2 -> peregrinoController.nuevoPeregrino();
+                default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
@@ -112,20 +139,16 @@ public class Menu {
             opcion = obtenerOpcionUsuario();
 
             switch (opcion) {
-                case 0:
+                case 0 -> {
                     System.out.println("Saliendo del programa.");
                     salir();
-                    break;
-                case 1:
-                    peregrinoController.exportarCarnet(UserSession.getUsuario());
-                    break;
-                case 2:
+                }
+                case 1 -> peregrinoController.exportarCarnet(UserSession.getUsuario());
+                case 2 -> {
                     UserSession.cerrarSesion();
                     opcion = 0;
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
-                    break;
+                }
+                default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
@@ -134,7 +157,6 @@ public class Menu {
      * Menú para administradores de parada (perfil ADMIN_PARADA).
      * Permite visualizar, exportar datos de parada, cerrar sesión y salir del programa.
      */
-
     protected void menuAdminParada() {
         int opcion = -1;
         do {
@@ -148,25 +170,15 @@ public class Menu {
             opcion = obtenerOpcionUsuario();
 
             switch (opcion) {
-                case 0:
+                case 0 -> {
                     System.out.println("Saliendo del programa.");
                     salir();
-                    break;
-                case 1:
-                    mostrarDatosParadaActual();
-                    break;
-                case 2:
-                    menuExportarEstanciasFechas();
-                    break;
-                case 3:
-                    menuRecibirPeregrinoEnParada();
-                    break;
-                case 4:
-                    UserSession.cerrarSesion();
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
-                    break;
+                }
+                case 1 -> mostrarDatosParadaActual();
+                case 2 -> menuExportarEstanciasFechas();
+                case 3 -> menuRecibirPeregrinoEnParada();
+                case 4 -> UserSession.cerrarSesion();
+                default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
@@ -186,20 +198,16 @@ public class Menu {
             opcion = obtenerOpcionUsuario();
 
             switch (opcion) {
-                case 0:
+                case 0 -> {
                     System.out.println("Saliendo del programa.");
                     salir();
-                    break;
-                case 1:
-                    paradaController.nuevaParada();
-                    break;
-                case 2:
+                }
+                case 1 -> paradaController.nuevaParada();
+                case 2 -> {
                     UserSession.cerrarSesion();
                     opcion = 0;
-                    break;
-                default:
-                    System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
-                    break;
+                }
+                default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
@@ -209,6 +217,11 @@ public class Menu {
         //TODO establecer salir en System.exit(0);
     }
 
+    /**
+     * Obtiene la opción seleccionada por el usuario desde la entrada estándar.
+     *
+     * @return La opción seleccionada por el usuario.
+     */
     private int obtenerOpcionUsuario() {
         try {
             return sc.nextInt();
@@ -219,14 +232,17 @@ public class Menu {
         }
     }
 
-
+    /**
+     * Muestra un menú para exportar estancias en un rango de fechas.
+     * Se solicitan las fechas de inicio y fin, y luego se realiza la exportación de estancias.
+     */
     private void menuExportarEstanciasFechas() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Exportar Estancias en un rango de fechas:");
         System.out.println("Introduzca la fecha de inicio (YYYY-MM-DD): ");
         LocalDate fechaInicio = validationService.validarFormatoFecha(sc);
-        LocalDate fechaFin = null;
+        LocalDate fechaFin;
 
         do {
             System.out.println("Introduzca la fecha de fin (YYYY-MM-DD): ");
@@ -240,7 +256,10 @@ public class Menu {
     }
 
 
-
+    /**
+     * Muestra un menú para recibir a un peregrino en la parada actual.
+     * Imprime información de la parada actual y realiza la acción de recibir al peregrino.
+     */
     private void menuRecibirPeregrinoEnParada() {
 
         System.out.println("Recibir peregrino en parada:");
@@ -260,6 +279,9 @@ public class Menu {
 
     }
 
+    /**
+     * Muestra la información de la parada actual en la salida estándar.
+     */
     private void mostrarDatosParadaActual() {
        System.out.println(UserSession.getParadaActual().toString());
     }

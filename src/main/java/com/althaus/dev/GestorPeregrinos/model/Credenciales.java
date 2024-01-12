@@ -5,11 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.proxy.HibernateProxy;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Clase que representa las credenciales de un usuario en el sistema.

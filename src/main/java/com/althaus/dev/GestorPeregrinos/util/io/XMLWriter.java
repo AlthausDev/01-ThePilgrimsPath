@@ -1,11 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.util.io;
 
-import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.service.CarnetService;
-import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
-import com.althaus.dev.GestorPeregrinos.service.impl.CarnetServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.althaus.dev.GestorPeregrinos.model.Carnet;
+import com.althaus.dev.GestorPeregrinos.model.Estancia;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
+import com.althaus.dev.GestorPeregrinos.model.Peregrino;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,15 +12,15 @@ import org.w3c.dom.Text;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.althaus.dev.GestorPeregrinos.util.Constantes.DATE_TIME_FORMATTER;
 import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_EXPORTS;
@@ -34,9 +32,7 @@ import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_EXPORTS;
  *
  * @author S.Althaus
  */
-
 public class XMLWriter {
-
 
     public XMLWriter() {
     }
@@ -80,13 +76,11 @@ public class XMLWriter {
                     e.printStackTrace();
                 }
 
-
             System.out.println("Fichero exportado con éxito");
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Crea elementos XML relacionados con el peregrino y los agrega al documento.

@@ -1,11 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
-import com.althaus.dev.GestorPeregrinos.app.AppLauncher;
-import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -27,7 +23,6 @@ public class LoginController {
     private static final int MAX_INTENTOS_FALLIDOS = 5;
     private static final long TIEMPO_BLOQUEO = 300000;
     private int intentosFallidos = 1;
-    private static final Logger logger = LoggerFactory.getLogger(AppLauncher.class);
     private final CredencialesService credencialesService;
     private final ValidationService validationService;
     private Process process;
