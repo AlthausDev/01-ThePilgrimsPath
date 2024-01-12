@@ -10,8 +10,7 @@ import com.althaus.dev.GestorPeregrinos.view.ParadaView;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import java.util.HashMap;
 
@@ -20,7 +19,7 @@ import java.util.HashMap;
  *
  * @author Althaus_Dev
  */
-@RequestMapping("/paradas")
+
 @Controller
 public class ParadaController {
 
@@ -54,9 +53,8 @@ public class ParadaController {
      * Realiza la captura de datos desde la vista, valida y crea la nueva parada junto con sus entidades asociadas.
      */
     @Transactional
-    @PostMapping("/nuevaParada")
     public void nuevaParada() {
-        HashMap<String, Object> paradaData = paradaView.agregarParada();
+        HashMap<String, Object> paradaData = paradaView.agregarParada(paradaService, credencialesService);
 
         try {
             if (paradaData != null) {

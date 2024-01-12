@@ -80,4 +80,13 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
         Long maxId = credencialesRepository.findMaxId();
         return (maxId != null) ? maxId : 1L;
     }
+
+    /**
+     * @param nombre
+     * @return
+     */
+    @Override
+    public boolean existsByUser_Name(String nombre) {
+        return credencialesRepository.existsByUser_Name(nombre);
+    }
 }

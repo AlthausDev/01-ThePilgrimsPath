@@ -14,6 +14,9 @@ public class ValidationService {
     @Autowired
     private CredencialesService credencialesService;
 
+    public ValidationService() {
+    }
+
     public boolean validarDatosIngresados(String nombreUsuario, String password) {
         return validarFormatoNombreUsuario(nombreUsuario) && validarFormatoPassword(password);
     }
@@ -24,16 +27,27 @@ public class ValidationService {
                 System.err.println("El nombre de usuario no puede contener espacios en blanco. Vuelva a introducirlo.");
                 return false;
             }
-            // Comentado por ahora
-            // if (credencialesService.existeUsuario(nombreUsuario)) {
-            //     System.err.println("El nombre de usuario ya existe. Introduce otro nombre de usuario.");
-            //     return false;
-            // }
             return true;
         } else {
             System.err.println("El nombre de usuario debe tener al menos 3 caracteres y solo puede contener letras. Vuelva a introducirlo.");
             return false;
         }
+    }
+
+    public boolean existeUsuario(String nombreUsuario, CredencialesService credencialesService){
+        if (credencialesService.existsByUser_Name(nombreUsuario)) {
+            System.err.println("El nombre de usuario ya existe. Introduce otro nombre de usuario.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean existeParada(String nombre, ParadaService paradaService) {
+        if (paradaService.existsByNombre(nombre)) {
+            System.err.println("El nombre de parada introducido ya existe. Introduce otro nombre de parada.");
+            return false;
+        }
+        return true;
     }
 
     public boolean validarFormatoPassword(String password) {
@@ -70,4 +84,5 @@ public class ValidationService {
             }
         }
     }
+
 }

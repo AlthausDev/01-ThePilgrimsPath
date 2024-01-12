@@ -7,13 +7,21 @@ import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-@Component
+@ComponentScan(basePackages = {"com.althaus.dev.GestorPeregrinos"})
+@EnableJpaRepositories("com.althaus.dev.GestorPeregrinos.repository")
+@EntityScan("com.althaus.dev.GestorPeregrinos.model")
+@PropertySource("classpath:application.properties")
+@Configuration
 public class StartupManager implements CommandLineRunner {
 
     private final CredencialesService credencialesService;
@@ -39,19 +47,19 @@ public class StartupManager implements CommandLineRunner {
     }
 
     @Transactional
-    private void cargarDatosIniciales() {
+    void cargarDatosIniciales() {
 
         List<String> nombresParada = Arrays.asList("Avilés", "León", "Madrid", "Coruña", "Santander");
         HashMap<String, String> nacionalidades = XMLReader.readPaises();
         List<Character> listaRegiones = Arrays.asList('A', 'C', 'M', 'G', 'R');
         List<String> nombres = Arrays.asList(
                 "Pedro", "Ana", "Carlos", "Laura", "Gabriel",
-                "Miguel", "Elena", "Sergio", "Claudia", "Daniel",
+                "Manolo", "Elena", "Sergio", "Claudia", "Daniel",
                 "Patricia", "Javier", "Carmen", "Hiroshi", "Yuki",
-                "Lila", "Ravi", "Aisha", "Sofia", "Liam", "Olivia",
+                "Lilith", "Ravi", "Aisha", "Sofia", "Liam", "Olivia",
                 "Aria", "Nina", "Akio", "Eva", "Olaf", "Leila",
                 "Omar", "Aisha", "Pablo", "Isabella", "Muhammad", "Eva",
-                "Hans", "Antonio", "Viktor", "Astrid", "Diego"
+                "Hans", "Antonio", "Viktor", "Astrid", "Hassan"
         );
 
         List<Credenciales> credencialesList = credencialesService.readAllList();

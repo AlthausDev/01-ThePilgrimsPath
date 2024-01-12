@@ -20,6 +20,10 @@ public interface CredencialesRepository extends CoreRepository<Credenciales, Lon
      */
     Optional<Credenciales> findByUserName(String nombre);
 
+    boolean existsByUser_Name(String name);
+
+
+
     @Query("SELECT MAX(c.id) FROM Credenciales c")
     Long findMaxId();
 }

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CredencialesService extends CoreService<Credenciales> {
 
-    public Long getLastId();
+    Long getLastId();
+
+    boolean existsByUser_Name(String nombre);
 
 
     /**

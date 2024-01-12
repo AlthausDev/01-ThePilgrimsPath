@@ -1,5 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
+import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
+import com.althaus.dev.GestorPeregrinos.service.ParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import org.springframework.stereotype.Component;
 
@@ -21,20 +23,20 @@ public class ParadaView {
      *         Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.
      */
-    public HashMap<String, Object> agregarParada() {
+    public HashMap<String, Object> agregarParada(ParadaService paradaService, CredencialesService credencialesService) {
         HashMap<String, Object> paradaData = new HashMap<>();
 
         try {
             System.out.println("Agregar nueva parada");
             System.out.println("Nombre de parada:");
-            paradaData.put("nombreParada", obtenerNombre());
+            paradaData.put("nombreParada", obtenerNombreParada(paradaService));
 
             System.out.println("Indique la región a la que pertenece de la nueva parada: (1 carácter)");
             paradaData.put("regionParada", obtenerRegion());
 
             System.out.println("Nuevo administrador de Parada");
             System.out.println("Nombre de administrador de parada:");
-            paradaData.put("nombreAdmin", obtenerNombre());
+            paradaData.put("nombreAdmin", obtenerNombre(credencialesService));
             paradaData.put("passAdmin", obtenerPassword());
 
             System.out.println("Datos Introducidos:"
@@ -52,6 +54,17 @@ public class ParadaView {
         }
     }
 
+    private String obtenerNombreParada(ParadaService paradaService) {
+        boolean nombreCorrecto = false;
+        String nombre = null;
+
+        while (!nombreCorrecto) {
+            System.out.println("Indique un nombre (mínimo 3 caracteres): ");
+            nombre = scanner.nextLine().toLowerCase();
+            nombreCorrecto = validationService.validarFormatoNombreUsuario(nombre) && validationService.existeParada(nombre, paradaService);
+        }
+        return nombre;
+    }
 
     /**
      * Método para obtener el nombre de la parada del usuario.
@@ -59,14 +72,14 @@ public class ParadaView {
      *
      * @return El nombre de la parada ingresado por el usuario.
      */
-    private String obtenerNombre() {
-        boolean cont = true;
+    private String obtenerNombre(CredencialesService credencialService) {
+        boolean nombreCorrecto = false;
         String nombre = null;
 
-        while (cont) {
-            System.out.println("Introduzca un nombre (mínimo 3 caracteres): ");
-            nombre = scanner.nextLine();
-            cont = !validationService.validarFormatoNombreUsuario(nombre);
+        while (!nombreCorrecto) {
+            System.out.println("Indique un nombre (mínimo 3 caracteres): ");
+            nombre = scanner.nextLine().toLowerCase();
+            nombreCorrecto = validationService.validarFormatoNombreUsuario(nombre) && validationService.existeUsuario(nombre, credencialService);
         }
         return nombre;
     }
@@ -121,4 +134,5 @@ public class ParadaView {
         } while (valido != 'S' && valido != 'N');
         return valido == 'S';
     }
+
 }

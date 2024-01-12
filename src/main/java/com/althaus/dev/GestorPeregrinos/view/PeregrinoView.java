@@ -2,6 +2,7 @@ package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Peregrino;
+import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
 import org.springframework.stereotype.Component;
@@ -20,17 +21,18 @@ public class PeregrinoView {
      * Método para recopilar la información necesaria para agregar un nuevo peregrino.
      * Solicita el nombre, la contraseña, la parada asociada y la nacionalidad del peregrino.
      *
-     * @param parada La parada asociada al peregrino.
+     * @param parada            La parada asociada al peregrino.
+     * @param credencialService
      * @return Un HashMap que contiene la información recopilada para el nuevo peregrino.
-     *         Devuelve null si el usuario cancela el proceso de registro.
+     * Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.
      */
-    public HashMap<String, Object> agregarPeregrino(Parada parada) {
+    public HashMap<String, Object> agregarPeregrino(Parada parada, CredencialesService credencialService) {
         HashMap<String, Object> peregrinoData = new HashMap<>();
 
         try {
-            System.out.println("Registrar nuevo usuario - Peregrino\n");
-            peregrinoData.put("nombre", obtenerNombre());
+            System.out.println("Registrar nuevo usuario - Peregrino");
+            peregrinoData.put("nombre", obtenerNombre(credencialService));
             peregrinoData.put("password", obtenerPassword());
             peregrinoData.put("parada", parada);
             peregrinoData.put("nacionalidad", obtenerNacionalidad());
@@ -44,8 +46,6 @@ public class PeregrinoView {
                 System.out.println("Saliendo del formulario de registro.");
                 return null;
             }
-            System.out.println("\nEsperamos que disfrute de nuestros servicios"
-                    + "\nA continuacion se muestran sus datos:\n");
             return peregrinoData;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -85,14 +85,14 @@ public class PeregrinoView {
      *
      * @return El nombre ingresado por el usuario.
      */
-    private String obtenerNombre() {
-        boolean cont = true;
+    private String obtenerNombre(CredencialesService credencialService) {
+        boolean nombreCorrecto = false;
         String nombre = null;
 
-        while (cont) {
+        while (!nombreCorrecto) {
             System.out.println("Indique un nombre (mínimo 3 caracteres): ");
             nombre = scanner.nextLine().toLowerCase();
-            cont = validationService.validarFormatoNombreUsuario(nombre);
+            nombreCorrecto = validationService.validarFormatoNombreUsuario(nombre) && validationService.existeUsuario(nombre, credencialService);
         }
         return nombre;
     }
