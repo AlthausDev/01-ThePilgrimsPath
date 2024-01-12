@@ -10,6 +10,30 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.ADMIN_PARADA;
 
 /**
  * Clase que representa a un administrador de parada en el sistema.
+ *
+ * <p>
+ * Un administrador de parada es un tipo especial de usuario con privilegios para gestionar
+ * información relacionada con una parada específica en el sistema.
+ * </p>
+ *
+ * <p>
+ * Esta clase extiende la clase {@code User}, heredando las propiedades básicas de un usuario
+ * y agregando la asociación con una parada específica.
+ * </p>
+ *
+ * <p>
+ * La entidad está mapeada a la tabla "admin_parada" en la base de datos, con restricciones
+ * únicas para la columna "parada_id".
+ * </p>
+ *
+ * <p>
+ * La anotación {@code OneToOne} se utiliza para mapear la relación con la entidad {@code Parada},
+ * indicando que un administrador de parada está asociado a una única parada.
+ * </p>
+ *
+ * @see User
+ * @see Parada
+ * </p>
  */
 @Getter
 @Setter
@@ -53,28 +77,5 @@ public class AdminParada extends User {
     public String toString() {
         return "\nAdministrador de Parada: " +
                 "\nCodigo de Parada=" + parada;
-    }
-
-    /**
-     * Compara dos administradores de parada para determinar si son iguales.
-     *
-     * @param o Objeto a comparar.
-     * @return true si son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AdminParada that)) return false;
-        return Objects.equals(getParada(), that.getParada());
-    }
-
-    /**
-     * Calcula el código hash del administrador de parada.
-     *
-     * @return Código hash del administrador de parada.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getParada());
     }
 }

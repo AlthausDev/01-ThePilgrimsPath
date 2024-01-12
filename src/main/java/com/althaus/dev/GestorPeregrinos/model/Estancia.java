@@ -9,6 +9,23 @@ import java.util.Objects;
 
 /**
  * Clase que representa la estancia de un peregrino en una parada.
+ *
+ * <p>
+ * La entidad modela la información de la estancia de un peregrino en una parada,
+ * incluyendo la fecha de la estancia, el estatus VIP y las referencias a la parada y al peregrino asociados.
+ * </p>
+ *
+ * <p>
+ * La entidad está mapeada a la tabla "estancia" en la base de datos.
+ * </p>
+ *
+ * <p>
+ * El autor de esta clase es Althaus_Dev.
+ * </p>
+ *
+ * @see Parada
+ * @see Peregrino
+ * </p>
  */
 @Getter
 @Setter
@@ -103,33 +120,5 @@ public class Estancia implements Identifiable{
                 "\nParada ID: " + parada.getId() +
                 "\nPeregrino ID: " + peregrino.getId() +
                 "\n";
-    }
-
-
-    /**
-     * Compara dos estancias para determinar si son iguales.
-     *
-     * @param o Objeto a comparar.
-     * @return true si son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Estancia estancia)) return false;
-        return Objects.equals(getId(), estancia.getId()) &&
-                Objects.equals(getFecha(), estancia.getFecha()) &&
-                Objects.equals(getVip(), estancia.getVip()) &&
-                Objects.equals(getParada(), estancia.getParada()) &&
-                Objects.equals(getPeregrino(), estancia.getPeregrino());
-    }
-
-    /**
-     * Calcula el código hash de la estancia.
-     *
-     * @return Código hash de la estancia.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getFecha(), getVip(), getParada(), getPeregrino());
     }
 }

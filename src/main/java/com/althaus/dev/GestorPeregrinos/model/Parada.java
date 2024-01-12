@@ -10,6 +10,23 @@ import java.util.Objects;
 
 /**
  * Clase que representa una parada en el sistema.
+ *
+ * <p>
+ * La entidad modela la información de una parada, incluyendo su identificador único, nombre, región,
+ * el administrador de parada asociado y la lista de peregrinos asociados.
+ * </p>
+ *
+ * <p>
+ * La entidad está mapeada a la tabla "parada" en la base de datos.
+ * </p>
+ *
+ * <p>
+ * El autor de esta clase es Althaus_Dev.
+ * </p>
+ *
+ * @see AdminParada
+ * @see Peregrino
+ * </p>
  */
 @Getter
 @Setter
@@ -92,28 +109,5 @@ public class Parada implements Identifiable {
                 "\nNombre: " + nombre +
                 "\nRegión: " + region +
                 "\n";
-    }
-
-    /**
-     * Compara dos paradas para determinar si son iguales.
-     *
-     * @param o Objeto a comparar.
-     * @return true si son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Parada parada)) return false;
-        return Objects.equals(getId(), parada.getId()) && Objects.equals(getNombre(), parada.getNombre()) && Objects.equals(getRegion(), parada.getRegion()) && Objects.equals(getAdminParada(), parada.getAdminParada()) && Objects.equals(getPeregrinos(), parada.getPeregrinos());
-    }
-
-    /**
-     * Calcula el código hash de la parada.
-     *
-     * @return Código hash de la parada.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getNombre(), getRegion(), getAdminParada(), getPeregrinos());
     }
 }

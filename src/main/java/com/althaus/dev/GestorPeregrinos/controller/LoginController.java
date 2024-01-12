@@ -82,7 +82,6 @@ public class LoginController {
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println("Linea: " + line);
 
                     if (username == null) {
                         username = line;

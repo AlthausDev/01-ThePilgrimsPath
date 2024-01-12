@@ -8,6 +8,18 @@ import java.util.Optional;
 
 /**
  * Repositorio para la entidad Credenciales.
+ *
+ * <p>
+ * Esta interfaz proporciona métodos de consulta específicos para la entidad Credenciales,
+ * incluyendo búsquedas por nombre de usuario, verificación de existencia por nombre de usuario y
+ * una consulta personalizada para encontrar el ID máximo.
+ * </p>
+ *
+ * <p>
+ * El autor de esta interfaz es Althaus_Dev.
+ * </p>
+ *
+ * @see Credenciales
  */
 @Repository
 public interface CredencialesRepository extends CoreRepository<Credenciales, Long> {
@@ -20,10 +32,19 @@ public interface CredencialesRepository extends CoreRepository<Credenciales, Lon
      */
     Optional<Credenciales> findByUserName(String nombre);
 
+    /**
+     * Verifica la existencia de una credencial por nombre de usuario.
+     *
+     * @param name Nombre de usuario a verificar.
+     * @return true si la credencial existe, false en caso contrario.
+     */
     boolean existsByUser_Name(String name);
 
-
-
+    /**
+     * Consulta personalizada para encontrar el ID máximo de las credenciales.
+     *
+     * @return El ID máximo de las credenciales.
+     */
     @Query("SELECT MAX(c.id) FROM Credenciales c")
     Long findMaxId();
 }

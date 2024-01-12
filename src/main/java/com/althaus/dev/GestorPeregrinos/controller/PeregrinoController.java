@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Controlador encargado de gestionar las operaciones relacionadas con los peregrinos.
+ *
+ * @author Althaus_Dev
+ */
 @Controller
 public class PeregrinoController {
 
@@ -27,6 +32,16 @@ public class PeregrinoController {
     private static final Scanner scanner = new Scanner(System.in);
     private XMLWriter writer;
 
+
+    /**
+     * Constructor que inicializa las dependencias del controlador.
+     *
+     * @param peregrinoView      Vista de Peregrinos.
+     * @param paradaService       Servicio de Paradas.
+     * @param peregrinoService    Servicio de Peregrinos.
+     * @param carnetService       Servicio de Carnets.
+     * @param credencialService   Servicio de Credenciales.
+     */
     @Autowired
     public PeregrinoController(
             PeregrinoView peregrinoView,
@@ -44,6 +59,10 @@ public class PeregrinoController {
 
     }
 
+    /**
+     * Método transaccional que maneja la creación de un nuevo peregrino.
+     * Captura los datos desde la vista, valida y crea el nuevo peregrino junto con sus entidades asociadas.
+     */
     @Transactional
     public void nuevoPeregrino() {
         Parada parada = obtenerParada();
@@ -80,6 +99,11 @@ public class PeregrinoController {
         }
     }
 
+    /**
+     * Exporta el carnet del peregrino y muestra su información en la consola.
+     *
+     * @param usuario Usuario actual.
+     */
     public void exportarCarnet(User usuario){
         Long id = usuario.getId();
         Peregrino peregrino = peregrinoService.read(id).get();
@@ -89,7 +113,11 @@ public class PeregrinoController {
         peregrino.toString();
     }
 
-
+    /**
+     * Método privado que obtiene la parada seleccionada por el peregrino.
+     *
+     * @return Parada seleccionada por el peregrino.
+     */
     private Parada obtenerParada() {
         try {
             System.out.println("Lista de paradas:");

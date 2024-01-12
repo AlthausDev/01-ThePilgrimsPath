@@ -17,6 +17,10 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+/**
+ * Clase de inicio de la aplicación que implementa CommandLineRunner.
+ * Se encarga de cargar datos iniciales y el administrador general en la base de datos al arrancar la aplicación.
+ */
 @ComponentScan(basePackages = {"com.althaus.dev.GestorPeregrinos"})
 @EnableJpaRepositories("com.althaus.dev.GestorPeregrinos.repository")
 @EntityScan("com.althaus.dev.GestorPeregrinos.model")
@@ -40,12 +44,22 @@ public class StartupManager implements CommandLineRunner {
         this.adminParadaService = adminParadaService;
     }
 
+    /**
+     * Método principal que se ejecuta al iniciar la aplicación.
+     * Carga el administrador general y los datos iniciales si es necesario.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     * @throws Exception Posible excepción durante la ejecución.
+     */
     @Override
     public void run(String... args) throws Exception {
         cargarAdminGeneral();
         cargarDatosIniciales();
     }
 
+    /**
+     * Método transaccional para cargar datos iniciales en la base de datos.
+     */
     @Transactional
     void cargarDatosIniciales() {
 
@@ -68,8 +82,8 @@ public class StartupManager implements CommandLineRunner {
                 .collect(Collectors.toList());
 
 
-        if (paradaService.readAllList().isEmpty()) {
         // Cargar paradas
+        if (paradaService.readAllList().isEmpty()) {
             for (int i = 0; i < nombresParada.size(); i++) {
                 String nombreParada = nombresParada.get(i);
 
@@ -93,12 +107,11 @@ public class StartupManager implements CommandLineRunner {
                     paradaService.create(nuevaParada);
                 }
             }
-        } else {
-            System.out.println("La base de datos ya contiene paradas. No se realizará la carga inicial.");
         }
 
-        if (peregrinoService.readAllList().isEmpty()) {
         // Cargar peregrinos
+        if (peregrinoService.readAllList().isEmpty()) {
+
             for (int i = 0; i < 10; i++) {
 
                 String nombre = obtenerNombreUnico(nombresUtilizados, nombres);
@@ -121,14 +134,12 @@ public class StartupManager implements CommandLineRunner {
                 peregrinoService.create(nuevoPeregrino);
                 carnetService.create(nuevoCarnet);
             }
-
-            System.out.println("Datos iniciales cargados con éxito.");
-        } else {
-            System.out.println("La base de datos ya contiene peregrinos. No se realizará la carga inicial.");
         }
     }
 
-
+    /**
+     * Carga el administrador general si no existe en la base de datos.
+     */
     @Transactional
     private void cargarAdminGeneral() {
         Optional<Credenciales> adminCredenciales = credencialesService.read(0L);
@@ -142,6 +153,13 @@ public class StartupManager implements CommandLineRunner {
         }
     }
 
+    /**
+     * Genera un nombre único que no ha sido utilizado previamente.
+     *
+     * @param nombresUtilizados Lista de nombres ya utilizados.
+     * @param nombresDisponibles Lista de nombres disponibles.
+     * @return Nombre único generado.
+     */
     private String obtenerNombreUnico(List<String> nombresUtilizados, List<String> nombresDisponibles) {
         String nombre;
         do {

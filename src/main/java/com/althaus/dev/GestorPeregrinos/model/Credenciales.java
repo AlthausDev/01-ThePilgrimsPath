@@ -20,16 +20,16 @@ import java.util.Objects;
  * </p>
  *
  * <p>
- * Esta entidad está mapeada a la tabla "credenciales" en la base de datos.
- * </p>
- *
- * <p>
- * Esta clase implementa la interfaz {@code Identifiable}, proporcionando un identificador único para
- * la entidad.
- * </p>
- *
- * <p>
  * Se utiliza la anotación {@code Embedded} para incluir la entidad {@code User} como parte de las credenciales.
+ * </p>
+ *
+ * <p>
+ * La contraseña se almacena de forma segura utilizando el algoritmo de hash proporcionado por {@link PasswordUtils}.
+ * </p>
+ *
+ * <p>
+ * El atributo {@code passTest} se utiliza para almacenar temporalmente la contraseña sin encriptar en un entorno
+ * de desarrollo y prueba. No se recomienda su uso en entornos de producción.
  * </p>
  *
  * @see Identifiable
@@ -52,11 +52,16 @@ public class Credenciales implements Identifiable {
     private User user;
 
     /**
-     * Contraseña asociada a las credenciales (debería ser almacenada de manera segura, por ejemplo, usando hash).
+     * Contraseña asociada a las credenciales (almacenada de manera segura mediante hash).
      */
     @Column(name = "password", nullable = false)
     private String password;
 
+    /**
+     * Copia de la contraseña utilizada en entornos de desarrollo y prueba (sin encriptar).
+     * Este atributo se proporciona para facilitar el desarrollo y las pruebas, permitiendo almacenar
+     * temporalmente la contraseña sin encriptar en la base de datos.
+     */
     @Column(name = "passwordTest")
     private String passTest;
 
@@ -79,6 +84,4 @@ public class Credenciales implements Identifiable {
         this.password = PasswordUtils.hashPassword(password);
         this.passTest = password;
     }
-
-
 }

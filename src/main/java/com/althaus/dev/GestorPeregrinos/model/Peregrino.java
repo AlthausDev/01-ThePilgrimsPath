@@ -11,6 +11,24 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.PEREGRINO;
 
 /**
  * Clase que representa a un peregrino.
+ *
+ * <p>
+ * La entidad modela la información de un peregrino, incluyendo su identificador único, nombre, perfil,
+ * nacionalidad, carnet asociado, lista de paradas asociadas y lista de estancias asociadas.
+ * </p>
+ *
+ * <p>
+ * La entidad está mapeada a la tabla "peregrino" en la base de datos.
+ * </p>
+ *
+ * <p>
+ * El autor de esta clase es Althaus_Dev.
+ * </p>
+ *
+ * @see Carnet
+ * @see Parada
+ * @see Estancia
+ * </p>
  */
 @Getter
 @Setter
@@ -100,29 +118,5 @@ public class Peregrino extends User {
                 "\nNacionalidad: " + getNacionalidad() +
                 "\nCarnet:\n" + carnet +
                 "\n";
-    }
-
-
-    /**
-     * Compara dos peregrinos para determinar si son iguales.
-     *
-     * @param o Objeto a comparar.
-     * @return true si son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Peregrino peregrino)) return false;
-        return Objects.equals(getNacionalidad(), peregrino.getNacionalidad()) && Objects.equals(getCarnet(), peregrino.getCarnet()) && Objects.equals(getParadas(), peregrino.getParadas());
-    }
-
-    /**
-     * Calcula el código hash del peregrino.
-     *
-     * @return Código hash del peregrino.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getNacionalidad(), getCarnet(), getParadas());
     }
 }

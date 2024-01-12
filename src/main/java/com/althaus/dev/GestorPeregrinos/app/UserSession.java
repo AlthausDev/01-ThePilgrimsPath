@@ -70,7 +70,7 @@ public class UserSession {
      * @param estanciaController  Controlador de estancias.
      * @param validationService   Servicio de validación.
      * @param paradaRepository    Repositorio de paradas.
-     * @param adminParadaService
+     * @param adminParadaService  Servicio de administrador de paradas.
      */
     @Autowired
     public static void Session(
@@ -117,6 +117,13 @@ public class UserSession {
                 validationService);
     }
 
+    /**
+     * Inicia la sesión del usuario basándose en el perfil proporcionado por las credenciales.
+     * Actualiza el perfil del usuario y realiza acciones específicas según el perfil.
+     *
+     * @param credenciales Credenciales del usuario para iniciar sesión.
+     * @param user         Usuario asociado a las credenciales.
+     */
     public static void iniciarSesion(Credenciales credenciales, User user){
         Perfil perfil = credenciales.getUser().getPerfil();
         switch (perfil) {
@@ -142,6 +149,7 @@ public class UserSession {
 
     /**
      * Realiza operaciones específicas durante el inicio de la aplicación.
+     * Maneja excepciones específicas y logea mensajes informativos o de advertencia.
      */
     public static void establecerParada() {
         try {
@@ -162,10 +170,15 @@ public class UserSession {
      * Obtiene una parada aleatoria en base al número total de paradas.
      *
      * @param numParadas Número total de paradas.
-     * @return Una parada aleatoria.
+     * @return Una parada aleatoria, o un Optional vacío si no se puede obtener.
      */
     private static Optional<Parada> getParadaAleatoria(long numParadas) {
-        long paradaAleatoria = (long) (Math.random() * numParadas);
-        return paradaRepository.findById(paradaAleatoria);
+        try {
+            long paradaAleatoria = (long) (Math.random() * numParadas);
+            return paradaRepository.findById(paradaAleatoria);
+        } catch (Exception e) {
+            log.error("Error al obtener la parada aleatoria.", e);
+            return Optional.empty();
+        }
     }
 }

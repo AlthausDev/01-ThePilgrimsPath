@@ -8,7 +8,28 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * Clase que representa el carné asociado a un peregrino.
+ * Clase que representa el carnet asociado a un peregrino.
+ *
+ * <p>
+ * Esta clase modela la información del carné de un peregrino, incluyendo su fecha de expedición,
+ * la distancia recorrida, el número de VIPs y la parada inicial asociada.
+ * </p>
+ *
+ * <p>
+ * La entidad está mapeada a la tabla "carnet" en la base de datos.
+ * </p>
+ *
+ * <p>
+ * La anotación {@code ManyToOne} se utiliza para mapear la relación con la entidad {@code Parada},
+ * indicando que un carné está asociado a una parada inicial.
+ * </p>
+ *
+ * <p>
+ * El autor de esta clase es Althaus_Dev.
+ * </p>
+ *
+ * @see Parada
+ * </p>
  */
 @Getter
 @Setter
@@ -93,28 +114,5 @@ public class Carnet implements Identifiable {
                 "\n\nParada Inicial:" + paradaInicial +
                 "\nDistancia Recorrida: " + distancia +
                 "\nNúmero de VIPs: " + nvips;
-    }
-
-    /**
-     * Compara dos carnés para determinar si son iguales.
-     *
-     * @param o Objeto a comparar.
-     * @return true si son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Carnet carnet)) return false;
-        return Objects.equals(getId(), carnet.getId()) && Objects.equals(getFechaExp(), carnet.getFechaExp()) && Objects.equals(getDistancia(), carnet.getDistancia()) && Objects.equals(getNvips(), carnet.getNvips());
-    }
-
-    /**
-     * Calcula el código hash del carné.
-     *
-     * @return Código hash del carné.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getFechaExp(), getDistancia(), getNvips());
     }
 }
