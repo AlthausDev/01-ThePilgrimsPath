@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.althaus.dev</groupId>
     <artifactId>GestorPeregrinos</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <name>Gestor de Peregrinos</name>
     <description>Una aplicación de gestión de peregrinos que registra y organiza datos relacionados con rutas
         turísticas, estancias y administración de paradas.
