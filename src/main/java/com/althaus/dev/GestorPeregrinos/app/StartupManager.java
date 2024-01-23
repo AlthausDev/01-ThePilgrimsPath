@@ -110,6 +110,7 @@ public class StartupManager implements CommandLineRunner {
         }
 
         // Cargar peregrinos
+        //TODO cargar peregrinos con varias paradas y estancias, algunas VIP y otras no.
         if (peregrinoService.readAllList().isEmpty()) {
 
             for (int i = 0; i < 10; i++) {

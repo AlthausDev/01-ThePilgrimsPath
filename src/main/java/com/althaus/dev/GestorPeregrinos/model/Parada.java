@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,6 +67,10 @@ public class Parada implements Identifiable {
      */
     @ManyToMany(mappedBy = "paradas", fetch = FetchType.LAZY)
     private List<Peregrino> peregrinos;
+
+
+    @Column(name = "servicios", nullable = true)
+    private HashMap <Long, String> servicios = new HashMap<>();
 
     /**
      * Constructor sin argumentos.
