@@ -29,6 +29,7 @@ import static com.althaus.dev.GestorPeregrinos.model.Perfil.ADMIN_PARADA;
  * indicando que un administrador de parada está asociado a una única parada.
  * </p>
  *
+ * @author Althaus_Dev
  * @see User
  * @see Parada
  * </p>

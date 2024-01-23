@@ -23,4 +23,6 @@ public final class Constantes {
 	 */
 	public final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+	public final static String PATH_DB4O = "database.db4o";
+
 }
