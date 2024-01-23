@@ -40,7 +40,7 @@ public class Db4oConnectionManager {
     /**
      * Cierra la conexión con la base de datos.
      */
-    public void closeConnection() {
+    public static void closeConnection() {
         if (dataBase != null) {
             dataBase.close();
         }
