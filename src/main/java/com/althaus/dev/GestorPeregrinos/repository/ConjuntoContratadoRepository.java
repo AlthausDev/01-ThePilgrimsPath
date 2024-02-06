@@ -7,7 +7,7 @@ import com.db4o.query.Query;
 import java.util.List;
 
 public class ConjuntoContratadoRepository {
-    private ObjectContainer db;
+    private final ObjectContainer db;
 
     public ConjuntoContratadoRepository(ObjectContainer db) {
         this.db = db;

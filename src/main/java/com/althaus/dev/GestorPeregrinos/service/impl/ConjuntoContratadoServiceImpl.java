@@ -1,17 +1,19 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
 import com.althaus.dev.GestorPeregrinos.model.ConjuntoContratado;
-import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ConjuntoContratadoRepository;
 import com.althaus.dev.GestorPeregrinos.service.ConjuntoContratadoService;
-import com.db4o.ObjectContainer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConjuntoContratadoServiceImpl implements ConjuntoContratadoService {
+
     private final ConjuntoContratadoRepository conjuntoContratadoRepository;
 
-    public ConjuntoContratadoServiceImpl() {
-        ObjectContainer db = Db4oConnectionManager.getInstance();
-        this.conjuntoContratadoRepository = new ConjuntoContratadoRepository(db);
+    @Autowired
+    public ConjuntoContratadoServiceImpl(ConjuntoContratadoRepository conjuntoContratadoRepository) {
+        this.conjuntoContratadoRepository = conjuntoContratadoRepository;
     }
 
     @Override
