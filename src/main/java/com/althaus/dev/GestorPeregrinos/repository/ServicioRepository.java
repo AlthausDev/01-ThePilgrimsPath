@@ -3,7 +3,6 @@ package com.althaus.dev.GestorPeregrinos.repository;
 import com.althaus.dev.GestorPeregrinos.model.Servicio;
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
-
 import java.util.List;
 
 public class ServicioRepository {
@@ -14,7 +13,19 @@ public class ServicioRepository {
     }
 
     public void createServicio(Servicio servicio) {
-        db.store(servicio);
+        try {
+            db.store(servicio);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateServicio(Servicio servicio) {
+        try {
+            db.store(servicio);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Servicio findByName(String nombre) {

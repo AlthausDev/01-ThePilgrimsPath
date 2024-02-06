@@ -1,10 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
-import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
-import com.althaus.dev.GestorPeregrinos.controller.LoginController;
-import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
-import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
@@ -61,6 +58,7 @@ public class Menu {
     private final PeregrinoController peregrinoController;
     private final EstanciaController estanciaController;
     private final ValidationService validationService;
+    private final ServicioController servicioController;
 
 
     /**
@@ -77,12 +75,14 @@ public class Menu {
             ParadaController paradaController,
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
-            ValidationService validationService) {
+            ValidationService validationService,
+            ServicioController servicioController) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
         this.peregrinoController = peregrinoController;
         this.estanciaController = estanciaController;
+        this.servicioController = servicioController;
         this.validationService = validationService;
 
         Perfil perfil = UserSession.getPerfil();
@@ -192,7 +192,8 @@ public class Menu {
         do {
             System.out.println("Menu Administrador:");
             System.out.println("1. Registrar nueva parada");
-            System.out.println("2. Cerrar Sesion");
+            System.out.println("2. Nuevo Servicio");
+            System.out.println("3. Cerrar Sesion");
             System.out.println("0. Salir");
 
             opcion = obtenerOpcionUsuario();
@@ -203,7 +204,8 @@ public class Menu {
                     salir();
                 }
                 case 1 -> paradaController.nuevaParada();
-                case 2 -> {
+                case 2 -> servicioController.createServicio();
+                case 3 -> {
                     UserSession.cerrarSesion();
                     opcion = 0;
                 }

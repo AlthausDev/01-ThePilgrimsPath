@@ -4,5 +4,5 @@ import com.althaus.dev.GestorPeregrinos.model.Servicio;
 
 public interface ServicioService {
     void createServicio(Servicio servicio);
-    Servicio findServicioByName(String nombre);
+    void updateServicio(Servicio servicio);
 }
