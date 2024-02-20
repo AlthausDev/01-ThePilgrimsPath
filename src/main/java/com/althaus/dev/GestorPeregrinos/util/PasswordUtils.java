@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.util;
 
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.security.SecureRandom;
 
 public class PasswordUtils {

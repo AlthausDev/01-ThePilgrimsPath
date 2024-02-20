@@ -3,7 +3,7 @@ package com.althaus.dev.GestorPeregrinos.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ public class ConjuntoContratado implements Identifiable{
     private double precioTotal;
     private char modoPago;
     private String extra = null;
-    private List<Servicio> listaServicios;
+    private HashMap<Long, Servicio> listaServicios;
 
     public ConjuntoContratado() {
     }
