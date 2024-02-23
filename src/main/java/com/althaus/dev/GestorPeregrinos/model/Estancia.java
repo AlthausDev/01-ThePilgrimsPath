@@ -66,6 +66,10 @@ public class Estancia implements Identifiable{
     @JoinColumn(referencedColumnName = "id")
     private Peregrino peregrino;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ConjuntoContratado conjuntoContratado;
+
     /**
      * Constructor por defecto.
      */

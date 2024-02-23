@@ -1,9 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
-import com.althaus.dev.GestorPeregrinos.model.Carnet;
-import com.althaus.dev.GestorPeregrinos.model.Estancia;
-import com.althaus.dev.GestorPeregrinos.model.Parada;
-import com.althaus.dev.GestorPeregrinos.model.Peregrino;
+import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.service.CarnetService;
 import com.althaus.dev.GestorPeregrinos.service.EstanciaService;
 import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
@@ -79,12 +76,26 @@ public class EstanciaController {
 
             peregrino = peregrinoService.read(idPeregrino);
 
+            System.out.println("¿Desea contratar un paquete de servicios para este peregrino? (S/N):");
+            String confirmacion = scanner.nextLine().trim();
+
+            if (confirmacion.equalsIgnoreCase("S")) {
+
+                mostrarServiciosDisponibles(paradaActual);
+                ConjuntoContratado conjuntoContratado = detallesPaquete();
+
+            } else {
+                System.out.println("Operación cancelada. No se ha contratado un paquete de servicios.");
+            }
+
+
             if (peregrino.isEmpty()) {
                 System.out.println("No se encontró un peregrino con ese identificador. Vuelva a introducir su ID");
             }
         } while (peregrino.isEmpty());
 
         peregrinoView.mostrarDetallesPeregrino(peregrino.get());
+
 
         System.out.println("¿Desea sellar el carnet del peregrino? (S/N):");
         String confirmacion = scanner.nextLine().trim();
@@ -94,6 +105,14 @@ public class EstanciaController {
         } else {
             System.out.println("Operación cancelada. No se ha sellado el carnet.");
         }
+    }
+
+    //TODO Mostrar servicios y crear paquete
+    private ConjuntoContratado detallesPaquete() {
+        return null;
+    }
+
+    private void mostrarServiciosDisponibles(Parada paradaActual) {
     }
 
     /**

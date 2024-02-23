@@ -193,7 +193,8 @@ public class Menu {
             System.out.println("Menu Administrador:");
             System.out.println("1. Registrar nueva parada");
             System.out.println("2. Nuevo Servicio");
-            System.out.println("3. Cerrar Sesion");
+            System.out.println("3. Editar Servicio");
+            System.out.println("4. Cerrar Sesion");
             System.out.println("0. Salir");
 
             opcion = obtenerOpcionUsuario();
@@ -205,7 +206,8 @@ public class Menu {
                 }
                 case 1 -> paradaController.nuevaParada();
                 case 2 -> servicioController.createServicio();
-                case 3 -> {
+                case 3 -> servicioController.updateServicio();
+                case 4 -> {
                     UserSession.cerrarSesion();
                     opcion = 0;
                 }

@@ -2,6 +2,7 @@ package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.*;
+import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
@@ -58,6 +59,13 @@ public class UserSession {
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
     private static AdminParadaService adminParadaService;
+    private static Db4oConnectionManager db4oConnectionManager;
+
+    @Autowired
+    public static void setDb4oConnectionManager(Db4oConnectionManager db4oConnectionManager) {
+        UserSession.db4oConnectionManager = db4oConnectionManager;
+    }
+
 
 
     /**

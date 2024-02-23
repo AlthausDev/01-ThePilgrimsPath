@@ -4,6 +4,7 @@ import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
 import com.althaus.dev.GestorPeregrinos.controller.LoginController;
 import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
@@ -56,6 +57,7 @@ public class AppLauncher implements CommandLineRunner {
 	public void run(String... args) {
 		try {
 			startupManager.cargarDatosIniciales();
+			Db4oConnectionManager.getInstance();
 			inicializarSesionDeUsuario();
 		} catch (Exception e) {
 			log.error("Ocurrió un error durante la inicialización.", e);

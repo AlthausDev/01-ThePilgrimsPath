@@ -29,14 +29,17 @@ public class ServicioRepository {
         }
     }
 
-    public Servicio findByName(String nombre) {
-        Query query = db.query();
-        query.constrain(Servicio.class);
-        query.descend("nombre").constrain(nombre);
-        List<Servicio> result = query.execute();
-        if (!result.isEmpty()) {
-            return result.get(0);
+    public List<Servicio> findByName(String nombre) {
+        List<Servicio> servicios = null;
+        try {
+            Query query = db.query();
+            query.constrain(Servicio.class);
+            query.descend("nombre").constrain(nombre);
+            servicios = query.execute();
+        } catch (Exception e) {
+            System.err.println("Error al buscar el servicio por nombre: " + e.getMessage());
+            e.printStackTrace();
         }
-        return null;
+        return servicios;
     }
 }

@@ -11,11 +11,12 @@ import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_DB4O;
  */
 public class Db4oConnectionManager {
 
-    private static ObjectContainer dataBase;
+    private static ObjectContainer database;
     private static Db4oConnectionManager INSTANCE;
 
 
     private Db4oConnectionManager() {
+        openConnection();
     }
 
     /**
@@ -34,15 +35,21 @@ public class Db4oConnectionManager {
      * Abre la conexión con la base de datos.
      */
     private static void openConnection() {
-        dataBase = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), PATH_DB4O);
+        try {
+            database = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), PATH_DB4O);
+        } catch (Exception e) {
+            System.err.println("Error al abrir la conexión con la base de datos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
     /**
      * Cierra la conexión con la base de datos.
      */
     public static void closeConnection() {
-        if (dataBase != null) {
-            dataBase.close();
+        if (database != null) {
+            database.close();
         }
     }
 
@@ -54,6 +61,6 @@ public class Db4oConnectionManager {
     public static ObjectContainer getInstance() {
         if (INSTANCE == null)
             createInstance();
-        return dataBase;
+        return database;
     }
 }
