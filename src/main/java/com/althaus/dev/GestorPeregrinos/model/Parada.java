@@ -70,7 +70,7 @@ public class Parada implements Identifiable {
 
 
     @Column(name = "servicios", nullable = true)
-    private HashMap <Long, String> servicios = new HashMap<>();
+    private HashMap <Long, Servicio> servicios = new HashMap<>();
 
     /**
      * Constructor sin argumentos.

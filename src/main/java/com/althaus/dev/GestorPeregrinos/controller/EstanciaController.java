@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -81,13 +82,11 @@ public class EstanciaController {
 
             if (confirmacion.equalsIgnoreCase("S")) {
 
-                mostrarServiciosDisponibles(paradaActual);
-                ConjuntoContratado conjuntoContratado = detallesPaquete();
+                ConjuntoContratado conjuntoContratado = estanciaView.detallesPaquete(paradaActual);
 
             } else {
                 System.out.println("Operación cancelada. No se ha contratado un paquete de servicios.");
             }
-
 
             if (peregrino.isEmpty()) {
                 System.out.println("No se encontró un peregrino con ese identificador. Vuelva a introducir su ID");
@@ -107,13 +106,6 @@ public class EstanciaController {
         }
     }
 
-    //TODO Mostrar servicios y crear paquete
-    private ConjuntoContratado detallesPaquete() {
-        return null;
-    }
-
-    private void mostrarServiciosDisponibles(Parada paradaActual) {
-    }
 
     /**
      * Realiza el sellado del carnet del peregrino en la parada actual.

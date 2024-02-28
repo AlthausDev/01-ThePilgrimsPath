@@ -24,11 +24,11 @@ public class ConjuntoContratado implements Identifiable{
         this.modoPago = modoPago;
     }
 
-    public ConjuntoContratado(Long id, double precioTotal, char modoPago, String extra) {
-        this.id = id;
+    public ConjuntoContratado(double precioTotal, char modoPago, String extra, HashMap<Long, Servicio> listaServicios) {
         this.precioTotal = precioTotal;
         this.modoPago = modoPago;
         this.extra = extra;
+        this.listaServicios = listaServicios;
     }
 
     @Override
