@@ -1,9 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
-import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
-import com.althaus.dev.GestorPeregrinos.controller.LoginController;
-import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
-import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
@@ -37,6 +34,8 @@ public class AppLauncher implements CommandLineRunner {
 
     @Autowired
     private StartupManager startupManager;
+    @Autowired
+    private EnvioACasaController envioACasaController;
 
 
     /**
@@ -84,6 +83,7 @@ public class AppLauncher implements CommandLineRunner {
                 estanciaController,
                 validationService,
                 paradaRepository,
-                adminParadaService);
+                adminParadaService,
+                envioACasaController);
     }
 }

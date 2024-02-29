@@ -55,6 +55,7 @@ public class UserSession {
     private static PeregrinoController peregrinoController;
     private static EstanciaController estanciaController;
     private static ServicioController servicioController;
+    private static EnvioACasaController envioACasaController;
 
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
@@ -86,7 +87,8 @@ public class UserSession {
             EstanciaController estanciaController,
             ValidationService validationService,
             ParadaRepository paradaRepository,
-            AdminParadaService adminParadaService) {
+            AdminParadaService adminParadaService,
+            EnvioACasaController envioACasaController) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -96,6 +98,7 @@ public class UserSession {
         UserSession.validationService = validationService;
         UserSession.paradaRepository = paradaRepository;
         UserSession.adminParadaService = adminParadaService;
+        UserSession.envioACasaController = envioACasaController;
 
         do {
             inicializarMenu();
@@ -121,7 +124,8 @@ public class UserSession {
                 peregrinoController,
                 estanciaController,
                 validationService,
-                servicioController);
+                servicioController,
+                envioACasaController);
     }
 
     /**

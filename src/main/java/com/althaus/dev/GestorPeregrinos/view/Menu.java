@@ -59,6 +59,8 @@ public class Menu {
     private final EstanciaController estanciaController;
     private final ValidationService validationService;
     private final ServicioController servicioController;
+    private final EnvioACasaController envioACasaController;
+
 
 
     /**
@@ -76,7 +78,7 @@ public class Menu {
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
             ValidationService validationService,
-            ServicioController servicioController) {
+            ServicioController servicioController, EnvioACasaController envioACasaController) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -84,6 +86,7 @@ public class Menu {
         this.estanciaController = estanciaController;
         this.servicioController = servicioController;
         this.validationService = validationService;
+        this.envioACasaController = envioACasaController;
 
         Perfil perfil = UserSession.getPerfil();
         switch (perfil) {
@@ -154,7 +157,7 @@ public class Menu {
 
     /**
      * Menú para administradores de parada (perfil ADMIN_PARADA).
-     * Permite visualizar, exportar datos de parada, cerrar sesión y salir del programa.
+     * Permite visualizar, exportar datos de parada, recibir peregrinos, ver envíos realizados, cerrar sesión y salir del programa.
      */
     protected void menuAdminParada() {
         int opcion = -1;
@@ -163,7 +166,8 @@ public class Menu {
             System.out.println("1. Visualizar datos de parada");
             System.out.println("2. Exportar datos de parada");
             System.out.println("3. Recibir peregrino en parada");
-            System.out.println("4. Cerrar Sesion");
+            System.out.println("4. Ver envíos realizados");
+            System.out.println("5. Cerrar Sesion");
             System.out.println("0. Salir");
 
             opcion = obtenerOpcionUsuario();
@@ -176,11 +180,17 @@ public class Menu {
                 case 1 -> mostrarDatosParadaActual();
                 case 2 -> menuExportarEstanciasFechas();
                 case 3 -> menuRecibirPeregrinoEnParada();
-                case 4 -> UserSession.cerrarSesion();
+                case 4 -> {
+                    // Lógica para ver los envíos realizados
+                    Parada paradaActual = UserSession.getParadaActual();
+                    envioACasaController.verEnviosRealizados(paradaActual);
+                }
+                case 5 -> UserSession.cerrarSesion();
                 default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
+
 
     /**
      * Menú para administradores generales (perfil ADMIN_GENERAL).
