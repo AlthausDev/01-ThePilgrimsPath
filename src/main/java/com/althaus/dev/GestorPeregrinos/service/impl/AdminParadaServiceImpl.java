@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
  *
  * <p>Esta clase proporciona la lógica de negocio específica para la entidad AdminParada.</p>
  *
+ * @author Althaus_Dev
  * @see AdminParada
  * @see AdminParadaService
- * @author Althaus_Dev
  * @since 2024-01-12
  */
 @Service

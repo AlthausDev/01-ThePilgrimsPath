@@ -10,6 +10,7 @@ import static com.althaus.dev.GestorPeregrinos.util.Constantes.PUERTO;
 
 /**
  * Clase del cliente para conectarse al servidor.
+ *
  * @author Althaus_Dev
  */
 public class Cliente {
@@ -38,7 +39,7 @@ public class Cliente {
     }
 
 
-    public void cerrarConexion(){
+    public void cerrarConexion() {
         try {
             outputStream.close();
             inputStream.close();

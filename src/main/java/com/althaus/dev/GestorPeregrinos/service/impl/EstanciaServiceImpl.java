@@ -44,9 +44,9 @@ public class EstanciaServiceImpl extends CoreServiceImpl<Estancia> implements Es
     /**
      * Obtiene la lista de estancias para una parada específica y en un rango de fechas dado.
      *
-     * @param idParada     El identificador de la parada.
-     * @param fechaInicio  La fecha de inicio del rango.
-     * @param fechaFin     La fecha de fin del rango.
+     * @param idParada    El identificador de la parada.
+     * @param fechaInicio La fecha de inicio del rango.
+     * @param fechaFin    La fecha de fin del rango.
      * @return La lista de estancias para la parada y rango de fechas proporcionados.
      */
     public List<Estancia> getEstanciasByParadaAndFecha(long idParada, LocalDate fechaInicio, LocalDate fechaFin) {

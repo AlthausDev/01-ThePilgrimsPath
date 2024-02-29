@@ -1,5 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +9,28 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Entity
+@Table(name = "servicio")
 public class Servicio implements Identifiable {
 
+    /**
+     * Identificador único del servicio.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    /**
+     * Nombre del servicio.
+     */
+    @Column(name = "nombre")
     private String nombre;
+
+    /**
+     * Precio del servicio.
+     */
+    @Column(name = "precio")
     private double precio;
 
     /**
@@ -23,9 +42,9 @@ public class Servicio implements Identifiable {
     /**
      * Constructor de la clase Servicio.
      *
-     * @param id      El ID del servicio.
-     * @param nombre  El nombre del servicio.
-     * @param precio  El precio del servicio.
+     * @param id     El ID del servicio.
+     * @param nombre El nombre del servicio.
+     * @param precio El precio del servicio.
      */
     public Servicio(Long id, String nombre, double precio) {
         this.id = id;

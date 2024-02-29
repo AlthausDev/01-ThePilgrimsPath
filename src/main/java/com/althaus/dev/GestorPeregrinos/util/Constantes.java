@@ -8,23 +8,23 @@ import java.time.format.DateTimeFormatter;
  */
 public final class Constantes {
 
-	/**
-	 * Ruta del archivo XML que contiene datos de países.
-	 */
-	public final static String PATH_COUNTRIES = "src\\main\\resources\\paises.xml";
+    /**
+     * Ruta del archivo XML que contiene datos de países.
+     */
+    public final static String PATH_COUNTRIES = "src\\main\\resources\\paises.xml";
 
-	/**
-	 * Ruta base para exportar archivos XML.
-	 */
-	public final static String PATH_EXPORTS = "src/main/java/com/althaus/dev/GestorPeregrinos/model/data/xml_exports/";
+    /**
+     * Ruta base para exportar archivos XML.
+     */
+    public final static String PATH_EXPORTS = "src/main/java/com/althaus/dev/GestorPeregrinos/model/data/xml_exports/";
 
-	/**
-	 * Formateador de fecha utilizado en toda la aplicación.
-	 */
-	public final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    /**
+     * Formateador de fecha utilizado en toda la aplicación.
+     */
+    public final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-	public final static String PATH_DB4O = "database.db4o";
+    public final static String PATH_DB4O = "database.db4o";
 
-	public final static Integer PUERTO = 44441;
+    public final static Integer PUERTO = 44441;
 
 }

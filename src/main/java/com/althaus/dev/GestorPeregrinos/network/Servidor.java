@@ -26,7 +26,7 @@ public class Servidor {
         servidor.esperarCliente();
     }
 
-    public void esperarCliente(){
+    public void esperarCliente() {
         while (true) {
             try {
                 Socket socketCliente = serverSocket.accept();
@@ -40,7 +40,7 @@ public class Servidor {
         }
     }
 
-    private void closeConnection(){
+    private void closeConnection() {
         try {
             serverSocket.close();
             Db4oConnectionManager.closeConnection();

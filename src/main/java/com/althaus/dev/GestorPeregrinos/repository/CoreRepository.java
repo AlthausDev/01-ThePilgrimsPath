@@ -17,7 +17,7 @@ import java.io.Serializable;
  * El autor de esta interfaz es Althaus_Dev.
  * </p>
  *
- * @param <T> Tipo de entidad.
+ * @param <T>  Tipo de entidad.
  * @param <ID> Tipo de ID de la entidad.
  */
 @NoRepositoryBean

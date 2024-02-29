@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  * <p>Esta clase proporciona la implementación concreta de las operaciones específicas del servicio
  * para la entidad Carnet.</p>
  *
+ * @author Althaus_Dev
  * @see Carnet
  * @see CarnetService
- * @author Althaus_Dev
  * @since 2024-01-12
  */
 @Service

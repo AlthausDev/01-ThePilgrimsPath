@@ -24,9 +24,9 @@ import java.time.LocalDate;
  * </p>
  *
  * <p>
+ *
  * @author Althaus_Dev.
  * </p>
- *
  * @see Parada
  * </p>
  */
@@ -76,7 +76,7 @@ public class Carnet implements Identifiable {
     /**
      * Constructor que inicializa el identificador y la parada inicial del carné.
      *
-     * @param id           Identificador único del carné.
+     * @param id            Identificador único del carné.
      * @param paradaInicial Parada inicial asociada al carné.
      */
     public Carnet(Long id, Parada paradaInicial) {
@@ -87,10 +87,10 @@ public class Carnet implements Identifiable {
     /**
      * Constructor que inicializa todas las propiedades del carné.
      *
-     * @param id           Identificador único del carné.
-     * @param fechaExp     Fecha de expedición del carné.
-     * @param distancia    Distancia recorrida por el peregrino asociado al carné.
-     * @param nvips        Número de VIPs asociados al carné.
+     * @param id            Identificador único del carné.
+     * @param fechaExp      Fecha de expedición del carné.
+     * @param distancia     Distancia recorrida por el peregrino asociado al carné.
+     * @param nvips         Número de VIPs asociados al carné.
      * @param paradaInicial Parada inicial asociada al carné.
      */
     public Carnet(Long id, LocalDate fechaExp, Double distancia, Integer nvips, Parada paradaInicial) {

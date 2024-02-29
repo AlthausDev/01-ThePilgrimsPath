@@ -43,38 +43,38 @@ public class XMLWriter {
     public void exportarCarnet(Peregrino peregrino, Carnet carnet) {
         try {
 
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                DOMImplementation implementation = dBuilder.getDOMImplementation();
-                Document doc = implementation.createDocument(null, "Carnet", null);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            DOMImplementation implementation = dBuilder.getDOMImplementation();
+            Document doc = implementation.createDocument(null, "Carnet", null);
 
-                Element root = doc.getDocumentElement();
-                newElementXML("id", String.valueOf(peregrino.getId()), root, doc);
-                newElementXML("fechaexp", carnet.getFechaExp().toString(), root, doc);
-                newElementXML("expedidoen", carnet.getParadaInicial().getNombre(), root, doc);
+            Element root = doc.getDocumentElement();
+            newElementXML("id", String.valueOf(peregrino.getId()), root, doc);
+            newElementXML("fechaexp", carnet.getFechaExp().toString(), root, doc);
+            newElementXML("expedidoen", carnet.getParadaInicial().getNombre(), root, doc);
 
-                createPeregrinoElement(doc, root, peregrino);
-                createParadasElement(doc, root, peregrino);
-                createEstanciasElement(doc, root, peregrino);
+            createPeregrinoElement(doc, root, peregrino);
+            createParadasElement(doc, root, peregrino);
+            createEstanciasElement(doc, root, peregrino);
 
-                createPeregrinoElement(doc, root, peregrino);
-                newElementXML("hoy", LocalDate.now().toString(), root, doc);
-                newElementXML("distanciaTotal", String.valueOf(carnet.getDistancia()), root, doc);
+            createPeregrinoElement(doc, root, peregrino);
+            newElementXML("hoy", LocalDate.now().toString(), root, doc);
+            newElementXML("distanciaTotal", String.valueOf(carnet.getDistancia()), root, doc);
 
-                createParadasElement(doc, root, peregrino);
-                createEstanciasElement(doc, root, peregrino);
+            createParadasElement(doc, root, peregrino);
+            createEstanciasElement(doc, root, peregrino);
 
-                Source src = new DOMSource(doc);
-                File fileXML = new File(PATH_EXPORTS + peregrino.getName() + ".xml");
-                StreamResult rslt = new StreamResult(fileXML);
+            Source src = new DOMSource(doc);
+            File fileXML = new File(PATH_EXPORTS + peregrino.getName() + ".xml");
+            StreamResult rslt = new StreamResult(fileXML);
 
-                try {
-                    Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                    transformer.transform(src, rslt);
-                    System.out.println("Fichero exportado con éxito");
-                } catch (TransformerException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                transformer.transform(src, rslt);
+                System.out.println("Fichero exportado con éxito");
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
 
             System.out.println("Fichero exportado con éxito");
         } catch (ParserConfigurationException e) {
@@ -146,7 +146,7 @@ public class XMLWriter {
         } else {
             Element estancia = doc.createElement("estancia");
             estancias.appendChild(estancia);
-            newElementXML("id", "", estancia ,doc);
+            newElementXML("id", "", estancia, doc);
             newElementXML("fecha", "", estancia, doc);
             newElementXML("parada", "", estancia, doc);
             newElementXML("vip", "", estancia, doc);

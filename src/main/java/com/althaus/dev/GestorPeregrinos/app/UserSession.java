@@ -67,7 +67,6 @@ public class UserSession {
     }
 
 
-
     /**
      * Método estático para inicializar la sesión del usuario.
      *
@@ -132,7 +131,7 @@ public class UserSession {
      * @param credenciales Credenciales del usuario para iniciar sesión.
      * @param user         Usuario asociado a las credenciales.
      */
-    public static void iniciarSesion(Credenciales credenciales, User user){
+    public static void iniciarSesion(Credenciales credenciales, User user) {
         Perfil perfil = credenciales.getUser().getPerfil();
         switch (perfil) {
             case PEREGRINO:
@@ -164,7 +163,7 @@ public class UserSession {
             long numParadas = paradaRepository.count();
             log.info("Número de paradas en la base de datos: {}", numParadas);
             if (numParadas > 0) {
-                paradaActual = getParadaAleatoria(numParadas-1).get();
+                paradaActual = getParadaAleatoria(numParadas - 1).get();
                 log.info("Parada actual asignada: {}", paradaActual);
             } else {
                 log.warn("No hay paradas disponibles en la base de datos.");

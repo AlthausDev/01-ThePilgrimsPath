@@ -7,6 +7,7 @@ import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_DB4O;
 
 /**
  * Clase Singleton para gestionar la conexión con la base de datos db4o.
+ *
  * @author Althaus_Dev
  */
 public class Db4oConnectionManager {

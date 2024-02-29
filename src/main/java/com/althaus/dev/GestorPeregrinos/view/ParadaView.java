@@ -29,7 +29,7 @@ public class ParadaView {
      * @param paradaService       Servicio para la gestión de paradas.
      * @param credencialesService Servicio para la gestión de credenciales.
      * @return Un HashMap que contiene la información recopilada para la nueva parada.
-     *         Devuelve null si el usuario cancela el proceso de registro.
+     * Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.
      */
     public HashMap<String, Object> agregarParada(ParadaService paradaService, CredencialesService credencialesService) {

@@ -25,9 +25,9 @@ public interface EstanciaService extends CoreService<Estancia> {
     /**
      * Obtiene la lista de estancias para una parada específica y en un rango de fechas dado.
      *
-     * @param idParada     ID de la parada.
-     * @param fechaInicio  Fecha de inicio del rango.
-     * @param fechaFin     Fecha de fin del rango.
+     * @param idParada    ID de la parada.
+     * @param fechaInicio Fecha de inicio del rango.
+     * @param fechaFin    Fecha de fin del rango.
      * @return Lista de estancias en el rango de fechas para la parada especificada.
      */
     List<Estancia> getEstanciasByParadaAndFecha(long idParada, LocalDate fechaInicio, LocalDate fechaFin);

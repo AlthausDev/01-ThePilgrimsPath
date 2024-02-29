@@ -36,11 +36,11 @@ public class PeregrinoController {
     /**
      * Constructor que inicializa las dependencias del controlador.
      *
-     * @param peregrinoView      Vista de Peregrinos.
-     * @param paradaService       Servicio de Paradas.
-     * @param peregrinoService    Servicio de Peregrinos.
-     * @param carnetService       Servicio de Carnets.
-     * @param credencialService   Servicio de Credenciales.
+     * @param peregrinoView     Vista de Peregrinos.
+     * @param paradaService     Servicio de Paradas.
+     * @param peregrinoService  Servicio de Peregrinos.
+     * @param carnetService     Servicio de Carnets.
+     * @param credencialService Servicio de Credenciales.
      */
     @Autowired
     public PeregrinoController(
@@ -49,7 +49,7 @@ public class PeregrinoController {
             PeregrinoService peregrinoService,
             CarnetService carnetService,
             CredencialesService credencialService
-            ) {
+    ) {
         this.peregrinoView = peregrinoView;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
@@ -74,7 +74,7 @@ public class PeregrinoController {
                 String pass = (String) datosPeregrino.get("password");
                 String nacionalidad = (String) datosPeregrino.get("nacionalidad");
 
-                ArrayList <Parada> paradas = new ArrayList<>();
+                ArrayList<Parada> paradas = new ArrayList<>();
                 paradas.add(parada);
 
                 Long newIdCredencial = credencialService.getLastId() + 1;
@@ -93,7 +93,7 @@ public class PeregrinoController {
                 throw new RuntimeException("El formulario de registro fue cancelado por el usuario.");
             }
         } catch (ConstraintViolationException e) {
-        System.err.println("Error al agregar el nuevo peregrino: El nombre de usuario ya está en uso.");
+            System.err.println("Error al agregar el nuevo peregrino: El nombre de usuario ya está en uso.");
         } catch (Exception e) {
             System.err.println("Error al agregar el nuevo peregrino: " + e.getMessage());
         }
@@ -104,7 +104,7 @@ public class PeregrinoController {
      *
      * @param usuario Usuario actual.
      */
-    public void exportarCarnet(User usuario){
+    public void exportarCarnet(User usuario) {
         Long id = usuario.getId();
         Peregrino peregrino = peregrinoService.read(id).get();
         Carnet carnet = carnetService.read(id).get();

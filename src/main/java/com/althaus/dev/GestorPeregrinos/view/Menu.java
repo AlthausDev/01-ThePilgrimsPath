@@ -97,7 +97,6 @@ public class Menu {
     /**
      * Menú para usuarios invitados (perfil INVITADO).
      * Permite iniciar sesión, crear un nuevo usuario o salir del programa.
-     *
      */
     private void menuInvitado() {
         int opcion = -1;
@@ -216,7 +215,7 @@ public class Menu {
         } while (opcion != 0);
     }
 
-    private void salir(){
+    private void salir() {
         UserSession.setContinuar(false);
         //TODO establecer salir en System.exit(0);
     }
@@ -287,6 +286,6 @@ public class Menu {
      * Muestra la información de la parada actual en la salida estándar.
      */
     private void mostrarDatosParadaActual() {
-       System.out.println(UserSession.getParadaActual().toString());
+        System.out.println(UserSession.getParadaActual().toString());
     }
 }

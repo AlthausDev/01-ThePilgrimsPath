@@ -2,6 +2,7 @@ package com.althaus.dev.GestorPeregrinos.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
 
@@ -43,12 +44,12 @@ public class Direccion implements Identifiable {
     /**
      * Constructor de la clase Direccion.
      *
-     * @param id         El ID de la dirección.
-     * @param calle      La calle de la dirección.
-     * @param portal     El número de portal.
-     * @param piso       El piso.
-     * @param letra      La letra del piso.
-     * @param localidad  La localidad de la dirección.
+     * @param id        El ID de la dirección.
+     * @param calle     La calle de la dirección.
+     * @param portal    El número de portal.
+     * @param piso      El piso.
+     * @param letra     La letra del piso.
+     * @param localidad La localidad de la dirección.
      */
     public Direccion(Long id, String calle, String portal, String piso, String letra, String localidad) {
         this.id = id;

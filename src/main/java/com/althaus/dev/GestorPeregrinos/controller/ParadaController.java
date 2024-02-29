@@ -30,10 +30,10 @@ public class ParadaController {
     /**
      * Constructor que inicializa las dependencias del controlador.
      *
-     * @param paradaView           Vista de Paradas.
-     * @param adminParadaService   Servicio de Administradores de Parada.
-     * @param paradaService        Servicio de Paradas.
-     * @param credencialesService  Servicio de Credenciales.
+     * @param paradaView          Vista de Paradas.
+     * @param adminParadaService  Servicio de Administradores de Parada.
+     * @param paradaService       Servicio de Paradas.
+     * @param credencialesService Servicio de Credenciales.
      */
     @Autowired
     public ParadaController(

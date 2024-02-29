@@ -27,9 +27,9 @@ public interface EstanciaRepository extends CoreRepository<Estancia, Long> {
     /**
      * Busca estancias por ID de parada y rango de fechas.
      *
-     * @param paradaId     ID de la parada.
-     * @param fechaInicio  Fecha de inicio del rango.
-     * @param fechaFin     Fecha de fin del rango.
+     * @param paradaId    ID de la parada.
+     * @param fechaInicio Fecha de inicio del rango.
+     * @param fechaFin    Fecha de fin del rango.
      * @return Lista de estancias que cumplen con los criterios de búsqueda.
      */
     @Query("SELECT e FROM Estancia e WHERE e.parada.id = ?1 AND e.fecha BETWEEN ?2 AND ?3")

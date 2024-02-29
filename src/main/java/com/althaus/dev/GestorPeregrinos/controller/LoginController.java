@@ -30,8 +30,8 @@ public class LoginController {
     /**
      * Constructor que inicializa las dependencias del controlador.
      *
-     * @param credencialesService  Servicio de Credenciales.
-     * @param validationService    Servicio de Validación.
+     * @param credencialesService Servicio de Credenciales.
+     * @param validationService   Servicio de Validación.
      */
     @Autowired
     public LoginController(CredencialesService credencialesService, ValidationService validationService) {
@@ -40,7 +40,6 @@ public class LoginController {
     }
 
     /**
-     *
      * Realiza el proceso de inicio de sesión utilizando un programa externo.
      */
     public void login() {

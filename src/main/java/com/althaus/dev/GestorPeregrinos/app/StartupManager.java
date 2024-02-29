@@ -123,7 +123,7 @@ public class StartupManager implements CommandLineRunner {
 
                 String nacionalidad = nacionalidades.get(codigoNacionalidad);
                 String password = PasswordUtils.generateRandomPassword();
-                Optional<Parada> paradaAleatoria = paradaService.read(ThreadLocalRandom.current().nextLong(1, nombresParada.size() +1));
+                Optional<Parada> paradaAleatoria = paradaService.read(ThreadLocalRandom.current().nextLong(1, nombresParada.size() + 1));
 
                 Long newIdCredencial = credencialesService.getLastId() + 1;
 
@@ -157,7 +157,7 @@ public class StartupManager implements CommandLineRunner {
     /**
      * Genera un nombre único que no ha sido utilizado previamente.
      *
-     * @param nombresUtilizados Lista de nombres ya utilizados.
+     * @param nombresUtilizados  Lista de nombres ya utilizados.
      * @param nombresDisponibles Lista de nombres disponibles.
      * @return Nombre único generado.
      */

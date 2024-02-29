@@ -17,10 +17,10 @@ import java.util.Optional;
  * Implementación de la interfaz {@link CredencialesService}.
  * Proporciona funcionalidades relacionadas con las credenciales de usuario.
  *
+ * @author Althaus_Dev
  * @see CredencialesService
  * @see CoreServiceImpl
  * @see Credenciales
- * @author Althaus_Dev
  * @since 2024-01-12
  */
 @Slf4j
@@ -44,8 +44,8 @@ public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> imple
     /**
      * Inicia sesión con las credenciales proporcionadas.
      *
-     * @param username     El nombre de usuario para iniciar sesión.
-     * @param password     La contraseña para iniciar sesión.
+     * @param username El nombre de usuario para iniciar sesión.
+     * @param password La contraseña para iniciar sesión.
      * @return `true` si la sesión se inicia correctamente, `false` de lo contrario.
      */
     public boolean iniciarSesion(String username, String password) {

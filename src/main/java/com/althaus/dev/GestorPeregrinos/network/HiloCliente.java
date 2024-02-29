@@ -25,23 +25,23 @@ public class HiloCliente implements Runnable {
 
     @Override
     public void run() {
-        try{
+        try {
             //TODO pendiente de manejor datos
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             cerrarConnection();
         }
     }
 
-    private void cerrarConnection(){
-        try{
+    private void cerrarConnection() {
+        try {
             outputStream.close();
             inputStream.close();
             clienteSocket.close();
 
             System.out.println("Cerrado hilo del cliente y conexión con el cliente");
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error al cerrar la conexión del hilo del cliente", e);
         }

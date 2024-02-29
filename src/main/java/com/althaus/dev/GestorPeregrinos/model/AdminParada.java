@@ -44,7 +44,7 @@ public class AdminParada extends User {
     /**
      * Parada asociada al administrador de parada.
      */
-    @OneToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "parada_id", unique = true)
     private Parada parada;
 

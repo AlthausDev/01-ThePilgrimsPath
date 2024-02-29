@@ -36,7 +36,7 @@ public class PeregrinoView {
      * Método para recopilar la información necesaria para agregar un nuevo peregrino.
      * Solicita el nombre, la contraseña, la parada asociada y la nacionalidad del peregrino.
      *
-     * @param parada            La parada asociada al peregrino.
+     * @param parada La parada asociada al peregrino.
      * @return Un HashMap que contiene la información recopilada para el nuevo peregrino.
      * Devuelve null si el usuario cancela el proceso de registro.
      * @throws RuntimeException Si ocurre un error durante la ejecución.

@@ -72,7 +72,7 @@ public class ValidationService {
      * @param nombreUsuario Nombre de usuario a verificar.
      * @return true si el usuario no existe, false de lo contrario.
      */
-    public boolean existeUsuario(String nombreUsuario, CredencialesService credencialesService){
+    public boolean existeUsuario(String nombreUsuario, CredencialesService credencialesService) {
         if (credencialesService.existsByUser_Name(nombreUsuario)) {
             System.err.println("El nombre de usuario ya existe. Introduce otro nombre de usuario.");
             return false;
@@ -133,7 +133,7 @@ public class ValidationService {
     /**
      * Valida el código de nacionalidad ingresado por el usuario.
      *
-     * @param sc            Scanner para leer el código desde la consola.
+     * @param sc             Scanner para leer el código desde la consola.
      * @param nacionalidades Mapa de códigos de país y su correspondiente nombre.
      * @return El nombre de la nacionalidad.
      */

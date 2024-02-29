@@ -32,58 +32,58 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class AppLauncher implements CommandLineRunner {
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Autowired
-	private StartupManager startupManager;
+    @Autowired
+    private StartupManager startupManager;
 
 
-	/**
-	 * Método principal que inicia la aplicación Spring Boot.
-	 *
-	 * @param args Argumentos de línea de comandos.
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(AppLauncher.class, args);
-	}
+    /**
+     * Método principal que inicia la aplicación Spring Boot.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(AppLauncher.class, args);
+    }
 
-	/**
-	 * Método que se ejecuta al iniciar la aplicación.
-	 *
-	 * @param args Argumentos de línea de comandos.
-	 */
-	@Override
-	public void run(String... args) {
-		try {
-			startupManager.cargarDatosIniciales();
-			Db4oConnectionManager.getInstance();
-			inicializarSesionDeUsuario();
-		} catch (Exception e) {
-			log.error("Ocurrió un error durante la inicialización.", e);
-		}
-	}
+    /**
+     * Método que se ejecuta al iniciar la aplicación.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
+    @Override
+    public void run(String... args) {
+        try {
+            startupManager.cargarDatosIniciales();
+            Db4oConnectionManager.getInstance();
+            inicializarSesionDeUsuario();
+        } catch (Exception e) {
+            log.error("Ocurrió un error durante la inicialización.", e);
+        }
+    }
 
-	/**
-	 * Inicializa la sesión de usuario con instancias de controladores y servicios necesarios.
-	 */
-	private void inicializarSesionDeUsuario() {
-		// Obtener instancias de controladores desde el contexto de la aplicación
-		LoginController loginController = applicationContext.getBean(LoginController.class);
-		ParadaController paradaController = applicationContext.getBean(ParadaController.class);
-		PeregrinoController peregrinoController = applicationContext.getBean(PeregrinoController.class);
-		EstanciaController estanciaController = applicationContext.getBean(EstanciaController.class);
-		ValidationService validationService = applicationContext.getBean(ValidationService.class);
-		ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
-		AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
+    /**
+     * Inicializa la sesión de usuario con instancias de controladores y servicios necesarios.
+     */
+    private void inicializarSesionDeUsuario() {
+        // Obtener instancias de controladores desde el contexto de la aplicación
+        LoginController loginController = applicationContext.getBean(LoginController.class);
+        ParadaController paradaController = applicationContext.getBean(ParadaController.class);
+        PeregrinoController peregrinoController = applicationContext.getBean(PeregrinoController.class);
+        EstanciaController estanciaController = applicationContext.getBean(EstanciaController.class);
+        ValidationService validationService = applicationContext.getBean(ValidationService.class);
+        ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
+        AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
 
-		// Inyectar dependencias en UserSession
-		UserSession.Session(loginController,
-				paradaController,
-				peregrinoController,
-				estanciaController,
-				validationService,
-				paradaRepository,
-				adminParadaService);
-	}
+        // Inyectar dependencias en UserSession
+        UserSession.Session(loginController,
+                paradaController,
+                peregrinoController,
+                estanciaController,
+                validationService,
+                paradaRepository,
+                adminParadaService);
+    }
 }

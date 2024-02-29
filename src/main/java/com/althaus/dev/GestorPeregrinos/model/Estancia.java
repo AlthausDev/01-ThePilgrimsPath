@@ -19,9 +19,9 @@ import java.time.LocalDate;
  * </p>
  *
  * <p>
+ *
  * @author Althaus_Dev
  * </p>
- *
  * @see Parada
  * @see Peregrino
  * </p>
@@ -30,7 +30,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "estancia")
-public class Estancia implements Identifiable{
+public class Estancia implements Identifiable {
 
     /**
      * Identificador único de la estancia.
@@ -79,7 +79,7 @@ public class Estancia implements Identifiable{
     /**
      * Constructor que inicializa algunas propiedades de la estancia.
      *
-     * @param parada Parada asociada a la estancia.
+     * @param parada    Parada asociada a la estancia.
      * @param peregrino Peregrino asociado a la estancia.
      */
     public Estancia(Parada parada, Peregrino peregrino) {
@@ -90,10 +90,10 @@ public class Estancia implements Identifiable{
     /**
      * Constructor que inicializa todas las propiedades de la estancia.
      *
-     * @param id Identificador único de la estancia.
-     * @param fecha Fecha de la estancia.
-     * @param vip Indica si la estancia tiene el estatus VIP.
-     * @param parada Parada asociada a la estancia.
+     * @param id        Identificador único de la estancia.
+     * @param fecha     Fecha de la estancia.
+     * @param vip       Indica si la estancia tiene el estatus VIP.
+     * @param parada    Parada asociada a la estancia.
      * @param peregrino Peregrino asociado a la estancia.
      */
     public Estancia(Long id, LocalDate fecha, Boolean vip, Parada parada, Peregrino peregrino) {

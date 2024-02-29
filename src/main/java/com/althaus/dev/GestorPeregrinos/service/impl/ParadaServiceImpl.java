@@ -30,8 +30,8 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
     /**
      * Constructor para la inicialización de la implementación del servicio de Parada.
      *
-     * @param repository         El repositorio JPA utilizado para acceder a la capa de persistencia de Parada.
-     * @param paradaRepository   El repositorio específico para operaciones relacionadas con Parada.
+     * @param repository       El repositorio JPA utilizado para acceder a la capa de persistencia de Parada.
+     * @param paradaRepository El repositorio específico para operaciones relacionadas con Parada.
      */
     @Autowired
     public ParadaServiceImpl(ParadaRepository repository,

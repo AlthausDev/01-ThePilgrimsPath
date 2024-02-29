@@ -2,6 +2,7 @@ package com.althaus.dev.GestorPeregrinos.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -37,13 +38,13 @@ public class EnvioACasa extends Servicio {
     /**
      * Constructor de la clase EnvioACasa.
      *
-     * @param id         El ID del envío.
-     * @param nombre     El nombre del servicio.
-     * @param precio     El precio del servicio.
-     * @param peso       El peso del paquete.
-     * @param volumen    El array que representa las dimensiones del paquete (largo, ancho, alto).
-     * @param urgente    Indica si el envío es urgente.
-     * @param direccion  La dirección de destino del envío.
+     * @param id        El ID del envío.
+     * @param nombre    El nombre del servicio.
+     * @param precio    El precio del servicio.
+     * @param peso      El peso del paquete.
+     * @param volumen   El array que representa las dimensiones del paquete (largo, ancho, alto).
+     * @param urgente   Indica si el envío es urgente.
+     * @param direccion La dirección de destino del envío.
      */
     public EnvioACasa(Long id, String nombre, double precio, double peso, int[] volumen, boolean urgente, Direccion direccion) {
         super(id, nombre, precio);

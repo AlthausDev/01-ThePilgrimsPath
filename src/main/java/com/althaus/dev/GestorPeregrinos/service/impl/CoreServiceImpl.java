@@ -19,9 +19,9 @@ import java.util.Optional;
  * Implementación abstracta del servicio central que proporciona operaciones CRUD comunes para entidades identificables.
  *
  * @param <T> El tipo de entidad identificable.
+ * @author Althaus_Dev
  * @see CoreService
  * @see Identifiable
- * @author Althaus_Dev
  * @since 2024-01-12
  */
 @Service
