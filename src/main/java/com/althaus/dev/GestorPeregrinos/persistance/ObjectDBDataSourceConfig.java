@@ -1,21 +1,24 @@
 package com.althaus.dev.GestorPeregrinos.persistance;
 
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import jakarta.persistence.EntityManagerFactory;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 @Configuration
+@Profile("objectdb")
 public class ObjectDBDataSourceConfig {
 
     @Bean
-    public EntityManagerFactory entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setPersistenceUnitName("objectdb");
-        em.setPersistenceProviderClass(org.objectdb.jpa.Provider.class);
-        em.setPackagesToScan("com.althaus.dev.GestorPeregrinos.model");
-        em.afterPropertiesSet();
-        return em.getObject();
+    public EntityManagerFactory entityManagerFactory(EntityManagerFactoryBuilder builder, DataSource dataSource) {
+        return (EntityManagerFactory) builder
+                .dataSource(dataSource)
+                .packages("com.althaus.dev.GestorPeregrinos.model")
+                .persistenceUnit("objectdb")
+                .build();
     }
 }

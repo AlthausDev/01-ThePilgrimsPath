@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Clase que representa una parada en el sistema.
@@ -70,7 +68,7 @@ public class Parada implements Identifiable {
 
 
     @Column(name = "servicios", nullable = true)
-    private HashMap<Long, Servicio> servicios = new HashMap<>();
+    private Set<Servicio> servicios = new HashSet<>();
 
     /**
      * Constructor sin argumentos.

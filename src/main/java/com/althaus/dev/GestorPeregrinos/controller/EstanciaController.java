@@ -159,7 +159,8 @@ public class EstanciaController {
     }
 
     public ConjuntoContratado detallesPaquete(Parada paradaActual) {
-        Set<Servicio> conjuntoServicios = new HashSet<>();
+        Set<Servicio> conjuntoServicios = paradaActual.getServicios();
+        Set<Servicio> serviciosSeleccionados = new HashSet<>();
         double precioTotal = 0;
 
         mostrarServiciosDisponibles(paradaActual);
@@ -168,12 +169,17 @@ public class EstanciaController {
         do {
             System.out.println("Indique el número del servicio que desea añadir a su paquete:");
             long opcion = scanner.nextLong();
-            if (opcion >= 0 && opcion < paradaActual.getServicios().size()) {
-                Servicio servicioSeleccionado = paradaActual.getServicios().get(opcion);
-                if (conjuntoServicios.add(servicioSeleccionado)) {
-                    precioTotal += servicioSeleccionado.getPrecio();
-                } else {
-                    System.out.println("Este servicio ya ha sido seleccionado. Por favor, elija otro.");
+
+            // Verificar si el número proporcionado por el usuario es válido
+            if (opcion >= 1 && opcion <= conjuntoServicios.size()) {
+                int contador = 1;
+                for (Servicio servicio : conjuntoServicios) {
+                    if (contador == opcion) {
+                        serviciosSeleccionados.add(servicio);
+                        precioTotal += servicio.getPrecio();
+                        break;
+                    }
+                    contador++;
                 }
             } else {
                 System.out.println("El número introducido no es válido, por favor, seleccione un servicio válido.");
@@ -198,7 +204,6 @@ public class EstanciaController {
         System.out.println("Indique algún extra (si no hay, presione Enter):");
         String extra = scanner.nextLine();
 
-        // Crear y retornar el objeto ConjuntoContratado con los parámetros necesarios
         ConjuntoContratado conjuntoContratado = new ConjuntoContratado(precioTotal, modoPago, extra, conjuntoServicios);
         return conjuntoContratado;
     }
@@ -207,7 +212,6 @@ public class EstanciaController {
     public void contratarEnvioACasa(Parada paradaActual) {
         System.out.println("Contratación del servicio de envío a casa:");
 
-        // Solicitar detalles del envío a casa
         System.out.println("Ingrese el peso del paquete:");
         double peso = scanner.nextDouble();
 
@@ -239,21 +243,23 @@ public class EstanciaController {
         System.out.print("Localidad: ");
         String localidad = scanner.nextLine();
 
-        // Crear la dirección de destino del envío
         Direccion direccion = new Direccion(null, calle, portal, piso, letra, localidad);
-
-        // Crear el objeto EnvioACasa con los detalles proporcionados
         EnvioACasa envioACasa = new EnvioACasa(null, "Envío a Casa", 0, peso, dimensiones, urgente, direccion);
 
-        // Guardar el envío a casa y registrar la contratación del servicio
         envioACasaService.create(envioACasa);
 
         System.out.println("Servicio de envío a casa contratado exitosamente.");
     }
 
     public void mostrarServiciosDisponibles(Parada paradaActual) {
+        Set<Servicio> servicios = paradaActual.getServicios();
+        int contador = 1;
 
-        System.out.println(paradaActual.getServicios());
-
+        System.out.println("Servicios disponibles:");
+        for (Servicio servicio : servicios) {
+            System.out.println(contador + ". " + servicio.getNombre());
+            contador++;
+        }
     }
+
 }
