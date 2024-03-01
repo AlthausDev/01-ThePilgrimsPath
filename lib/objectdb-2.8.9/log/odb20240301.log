@@ -1,0 +1,95 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2024-03-01 18:11:34 #1 server] 
+Server on port 6136 has started by 13924@DESKTOP-SRMLR0B
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2024-03-01 18:41:58 #1 store.file] 
+readTextFile error.
+
+[2024-03-01 18:41:58 #2 store.file] 
+java.io.FileNotFoundException: C:\Users\Imper\.objectdb\exolorer.xml (El sistema no puede encontrar el archivo especificado)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at com.objectdb.o.STH.B(STH.java:731)
+	at com.objectdb.o.STH.A(STH.java:715)
+	at com.objectdb.o.CNF.<init>(CNF.java:106)
+	at com.objectdb.o.CNF.<clinit>(CNF.java:32)
+	at com.objectdb.o.MainFrame.init(MainFrame.java:132)
+	at com.objectdb.o.EXA.<init>(EXA.java:77)
+	at com.objectdb.Explorer$1.run(Explorer.java:57)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:87)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+
+[2024-03-01 18:43:49 #3 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is opened by 14268@DESKTOP-SRMLR0B
+
+[2024-03-01 18:43:49 #4 store] 
+Configuration path: D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\objectdb.conf
+
+[2024-03-01 18:44:47 #5 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is closed by 14268@DESKTOP-SRMLR0B
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2024-03-01 18:45:18 #1 server] 
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:565)
+	at java.base/sun.nio.ch.Net.bind(Net.java:554)
+	at java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:636)
+	at java.base/java.net.ServerSocket.bind(ServerSocket.java:391)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:278)
+	at java.base/java.net.ServerSocket.<init>(ServerSocket.java:222)
+	at com.objectdb.o.SMR.o(SMR.java:260)
+	at com.objectdb.o.SMR.f(SMR.java:160)
+	at com.objectdb.o.TOL.run(TOL.java:117)
+	at com.objectdb.Server.runCommand(Server.java:193)
+	at com.objectdb.Server.run(Server.java:104)
+	at com.objectdb.Server.main(Server.java:63)
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2024-03-01 18:45:59 #1 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is opened by 12528@DESKTOP-SRMLR0B
+
+[2024-03-01 18:45:59 #2 store] 
+Configuration path: D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\objectdb.conf
+
+[2024-03-01 18:47:00 #3 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is closed by 12528@DESKTOP-SRMLR0B
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2024-03-01 19:05:04 #1 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is opened by 17920@DESKTOP-SRMLR0B
+
+[2024-03-01 19:05:04 #2 store] 
+Configuration path: D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\objectdb.conf
+
+[2024-03-01 19:05:42 #3 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\db\world.odb' is closed by 17920@DESKTOP-SRMLR0B
+
+[2024-03-01 19:05:42 #4 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\src\main\resources\envio.odb' is opened by 17920@DESKTOP-SRMLR0B
+
+[2024-03-01 19:05:42 #5 store] 
+Configuration path: D:\Projects\main-projects\Project.01-GestorPeregrinos\lib\objectdb-2.8.9\objectdb.conf
+
+[2024-03-01 19:05:57 #6 store] 
+Database 'D:\Projects\main-projects\Project.01-GestorPeregrinos\src\main\resources\envio.odb' is closed by 17920@DESKTOP-SRMLR0B
+

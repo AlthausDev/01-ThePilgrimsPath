@@ -3,8 +3,10 @@ package com.althaus.dev.GestorPeregrinos.repository;
 import com.althaus.dev.GestorPeregrinos.model.Servicio;
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 
 public class ServicioRepository {
     private ObjectContainer db;
