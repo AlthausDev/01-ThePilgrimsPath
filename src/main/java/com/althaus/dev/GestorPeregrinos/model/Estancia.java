@@ -67,8 +67,8 @@ public class Estancia implements Identifiable {
     private Peregrino peregrino;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Contratado contratado;
+    @Column(name = "contratado_id")
+    private Long contratadoId;
 
     /**
      * Constructor por defecto.
