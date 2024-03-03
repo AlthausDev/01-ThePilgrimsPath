@@ -1,6 +1,5 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,35 +11,18 @@ import java.util.Set;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "conjuntos_contratados")
-public class ConjuntoContratado implements Identifiable {
+public class Contratado implements Identifiable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "precio_total")
     private double precioTotal;
-
-    @Column(name = "modo_pago")
     private char modoPago;
-
-    @Column(name = "extra")
     private String extra;
-
-    @ManyToMany
-    @JoinTable(
-            name = "conjunto_servicio",
-            joinColumns = @JoinColumn(name = "conjunto_contratado_id"),
-            inverseJoinColumns = @JoinColumn(name = "servicio_id")
-    )
     private Set<Servicio> servicios = new HashSet<>();
 
     /**
-     * Constructor por defecto.
+     * Constructor por defecto de la clase ConjuntoContratado.
      */
-    public ConjuntoContratado() {
+    public Contratado() {
     }
 
     /**
@@ -50,21 +32,21 @@ public class ConjuntoContratado implements Identifiable {
      * @param precioTotal Precio total del conjunto contratado.
      * @param modoPago    Modo de pago del conjunto contratado.
      */
-    public ConjuntoContratado(Long id, double precioTotal, char modoPago) {
+    public Contratado(Long id, double precioTotal, char modoPago) {
         this.id = id;
         this.precioTotal = precioTotal;
         this.modoPago = modoPago;
     }
 
     /**
-     * Constructor que inicializa un conjunto contratado con precio total, modo de pago, extras y lista de servicios.
+     * Constructor que inicializa un conjunto contratado con precio total, modo de pago, extras y conjunto de servicios.
      *
      * @param precioTotal Precio total del conjunto contratado.
      * @param modoPago    Modo de pago del conjunto contratado.
      * @param extra       Extras del conjunto contratado.
-     * @param servicios   Lista de servicios contratados.
+     * @param servicios   Conjunto de servicios contratados.
      */
-    public ConjuntoContratado(double precioTotal, char modoPago, String extra, Set<Servicio> servicios) {
+    public Contratado(double precioTotal, char modoPago, String extra, Set<Servicio> servicios) {
         this.precioTotal = precioTotal;
         this.modoPago = modoPago;
         this.extra = extra;
@@ -72,9 +54,9 @@ public class ConjuntoContratado implements Identifiable {
     }
 
     /**
-     * Obtiene el identificador único de la entidad.
+     * Obtiene el identificador único del conjunto contratado.
      *
-     * @return El identificador único de la entidad.
+     * @return El identificador único del conjunto contratado.
      */
     @Override
     public Long getId() {

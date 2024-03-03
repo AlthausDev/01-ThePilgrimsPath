@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class EnvioACasaController {
 
+    @Autowired
     private final EnvioACasaService envioACasaService;
 
     @Autowired

@@ -80,7 +80,7 @@ public class EstanciaController {
 
             if (confirmacion.equalsIgnoreCase("S")) {
 
-                ConjuntoContratado conjuntoContratado = detallesPaquete(paradaActual);
+                Contratado contratado = detallesPaquete(paradaActual);
 
             } else {
                 System.out.println("Operación cancelada. No se ha contratado un paquete de servicios.");
@@ -158,7 +158,7 @@ public class EstanciaController {
         return 1 + (500 - 1) * Math.random();
     }
 
-    public ConjuntoContratado detallesPaquete(Parada paradaActual) {
+    public Contratado detallesPaquete(Parada paradaActual) {
         Set<Servicio> conjuntoServicios = paradaActual.getServicios();
         Set<Servicio> serviciosSeleccionados = new HashSet<>();
         double precioTotal = 0;
@@ -204,8 +204,8 @@ public class EstanciaController {
         System.out.println("Indique algún extra (si no hay, presione Enter):");
         String extra = scanner.nextLine();
 
-        ConjuntoContratado conjuntoContratado = new ConjuntoContratado(precioTotal, modoPago, extra, conjuntoServicios);
-        return conjuntoContratado;
+        Contratado contratado = new Contratado(precioTotal, modoPago, extra, conjuntoServicios);
+        return contratado;
     }
 
 

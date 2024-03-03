@@ -68,7 +68,7 @@ public class Estancia implements Identifiable {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    private ConjuntoContratado conjuntoContratado;
+    private Contratado contratado;
 
     /**
      * Constructor por defecto.

@@ -1,36 +1,31 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Clase que representa un servicio ofrecido en el gestor de peregrinos.
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "servicio")
 public class Servicio implements Identifiable {
 
     /**
      * Identificador único del servicio.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     /**
      * Nombre del servicio.
      */
-    @Column(name = "nombre")
     private String nombre;
 
     /**
      * Precio del servicio.
      */
-    @Column(name = "precio")
     private double precio;
 
     /**

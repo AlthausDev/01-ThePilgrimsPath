@@ -31,11 +31,8 @@ public class AppLauncher implements CommandLineRunner {
 
     @Autowired
     private ApplicationContext applicationContext;
-
     @Autowired
     private StartupManager startupManager;
-    @Autowired
-    private EnvioACasaController envioACasaController;
 
 
 
@@ -76,6 +73,7 @@ public class AppLauncher implements CommandLineRunner {
         ValidationService validationService = applicationContext.getBean(ValidationService.class);
         ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
         AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
+        EnvioACasaController envioACasaController = applicationContext.getBean(EnvioACasaController.class);
 
         // Inyectar dependencias en UserSession
         UserSession.Session(loginController,
