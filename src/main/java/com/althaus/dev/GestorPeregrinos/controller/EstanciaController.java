@@ -25,7 +25,9 @@ public class EstanciaController {
     private final CarnetService carnetService;
     private final PeregrinoView peregrinoView;
 
-    private EnvioACasaService envioACasaService;
+    private final EnvioACasaService envioACasaService;
+
+    @Autowired
     private DireccionService direccionService;
 
     private final Scanner scanner = new Scanner(System.in);

@@ -5,6 +5,7 @@ import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
+import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import com.althaus.dev.GestorPeregrinos.view.Menu;
 import lombok.Getter;
@@ -55,7 +56,7 @@ public class UserSession {
     private static PeregrinoController peregrinoController;
     private static EstanciaController estanciaController;
     private static ServicioController servicioController;
-    private static EnvioACasaController envioACasaController;
+    private static EnvioACasaService envioACasaService;
 
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
@@ -88,7 +89,7 @@ public class UserSession {
             ValidationService validationService,
             ParadaRepository paradaRepository,
             AdminParadaService adminParadaService,
-            EnvioACasaController envioACasaController) {
+            EnvioACasaService envioACasaService) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -98,7 +99,7 @@ public class UserSession {
         UserSession.validationService = validationService;
         UserSession.paradaRepository = paradaRepository;
         UserSession.adminParadaService = adminParadaService;
-        UserSession.envioACasaController = envioACasaController;
+        UserSession.envioACasaService = envioACasaService;
 
         do {
             inicializarMenu();
@@ -125,7 +126,7 @@ public class UserSession {
                 estanciaController,
                 validationService,
                 servicioController,
-                envioACasaController);
+                envioACasaService);
     }
 
     /**

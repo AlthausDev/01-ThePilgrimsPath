@@ -29,6 +29,10 @@ public class EnvioACasa extends Servicio {
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
     private Direccion direccion; // La dirección de destino del envío.
 
+    @ManyToOne
+    @JoinColumn(name = "parada_id")
+    private Parada parada;
+
     /**
      * Constructor por defecto de la clase EnvioACasa.
      */

@@ -4,6 +4,7 @@ import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
+import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,7 @@ public class AppLauncher implements CommandLineRunner {
         ValidationService validationService = applicationContext.getBean(ValidationService.class);
         ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
         AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
-        EnvioACasaController envioACasaController = applicationContext.getBean(EnvioACasaController.class);
+        EnvioACasaService envioACasaService = applicationContext.getBean(EnvioACasaService.class);
 
         // Inyectar dependencias en UserSession
         UserSession.Session(loginController,
@@ -83,6 +84,6 @@ public class AppLauncher implements CommandLineRunner {
                 validationService,
                 paradaRepository,
                 adminParadaService,
-                envioACasaController);
+                envioACasaService);
     }
 }

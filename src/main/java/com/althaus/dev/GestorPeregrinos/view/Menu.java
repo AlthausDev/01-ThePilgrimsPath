@@ -2,13 +2,17 @@ package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.controller.*;
+import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
+import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -59,7 +63,8 @@ public class Menu {
     private final EstanciaController estanciaController;
     private final ValidationService validationService;
     private final ServicioController servicioController;
-    private final EnvioACasaController envioACasaController;
+    private final EnvioACasaService envioACasaService;
+
 
 
 
@@ -78,7 +83,8 @@ public class Menu {
             PeregrinoController peregrinoController,
             EstanciaController estanciaController,
             ValidationService validationService,
-            ServicioController servicioController, EnvioACasaController envioACasaController) {
+            ServicioController servicioController,
+            EnvioACasaService envioACasaService) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -86,7 +92,8 @@ public class Menu {
         this.estanciaController = estanciaController;
         this.servicioController = servicioController;
         this.validationService = validationService;
-        this.envioACasaController = envioACasaController;
+        this.envioACasaService = envioACasaService;
+
 
         Perfil perfil = UserSession.getPerfil();
         switch (perfil) {
@@ -180,11 +187,7 @@ public class Menu {
                 case 1 -> mostrarDatosParadaActual();
                 case 2 -> menuExportarEstanciasFechas();
                 case 3 -> menuRecibirPeregrinoEnParada();
-                case 4 -> {
-                    // Lógica para ver los envíos realizados
-                    Parada paradaActual = UserSession.getParadaActual();
-                    envioACasaController.verEnviosRealizados(paradaActual);
-                }
+                case 4 -> imprimirEnviosDesdeParada();
                 case 5 -> UserSession.cerrarSesion();
                 default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
@@ -288,7 +291,7 @@ public class Menu {
         System.out.println("Nombre: " + paradaActual.getNombre());
         System.out.println("Región: " + paradaActual.getRegion());
 
-        estanciaController.RecibirPeregrinoEnParada(paradaActual);
+        estanciaController.recibirPeregrinoEnParada(paradaActual);
 
     }
 
@@ -298,4 +301,22 @@ public class Menu {
     private void mostrarDatosParadaActual() {
         System.out.println(UserSession.getParadaActual().toString());
     }
+
+    // En tu método imprimirEnviosDesdeParada en la clase Menu
+    public void imprimirEnviosDesdeParada() {
+        Parada parada = UserSession.getParadaActual();
+        System.out.println("Envíos a casa desde la parada: " + parada.getNombre());
+
+        List<EnvioACasa> envios = envioACasaService.getEnviosDesdeParada(parada);
+
+        for (EnvioACasa envio : envios) {
+            System.out.println("ID: " + envio.getId());
+            System.out.println("Peso: " + envio.getPeso());
+            System.out.println("Dimensiones: " + Arrays.toString(envio.getVolumen()));
+            System.out.println("Urgente: " + envio.isUrgente());
+            System.out.println("Dirección: " + envio.getDireccion());
+            System.out.println("-------------------------------------");
+        }
+    }
+
 }
