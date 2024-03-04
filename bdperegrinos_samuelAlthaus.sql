@@ -1,2 +1,0 @@
-DROP DATABASE IF EXISTS bdperegrinos_samuelAlthaus;
-CREATE DATABASE bdperegrinos_samuelAlthaus;

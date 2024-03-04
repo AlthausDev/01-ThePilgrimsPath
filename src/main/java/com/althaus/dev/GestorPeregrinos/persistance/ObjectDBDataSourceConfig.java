@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
@@ -14,8 +13,8 @@ import javax.sql.DataSource;
 public class ObjectDBDataSourceConfig {
 
     @Bean
-    public EntityManagerFactory entityManagerFactory(EntityManagerFactoryBuilder builder, DataSource dataSource) {
-        return (EntityManagerFactory) builder
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder, DataSource dataSource) {
+        return builder
                 .dataSource(dataSource)
                 .packages("com.althaus.dev.GestorPeregrinos.model")
                 .persistenceUnit("objectdb")

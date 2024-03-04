@@ -57,7 +57,7 @@ public class Credenciales implements Identifiable {
      * Este atributo se proporciona para facilitar el desarrollo y las pruebas, permitiendo almacenar
      * temporalmente la contraseña sin encriptar en la base de datos.
      */
-    @Column(name = "passwordTest")
+    @Column(name = "password_test")
     private String passTest;
 
     /**

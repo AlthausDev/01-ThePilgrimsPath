@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
  * @see Credenciales
  */
 @Repository
+@Profile("mysql")
 public interface CredencialesRepository extends CoreRepository<Credenciales, Long> {
 
     /**
