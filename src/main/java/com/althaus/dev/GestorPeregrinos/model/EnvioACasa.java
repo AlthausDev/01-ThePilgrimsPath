@@ -2,7 +2,6 @@ package com.althaus.dev.GestorPeregrinos.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -14,7 +13,17 @@ import java.util.Arrays;
 @Setter
 @Entity
 @Table(name = "envio_a_casa")
-public class EnvioACasa extends Servicio {
+public class EnvioACasa /*extends Servicio*/ implements Identifiable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "precio")
+    private double precio;
 
     @Column(name = "peso")
     private double peso;
@@ -42,7 +51,7 @@ public class EnvioACasa extends Servicio {
     /**
      * Constructor de la clase EnvioACasa.
      *
-     * @param id        El ID del envío.
+
      * @param nombre    El nombre del servicio.
      * @param precio    El precio del servicio.
      * @param peso      El peso del paquete.
@@ -50,8 +59,9 @@ public class EnvioACasa extends Servicio {
      * @param urgente   Indica si el envío es urgente.
      * @param direccion La dirección de destino del envío.
      */
-    public EnvioACasa(Long id, String nombre, double precio, double peso, int[] volumen, boolean urgente, Direccion direccion) {
-        super(id, nombre, precio);
+    public EnvioACasa(String nombre, double precio, double peso, int[] volumen, boolean urgente, Direccion direccion) {
+        this.nombre = nombre;
+        this.precio = precio;
         this.peso = peso;
         this.volumen = volumen;
         this.urgente = urgente;
@@ -82,6 +92,6 @@ public class EnvioACasa extends Servicio {
      */
     @Override
     public Long getId() {
-        return super.getId();
+        return id;
     }
 }

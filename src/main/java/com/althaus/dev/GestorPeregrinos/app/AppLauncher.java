@@ -1,11 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.controller.*;
-import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
+import com.althaus.dev.GestorPeregrinos.persistance.DB4OConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
-import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
-import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
-import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import com.althaus.dev.GestorPeregrinos.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -55,7 +53,7 @@ public class AppLauncher implements CommandLineRunner {
     public void run(String... args) {
         try {
             startupManager.cargarDatosIniciales();
-            Db4oConnectionManager.getInstance();
+            DB4OConnectionManager.getInstance();
             inicializarSesionDeUsuario();
         } catch (Exception e) {
             log.error("Ocurrió un error durante la inicialización.", e);
@@ -75,6 +73,8 @@ public class AppLauncher implements CommandLineRunner {
         ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
         AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
         EnvioACasaService envioACasaService = applicationContext.getBean(EnvioACasaService.class);
+        DireccionService direccionService = applicationContext.getBean(DireccionService.class);
+        ServicioService servicioService = applicationContext.getBean(ServicioService.class);
 
         // Inyectar dependencias en UserSession
         UserSession.Session(loginController,
@@ -84,6 +84,8 @@ public class AppLauncher implements CommandLineRunner {
                 validationService,
                 paradaRepository,
                 adminParadaService,
-                envioACasaService);
+                envioACasaService,
+                direccionService,
+                servicioService);
     }
 }

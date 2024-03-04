@@ -1,21 +1,23 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * Clase que representa un servicio ofrecido en el gestor de peregrinos.
  */
 @Getter
 @Setter
+@MappedSuperclass
+@Embeddable
 public class Servicio implements Identifiable {
 
     /**
      * Identificador único del servicio.
      */
+    @Id
     private Long id;
 
     /**

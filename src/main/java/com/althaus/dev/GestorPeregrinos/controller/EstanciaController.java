@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import java.time.LocalDate;
 import java.util.*;
 
+
+
 /**
  * Controlador encargado de gestionar las operaciones relacionadas con las estancias de los peregrinos en las paradas.
  *
@@ -24,11 +26,9 @@ public class EstanciaController {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final PeregrinoView peregrinoView;
-
     private final EnvioACasaService envioACasaService;
-
-    @Autowired
-    private DireccionService direccionService;
+    private final DireccionService direccionService;
+    private final ServicioService servicioService;
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -41,15 +41,19 @@ public class EstanciaController {
      * @param carnetService     Servicio de Carnets.
      * @param peregrinoView     Vista de Peregrinos.
      * @param envioACasaService
+     * @param direccionService
+     * @param servicioService
      */
     @Autowired
-    public EstanciaController(EstanciaService estanciaService, EstanciaView estanciaView, PeregrinoService peregrinoService, CarnetService carnetService, PeregrinoView peregrinoView, EnvioACasaService envioACasaService) {
+    public EstanciaController(EstanciaService estanciaService, EstanciaView estanciaView, PeregrinoService peregrinoService, CarnetService carnetService, PeregrinoView peregrinoView, EnvioACasaService envioACasaService, DireccionService direccionService, ServicioService servicioService) {
         this.estanciaService = estanciaService;
         this.estanciaView = estanciaView;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.peregrinoView = peregrinoView;
         this.envioACasaService = envioACasaService;
+        this.direccionService = direccionService;
+        this.servicioService = servicioService;
     }
 
     /**
@@ -191,7 +195,7 @@ public class EstanciaController {
 
 
     public Contratado detallesPaquete(Parada paradaActual) {
-        Set<Servicio> conjuntoServicios = paradaActual.getServicios();
+        Set<Servicio> conjuntoServicios = servicioService.getServiciosDisponiblesPorParada(paradaActual);
         Set<Servicio> serviciosSeleccionados = new HashSet<>();
         double precioTotal = 0;
 
@@ -204,6 +208,7 @@ public class EstanciaController {
         Contratado contratado = new Contratado(precioTotal, modoPago, extra, serviciosSeleccionados);
         return contratado;
     }
+
 
     private void seleccionarServicios(Set<Servicio> conjuntoServicios, Set<Servicio> serviciosSeleccionados, double precioTotal) {
         // Mostrar la lista de servicios disponibles
@@ -282,7 +287,7 @@ public class EstanciaController {
     }
 
     public void mostrarServiciosDisponibles(Parada paradaActual) {
-        Set<Servicio> servicios = paradaActual.getServicios();
+        Set<Servicio> servicios = servicioService.getServiciosDisponiblesPorParada(paradaActual);
         int contador = 1;
 
         System.out.println("Servicios disponibles:");
@@ -291,7 +296,6 @@ public class EstanciaController {
             contador++;
         }
     }
-
 
     public void contratarEnvioACasa(Parada paradaActual) {
         System.out.println("¿Desea contratar el servicio de envío a casa? (S/N):");

@@ -5,6 +5,7 @@ import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
+import com.althaus.dev.GestorPeregrinos.service.DireccionService;
 import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class Menu {
     private final ValidationService validationService;
     private final ServicioController servicioController;
     private final EnvioACasaService envioACasaService;
+    private final DireccionService direccionService;
 
 
 
@@ -84,7 +86,7 @@ public class Menu {
             EstanciaController estanciaController,
             ValidationService validationService,
             ServicioController servicioController,
-            EnvioACasaService envioACasaService) {
+            EnvioACasaService envioACasaService, DireccionService direccionService) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -93,6 +95,7 @@ public class Menu {
         this.servicioController = servicioController;
         this.validationService = validationService;
         this.envioACasaService = envioACasaService;
+        this.direccionService = direccionService;
 
 
         Perfil perfil = UserSession.getPerfil();

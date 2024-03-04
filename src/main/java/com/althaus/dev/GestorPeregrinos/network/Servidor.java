@@ -1,6 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.network;
 
-import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
+import com.althaus.dev.GestorPeregrinos.persistance.DB4OConnectionManager;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -43,7 +43,7 @@ public class Servidor {
     private void closeConnection() {
         try {
             serverSocket.close();
-            Db4oConnectionManager.closeConnection();
+            DB4OConnectionManager.closeConnection();
         } catch (IOException e) {
             throw new RuntimeException("Error al cerrar la conexión", e);
         }

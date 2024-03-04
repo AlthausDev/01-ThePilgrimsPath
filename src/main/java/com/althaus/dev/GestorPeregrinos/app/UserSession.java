@@ -2,11 +2,9 @@ package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.persistance.Db4oConnectionManager;
+import com.althaus.dev.GestorPeregrinos.persistance.DB4OConnectionManager;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
-import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
-import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
-import com.althaus.dev.GestorPeregrinos.service.ValidationService;
+import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.view.Menu;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,14 +55,17 @@ public class UserSession {
     private static EstanciaController estanciaController;
     private static ServicioController servicioController;
     private static EnvioACasaService envioACasaService;
+    private static DireccionService direccionService;
+    private static ServicioService servicioService;
+    private static EstanciaService estanciaService;
 
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
     private static AdminParadaService adminParadaService;
-    private static Db4oConnectionManager db4oConnectionManager;
+    private static DB4OConnectionManager db4oConnectionManager;
 
     @Autowired
-    public static void setDb4oConnectionManager(Db4oConnectionManager db4oConnectionManager) {
+    public static void setDb4oConnectionManager(DB4OConnectionManager db4oConnectionManager) {
         UserSession.db4oConnectionManager = db4oConnectionManager;
     }
 
@@ -79,6 +80,7 @@ public class UserSession {
      * @param validationService   Servicio de validación.
      * @param paradaRepository    Repositorio de paradas.
      * @param adminParadaService  Servicio de administrador de paradas.
+     * @param servicioService
      */
     @Autowired
     public static void Session(
@@ -89,7 +91,9 @@ public class UserSession {
             ValidationService validationService,
             ParadaRepository paradaRepository,
             AdminParadaService adminParadaService,
-            EnvioACasaService envioACasaService) {
+            EnvioACasaService envioACasaService,
+            DireccionService direccionService,
+            ServicioService servicioService) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -100,6 +104,9 @@ public class UserSession {
         UserSession.paradaRepository = paradaRepository;
         UserSession.adminParadaService = adminParadaService;
         UserSession.envioACasaService = envioACasaService;
+        UserSession.direccionService = direccionService;
+        UserSession.servicioService = servicioService;
+
 
         do {
             inicializarMenu();
@@ -126,7 +133,7 @@ public class UserSession {
                 estanciaController,
                 validationService,
                 servicioController,
-                envioACasaService);
+                envioACasaService, direccionService);
     }
 
     /**

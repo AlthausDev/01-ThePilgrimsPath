@@ -67,8 +67,13 @@ public class Parada implements Identifiable {
     private List<Peregrino> peregrinos;
 
 
-    @Column(name = "servicios", nullable = true)
-    private Set<Servicio> servicios = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(
+            name = "parada_servicio",
+            joinColumns = @JoinColumn(name = "parada_id")
+    )
+    @Column(name = "servicio_id")
+    private Set<Long> servicioIds = new HashSet<>();
 
     /**
      * Constructor sin argumentos.
