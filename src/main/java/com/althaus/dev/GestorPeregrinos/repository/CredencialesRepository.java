@@ -1,6 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -25,6 +28,7 @@ import java.util.Optional;
 @Repository
 @Profile("mysql")
 public interface CredencialesRepository extends CoreRepository<Credenciales, Long> {
+
 
     /**
      * Busca una credencial por el nombre de usuario.
