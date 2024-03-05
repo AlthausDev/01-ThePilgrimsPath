@@ -1,7 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
-import com.althaus.dev.GestorPeregrinos.controller.*;
-import com.althaus.dev.GestorPeregrinos.persistance.DB4OConnectionManager;
+import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
+import com.althaus.dev.GestorPeregrinos.controller.LoginController;
+import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
+import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -23,9 +26,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author Althaus_Dev
  */
+
 @Slf4j
 @SpringBootApplication
 @EnableTransactionManagement
+//@Profile({"objectdb", "db4o", "mysql"})
 public class AppLauncher implements CommandLineRunner {
 
     @Autowired
@@ -53,7 +58,6 @@ public class AppLauncher implements CommandLineRunner {
     public void run(String... args) {
         try {
             startupManager.cargarDatosIniciales();
-            DB4OConnectionManager.getInstance();
             inicializarSesionDeUsuario();
         } catch (Exception e) {
             log.error("Ocurrió un error durante la inicialización.", e);

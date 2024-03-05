@@ -1,6 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.network;
 
-import com.althaus.dev.GestorPeregrinos.persistance.DB4OConnectionManager;
+import com.althaus.dev.GestorPeregrinos.persistence.DB4OConnectionManager;
 
 import java.io.IOException;
 import java.net.ServerSocket;

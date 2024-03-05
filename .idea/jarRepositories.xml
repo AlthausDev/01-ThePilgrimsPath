@@ -3,13 +3,38 @@
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
       <option name="id" value="central" />
-      <option name="name" value="central" />
+      <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
-      <option name="name" value="Central Repository" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="spring" />
+      <option name="name" value="spring" />
+      <option name="url" value="https://repo.spring.io/plugins-release/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mongodb" />
+      <option name="name" value="mongodb" />
+      <option name="url" value="https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-sync" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="JCenter Repository" />
+      <option name="name" value="JCenter Repository" />
+      <option name="url" value="http://jcenter.bintray.com/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="spring-milestones" />
@@ -17,9 +42,19 @@
       <option name="url" value="https://repo.spring.io/milestone" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="geomajas" />
+      <option name="name" value="geomajas" />
+      <option name="url" value="http://maven.geomajas.org/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
-      <option name="name" value="Maven Central repository" />
-      <option name="url" value="https://repo1.maven.org/maven2" />
+      <option name="name" value="central" />
+      <option name="url" value="https://repo1.maven.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mongodb" />
+      <option name="name" value="mongodb" />
+      <option name="url" value="https://repo1.maven.org/maven2/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="spring-snapshots" />
@@ -30,6 +65,11 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Mulesoft" />
+      <option name="name" value="Mulesoft Repository" />
+      <option name="url" value="https://repository.mulesoft.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="source.db4o" />

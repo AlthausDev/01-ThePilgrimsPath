@@ -1,20 +1,17 @@
-package com.althaus.dev.GestorPeregrinos.persistance;
-
-import javax.sql.DataSource;
+package com.althaus.dev.GestorPeregrinos.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-
-
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import javax.sql.DataSource;
 
 @Configuration
 @Profile("mysql")
-public class MySQLDataSourceConfig {
+public class MySQLConfig {
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -38,12 +35,17 @@ public class MySQLDataSourceConfig {
         return dataSource;
     }
 
-    @Bean(name = "mysqlEntityManagerFactory") // Cambio de nombre del bean
-    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory(EntityManagerFactoryBuilder builder, DataSource dataSource) {
-        return builder
-                .dataSource(dataSource)
-                .packages("com.althaus.dev.GestorPeregrinos.model")
-                .persistenceUnit("mysql")
-                .build();
+    @Bean(name = "mysqlEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory(DataSource dataSource) {
+        try {
+            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+            em.setDataSource(dataSource);
+            em.setPackagesToScan("com.althaus.dev.GestorPeregrinos.model");
+            em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+            return em;
+        } catch (Exception e) {
+            System.err.println("Error al crear el EntityManagerFactory para MySQL: " + e.getMessage());
+            throw e;
+        }
     }
 }

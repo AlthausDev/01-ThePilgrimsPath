@@ -1,26 +1,24 @@
-package com.althaus.dev.GestorPeregrinos.persistance;
+package com.althaus.dev.GestorPeregrinos.persistence;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
-import static com.althaus.dev.GestorPeregrinos.util.Constantes.PATH_DB4O;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Clase Singleton para gestionar la conexión con la base de datos db4o.
- *
- * @author Althaus_Dev
  */
-@Configuration
-@Profile("db4o")
+@Component
 public class DB4OConnectionManager {
 
     private static ObjectContainer database;
     private static DB4OConnectionManager INSTANCE;
 
+    @Value("${db4o.datasource.filepath}")
+    private String db4oFilePath;
+
     // Constructor privado para garantizar que la clase no se pueda instanciar directamente
-    public DB4OConnectionManager() {
+    private DB4OConnectionManager() {
         openConnection();
     }
 
@@ -32,9 +30,9 @@ public class DB4OConnectionManager {
     }
 
     // Método para abrir la conexión con la base de datos
-    private static void openConnection() {
+    private void openConnection() {
         try {
-            database = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), PATH_DB4O);
+            database = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), db4oFilePath);
         } catch (Exception e) {
             System.err.println("Error al abrir la conexión con la base de datos: " + e.getMessage());
             e.printStackTrace();
@@ -56,4 +54,3 @@ public class DB4OConnectionManager {
         return database;
     }
 }
-
