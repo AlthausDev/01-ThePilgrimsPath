@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Profile("db4o")
+//@Profile("db4o")
 public interface ServicioService {
     void createServicio(Servicio servicio);
 

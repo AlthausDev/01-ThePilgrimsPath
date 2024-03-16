@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("objectdb")
+//@Profile("objectdb")
 public interface DireccionRepository extends CoreRepository<Direccion, Long> {
 }

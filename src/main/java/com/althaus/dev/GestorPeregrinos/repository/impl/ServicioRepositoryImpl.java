@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Qualifier("db4o")
+//@Qualifier("db4o")
 public class ServicioRepositoryImpl implements ServicioRepository {
 
     private final ObjectContainer db4o;

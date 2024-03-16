@@ -60,12 +60,12 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.1.9.Final</version>
-            <type>pom</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate</groupId>-->
+<!--            <artifactId>hibernate-core</artifactId>-->
+<!--            <version>4.1.9.Final</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
 
 
         <!-- Dependencias de la Base de Datos -->
@@ -109,6 +109,13 @@
             <groupId>org.exist-db</groupId>
             <artifactId>exist-core</artifactId>
             <version>6.2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+                <!-- Agrega más exclusiones según sea necesario -->
+            </exclusions>
         </dependency>
 
         <!-- MongoDB -->

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Profile("objectdb")
+//@Profile("objectdb")
 public interface EnvioACasaRepository extends CoreRepository<EnvioACasa, Long> {
     @Query("SELECT e FROM EnvioACasa e WHERE e.parada = :parada")
     List<EnvioACasa> getEnviosParada(@Param("parada") Parada parada);

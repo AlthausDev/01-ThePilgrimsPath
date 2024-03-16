@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Profile("db4o")
+//@Profile("db4o")
 public interface ContratadoService {
     void createContratado(Contratado contratado);
 

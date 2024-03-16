@@ -26,7 +26,7 @@ import java.util.Optional;
  * @see Credenciales
  */
 @Repository
-@Profile("mysql")
+//@Profile("mysql")
 public interface CredencialesRepository extends CoreRepository<Credenciales, Long> {
 
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Profile("db4o")
+//@Profile("db4o")
 public interface ContratadoRepository {
     void save(Contratado contratado);
 
