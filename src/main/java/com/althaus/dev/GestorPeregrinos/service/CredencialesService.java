@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
  * @since 2024-01-12
  */
 @Service
-@Profile("mysql")
 public interface CredencialesService extends CoreService<Credenciales> {
+
 
     Long getLastId();
 

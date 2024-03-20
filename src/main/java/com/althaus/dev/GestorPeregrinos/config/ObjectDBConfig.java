@@ -1,26 +1,71 @@
 package com.althaus.dev.GestorPeregrinos.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
-@Profile("objectdb")
 public class ObjectDBConfig {
 
-    @Value("${objectdb.datasource.url}")
-    private String objectdbUrl;
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectDBConfig.class);
+
+    @Value("${spring.datasource.url.objectdb}")
+    private String url;
+
+    @Value("${spring.datasource.username.objectdb}")
+    private String username;
+
+    @Value("${spring.datasource.password.objectdb}")
+    private String password;
+
+    @Value("${spring.datasource.driver-class-name.objectdb}")
+    private String driverClassName;
+
+    @Value("${hibernate.dialect.objectdb}")
+    private String hibernateDialect;
+
+    @Bean("objectdbDataSource")
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+
 
     @Bean(name = "objectdbEntityManagerFactory")
+    @Qualifier("objectdb")
     public EntityManagerFactory entityManagerFactory() {
         try {
-            return Persistence.createEntityManagerFactory(objectdbUrl);
+            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+            em.setDataSource(dataSource());
+            em.setPackagesToScan("com.althaus.dev.GestorPeregrinos.model");
+            em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+            // Configurar propiedades de Hibernate, incluido el dialecto
+            Properties properties = new Properties();
+            properties.setProperty("hibernate.dialect", hibernateDialect);
+            em.setJpaProperties(properties);
+
+            em.afterPropertiesSet();
+            return (EntityManagerFactory) em.getObject();
         } catch (Exception e) {
-            System.err.println("Error al crear la fábrica de entidades de ObjectDB: " + e.getMessage());
-            throw e;
+            LOG.error("Error al crear el EntityManagerFactory para ObjectDB: {}", e.getMessage());
+            throw new RuntimeException("Error al crear el EntityManagerFactory para ObjectDB", e);
         }
     }
+
+
 }

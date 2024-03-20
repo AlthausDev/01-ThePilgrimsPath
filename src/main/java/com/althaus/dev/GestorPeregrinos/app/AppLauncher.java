@@ -6,14 +6,19 @@ import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
 import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
+//import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
 
 /**
  * Clase principal que inicia la aplicación y realiza operaciones al inicio.
@@ -30,6 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @SpringBootApplication
 @EnableTransactionManagement
+@Component
 //@Profile({"objectdb", "db4o", "mysql"})
 public class AppLauncher implements CommandLineRunner {
 
@@ -37,6 +43,38 @@ public class AppLauncher implements CommandLineRunner {
     private ApplicationContext applicationContext;
     @Autowired
     private StartupManager startupManager;
+
+    @Autowired
+    private LoginController loginController;
+
+    @Autowired
+    private ParadaController paradaController;
+
+    @Autowired
+    private PeregrinoController peregrinoController;
+
+    @Autowired
+    private EstanciaController estanciaController;
+
+    @Autowired
+    private ValidationService validationService;
+
+    @Autowired
+    private ParadaRepository paradaRepository;
+
+    @Autowired
+    private AdminParadaService adminParadaService;
+
+    @Autowired
+    private EnvioACasaService envioACasaService;
+
+    @Autowired
+    private DireccionService direccionService;
+
+    @Autowired
+    private ServicioService servicioService;
+
+
 
 
 

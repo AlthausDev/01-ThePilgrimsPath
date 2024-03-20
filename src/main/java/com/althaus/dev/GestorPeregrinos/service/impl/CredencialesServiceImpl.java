@@ -6,11 +6,14 @@ import com.althaus.dev.GestorPeregrinos.model.User;
 import com.althaus.dev.GestorPeregrinos.repository.CredencialesRepository;
 import com.althaus.dev.GestorPeregrinos.service.CredencialesService;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
+//import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.Optional;
 
 /**
@@ -28,6 +31,8 @@ import java.util.Optional;
 public class CredencialesServiceImpl extends CoreServiceImpl<Credenciales> implements CredencialesService {
 
     private final CredencialesRepository credencialesRepository;
+
+
 
     /**
      * Constructor que inicializa la instancia con el repositorio de Credenciales.
