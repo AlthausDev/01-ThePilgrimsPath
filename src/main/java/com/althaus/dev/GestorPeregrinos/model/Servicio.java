@@ -17,7 +17,7 @@ public class Servicio implements Identifiable {
     /**
      * Identificador único del servicio.
      */
-    @Id
+
     private Long id;
 
     /**

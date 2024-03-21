@@ -5,6 +5,7 @@ import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
+import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.DireccionService;
 import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
@@ -66,6 +67,7 @@ public class Menu {
     private final ServicioController servicioController;
     private final EnvioACasaService envioACasaService;
     private final DireccionService direccionService;
+    private final MongoDBRepository mongoDBRepository;
 
 
 
@@ -86,7 +88,9 @@ public class Menu {
             EstanciaController estanciaController,
             ValidationService validationService,
             ServicioController servicioController,
-            EnvioACasaService envioACasaService, DireccionService direccionService) {
+            EnvioACasaService envioACasaService,
+            DireccionService direccionService,
+            MongoDBRepository mongoDBRepository) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -96,6 +100,7 @@ public class Menu {
         this.validationService = validationService;
         this.envioACasaService = envioACasaService;
         this.direccionService = direccionService;
+        this.mongoDBRepository = mongoDBRepository;
 
 
         Perfil perfil = UserSession.getPerfil();

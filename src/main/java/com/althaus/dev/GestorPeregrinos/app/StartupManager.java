@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
+import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
@@ -33,15 +34,17 @@ public class StartupManager implements CommandLineRunner {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final AdminParadaService adminParadaService;
+    private final MongoDBRepository mongoDBRepository;
 
     @Autowired
     public StartupManager(CredencialesService credencialesService, ParadaService paradaService,
-                          PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService) {
+                          PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService, MongoDBRepository mongoDBRepository) {
         this.credencialesService = credencialesService;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.adminParadaService = adminParadaService;
+        this.mongoDBRepository = mongoDBRepository;
     }
 
     /**
