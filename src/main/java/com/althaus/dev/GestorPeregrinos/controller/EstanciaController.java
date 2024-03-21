@@ -136,7 +136,7 @@ public class EstanciaController {
         estancia.setPeregrino(peregrino);
         estancia.setParada(paradaActual);
         estancia.setVip(esVip);
-        estancia.setContratadoId(contratado.getId());
+        //estancia.setContratadoId(contratado.getId());
         estanciaService.create(estancia);
     }
 

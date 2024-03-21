@@ -55,6 +55,15 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
         <!-- Dependencias de la Base de Datos -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -111,23 +120,32 @@
 
         <!-- MongoDB -->
         <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-            <version>4.2.3</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.data</groupId>-->
+<!--            <artifactId>spring-data-mongodb</artifactId>-->
+<!--            <version>4.2.3</version>-->
+<!--        </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync -->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mongodb</groupId>-->
+<!--            <artifactId>mongodb-driver-sync</artifactId>-->
+<!--            <version>5.0.0</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>5.0.0</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
         <!-- Dependencia de Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.0</version>
         </dependency>
     </dependencies>
 </project>

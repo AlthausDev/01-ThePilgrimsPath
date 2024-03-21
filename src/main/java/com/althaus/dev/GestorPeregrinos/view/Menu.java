@@ -67,7 +67,6 @@ public class Menu {
     private final ServicioController servicioController;
     private final EnvioACasaService envioACasaService;
     private final DireccionService direccionService;
-    private final MongoDBRepository mongoDBRepository;
 
 
 
@@ -89,8 +88,7 @@ public class Menu {
             ValidationService validationService,
             ServicioController servicioController,
             EnvioACasaService envioACasaService,
-            DireccionService direccionService,
-            MongoDBRepository mongoDBRepository) {
+            DireccionService direccionService) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -100,7 +98,7 @@ public class Menu {
         this.validationService = validationService;
         this.envioACasaService = envioACasaService;
         this.direccionService = direccionService;
-        this.mongoDBRepository = mongoDBRepository;
+
 
 
         Perfil perfil = UserSession.getPerfil();

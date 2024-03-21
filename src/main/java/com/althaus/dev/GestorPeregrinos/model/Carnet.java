@@ -46,7 +46,7 @@ public class Carnet implements Identifiable {
     /**
      * Fecha de expedición del carné.
      */
-    @Column(name = "fechaExp", nullable = false)
+    @Column(name = "fecha_exp", nullable = false)
     private LocalDate fechaExp = LocalDate.now();
 
     /**

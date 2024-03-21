@@ -2,8 +2,10 @@ package com.althaus.dev.GestorPeregrinos.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -27,6 +29,9 @@ public class MySQLConfig {
     @Value("${spring.datasource.driver-class-name.mysql}")
     private String driverClassName;
 
+
+
+    @Primary
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -41,10 +46,16 @@ public class MySQLConfig {
     @Qualifier("mysql")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         try {
+
+            Properties properties = new Properties();
+
             LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+
             em.setDataSource(dataSource);
             em.setPackagesToScan("com.althaus.dev.GestorPeregrinos.model");
             em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+            em.setJpaProperties(properties);
 
             return em;
         } catch (Exception e) {

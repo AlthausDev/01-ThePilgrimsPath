@@ -67,8 +67,8 @@ public class Estancia implements Identifiable {
     private Peregrino peregrino;
 
 
-    @Column(name = "contratado_id")
-    private Long contratadoId;
+//    @Column(name = "contratado_id")
+//    private Long contratadoId;
 
     /**
      * Constructor por defecto.

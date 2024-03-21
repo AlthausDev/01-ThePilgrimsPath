@@ -62,7 +62,7 @@ public class UserSession {
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
     private static AdminParadaService adminParadaService;
-    private static MongoDBRepository mongoDBRepository;
+
 
 
     /**
@@ -76,7 +76,6 @@ public class UserSession {
      * @param paradaRepository    Repositorio de paradas.
      * @param adminParadaService  Servicio de administrador de paradas.
      * @param servicioService
-     * @param mongoDBRepository
      */
     @Autowired
     public static void Session(
@@ -89,8 +88,8 @@ public class UserSession {
             AdminParadaService adminParadaService,
             EnvioACasaService envioACasaService,
             DireccionService direccionService,
-            ServicioService servicioService,
-            MongoDBRepository mongoDBRepository) {
+            ServicioService servicioService
+            ) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -103,7 +102,7 @@ public class UserSession {
         UserSession.envioACasaService = envioACasaService;
         UserSession.direccionService = direccionService;
         UserSession.servicioService = servicioService;
-        UserSession.mongoDBRepository = mongoDBRepository;
+
 
 
         do {
@@ -132,8 +131,8 @@ public class UserSession {
                 validationService,
                 servicioController,
                 envioACasaService,
-                direccionService,
-                mongoDBRepository);
+                direccionService
+                );
     }
 
     /**

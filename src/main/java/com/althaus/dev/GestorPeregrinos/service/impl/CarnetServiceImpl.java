@@ -6,8 +6,11 @@ import com.althaus.dev.GestorPeregrinos.repository.CarnetRepository;
 import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.CarnetService;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.el.BeanNameResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,8 +35,7 @@ public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements Carnet
     private final MongoDBRepository mongoDBRepository;
 
     @Autowired
-    public CarnetServiceImpl(CarnetRepository carnetRepository,
-                              MongoDBRepository mongoDBRepository) {
+    public CarnetServiceImpl(CarnetRepository carnetRepository, MongoDBRepository mongoDBRepository) {
         super(carnetRepository);
         this.carnetRepository = carnetRepository;
         this.mongoDBRepository = mongoDBRepository;

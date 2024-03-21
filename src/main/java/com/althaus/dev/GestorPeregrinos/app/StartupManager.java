@@ -5,10 +5,12 @@ import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -34,18 +36,19 @@ public class StartupManager implements CommandLineRunner {
     private final PeregrinoService peregrinoService;
     private final CarnetService carnetService;
     private final AdminParadaService adminParadaService;
-    private final MongoDBRepository mongoDBRepository;
+
+
 
     @Autowired
     public StartupManager(CredencialesService credencialesService, ParadaService paradaService,
-                          PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService, MongoDBRepository mongoDBRepository) {
+                          PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService) {
         this.credencialesService = credencialesService;
         this.paradaService = paradaService;
         this.peregrinoService = peregrinoService;
         this.carnetService = carnetService;
         this.adminParadaService = adminParadaService;
-        this.mongoDBRepository = mongoDBRepository;
     }
+
 
     /**
      * Método principal que se ejecuta al iniciar la aplicación.
@@ -64,7 +67,7 @@ public class StartupManager implements CommandLineRunner {
      * Método transaccional para cargar datos iniciales en la base de datos.
      */
     @Transactional
-    void cargarDatosIniciales() {
+    public void cargarDatosIniciales() {
 
         List<String> nombresParada = Arrays.asList("Avilés", "León", "Madrid", "Coruña", "Santander");
         HashMap<String, String> nacionalidades = XMLReader.readPaises();
@@ -165,6 +168,10 @@ public class StartupManager implements CommandLineRunner {
      * @return Nombre único generado.
      */
     private String obtenerNombreUnico(List<String> nombresUtilizados, List<String> nombresDisponibles) {
+        if (nombresDisponibles.isEmpty()) {
+            throw new IllegalStateException("La lista de nombres disponibles está vacía");
+        }
+
         String nombre;
         do {
             int indiceAleatorio = (int) (Math.random() * nombresDisponibles.size());
@@ -173,4 +180,5 @@ public class StartupManager implements CommandLineRunner {
         nombresUtilizados.add(nombre);
         return nombre;
     }
+
 }
