@@ -4,12 +4,14 @@ import com.althaus.dev.GestorPeregrinos.model.Contratado;
 import com.althaus.dev.GestorPeregrinos.repository.ContratadoRepository;
 import com.althaus.dev.GestorPeregrinos.service.ContratadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ContratadoServiceImpl implements ContratadoService {
+
     private final ContratadoRepository contratadoRepository;
 
     @Autowired

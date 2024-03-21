@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 /**
  * Clase que representa la dirección de un peregrino junto con la información de su paquete.

@@ -38,7 +38,6 @@ import javax.persistence.EntityManagerFactory;
 @SpringBootApplication
 @EnableTransactionManagement
 @Component
-//@Profile({"objectdb", "db4o", "mysql"})
 public class AppLauncher implements CommandLineRunner {
 
     @Autowired
@@ -108,17 +107,6 @@ public class AppLauncher implements CommandLineRunner {
      * Inicializa la sesión de usuario con instancias de controladores y servicios necesarios.
      */
     private void inicializarSesionDeUsuario() {
-        // Obtener instancias de controladores desde el contexto de la aplicación
-        LoginController loginController = applicationContext.getBean(LoginController.class);
-        ParadaController paradaController = applicationContext.getBean(ParadaController.class);
-        PeregrinoController peregrinoController = applicationContext.getBean(PeregrinoController.class);
-        EstanciaController estanciaController = applicationContext.getBean(EstanciaController.class);
-        ValidationService validationService = applicationContext.getBean(ValidationService.class);
-        ParadaRepository paradaRepository = applicationContext.getBean(ParadaRepository.class);
-        AdminParadaService adminParadaService = applicationContext.getBean(AdminParadaService.class);
-        EnvioACasaService envioACasaService = applicationContext.getBean(EnvioACasaService.class);
-        DireccionService direccionService = applicationContext.getBean(DireccionService.class);
-        ServicioService servicioService = applicationContext.getBean(ServicioService.class);
 
         // Inyectar dependencias en UserSession
         UserSession.Session(loginController,

@@ -3,7 +3,7 @@ package com.althaus.dev.GestorPeregrinos.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.Arrays;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Arrays;
 @Setter
 @Entity
 @Table(name = "envio_a_casa")
-public class EnvioACasa /*extends Servicio*/ implements Identifiable {
+public class EnvioACasa implements Identifiable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +29,14 @@ public class EnvioACasa /*extends Servicio*/ implements Identifiable {
     private double peso;
 
     @Column(name = "volumen")
-    private int[] volumen = new int[3]; // Las dimensiones del paquete: largo, ancho, alto.
+    private int[] volumen = new int[3];
 
     @Column(name = "urgente")
     private boolean urgente = false;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
-    private Direccion direccion; // La dirección de destino del envío.
+    private Direccion direccion;
 
     @ManyToOne
     @JoinColumn(name = "parada_id")

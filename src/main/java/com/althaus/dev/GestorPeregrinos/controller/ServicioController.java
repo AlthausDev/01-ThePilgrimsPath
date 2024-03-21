@@ -25,8 +25,7 @@ public class ServicioController {
         System.out.println("Introduce el nombre del servicio:");
         String nombre = scanner.nextLine();
 
-        System.out.println("Introduce el precio del servicio:");
-        double precio = Double.parseDouble(scanner.nextLine());
+        double precio = solicitarPrecio();
 
         Servicio servicio = new Servicio();
         servicio.setNombre(nombre);
@@ -35,14 +34,32 @@ public class ServicioController {
         servicioService.createServicio(servicio);
     }
 
+    private double solicitarPrecio() {
+        double precio = -1;
+
+        while (precio < 0) {
+            try {
+                System.out.println("Introduce el precio del servicio:");
+                precio = Double.parseDouble(scanner.nextLine());
+
+                if (precio < 0) {
+                    System.out.println("El precio no puede ser negativo. Por favor, inténtelo nuevamente.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, introduce un precio válido.");
+            }
+        }
+
+        return precio;
+    }
+
     public void updateServicio() {
         System.out.println("Editar Servicio");
 
         System.out.println("Introduce el nombre del servicio a editar:");
         String nombre = scanner.nextLine();
 
-        System.out.println("Introduce el nuevo precio del servicio:");
-        double nuevoPrecio = Double.parseDouble(scanner.nextLine());
+        double nuevoPrecio = solicitarPrecio();
 
         Servicio servicio = new Servicio();
         servicio.setNombre(nombre);

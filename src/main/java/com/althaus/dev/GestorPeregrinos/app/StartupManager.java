@@ -1,16 +1,13 @@
 package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.util.PasswordUtils;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLReader;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -37,8 +34,6 @@ public class StartupManager implements CommandLineRunner {
     private final CarnetService carnetService;
     private final AdminParadaService adminParadaService;
 
-
-
     @Autowired
     public StartupManager(CredencialesService credencialesService, ParadaService paradaService,
                           PeregrinoService peregrinoService, CarnetService carnetService, AdminParadaService adminParadaService) {
@@ -48,7 +43,6 @@ public class StartupManager implements CommandLineRunner {
         this.carnetService = carnetService;
         this.adminParadaService = adminParadaService;
     }
-
 
     /**
      * Método principal que se ejecuta al iniciar la aplicación.
@@ -168,10 +162,6 @@ public class StartupManager implements CommandLineRunner {
      * @return Nombre único generado.
      */
     private String obtenerNombreUnico(List<String> nombresUtilizados, List<String> nombresDisponibles) {
-        if (nombresDisponibles.isEmpty()) {
-            throw new IllegalStateException("La lista de nombres disponibles está vacía");
-        }
-
         String nombre;
         do {
             int indiceAleatorio = (int) (Math.random() * nombresDisponibles.size());

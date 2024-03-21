@@ -42,8 +42,7 @@ public class MySQLConfig {
         return dataSource;
     }
 
-    @Bean(name = "entityManagerFactory")
-    @Qualifier("mysql")
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         try {
 
