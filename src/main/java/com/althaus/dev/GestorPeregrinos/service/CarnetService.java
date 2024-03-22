@@ -15,4 +15,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface CarnetService extends CoreService<Carnet> {
+
+    /**
+     * Exporta los carnets de la base de datos existDB a una base de datos MongoDB.
+     */
+    void exportarCarnets();
+
 }

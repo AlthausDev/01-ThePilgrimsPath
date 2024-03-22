@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements CarnetService {
 
     private final ExistDBConfig existDBConfig;
-
     private final CarnetRepository carnetRepository;
     private final MongoDBRepository mongoDBRepository;
 
@@ -55,7 +55,7 @@ public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements Carnet
     }
 
 
-    public void backupCarnets() {
+    public void exportarCarnets() {
         List<Carnet> carnets = carnetRepository.findAll();
         List<String> carnetsBackup = carnets.stream()
                 .map(Carnet::toString)
@@ -67,7 +67,7 @@ public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements Carnet
     }
 
     private String generateBackupFileName() {
-        return "backupcarnets_" + LocalDateTime.now().toString().replace(":", "-");
+        return "backupcarnets_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
     private CarnetBackup createBackupObject(List<String> carnetsBackup) {

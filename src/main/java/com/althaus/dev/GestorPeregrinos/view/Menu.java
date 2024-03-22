@@ -2,9 +2,11 @@ package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.controller.*;
+import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
 import com.althaus.dev.GestorPeregrinos.model.objectDB.EnvioACasa;
+import com.althaus.dev.GestorPeregrinos.service.CarnetService;
 import com.althaus.dev.GestorPeregrinos.service.DireccionService;
 import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;
@@ -66,6 +68,7 @@ public class Menu {
     private final ServicioController servicioController;
     private final EnvioACasaService envioACasaService;
     private final DireccionService direccionService;
+    private final CarnetService carnetService;
 
 
 
@@ -87,7 +90,7 @@ public class Menu {
             ValidationService validationService,
             ServicioController servicioController,
             EnvioACasaService envioACasaService,
-            DireccionService direccionService) {
+            DireccionService direccionService, CarnetService carnetService) {
 
         this.loginController = loginController;
         this.paradaController = paradaController;
@@ -97,7 +100,7 @@ public class Menu {
         this.validationService = validationService;
         this.envioACasaService = envioACasaService;
         this.direccionService = direccionService;
-
+        this.carnetService = carnetService;
 
 
         Perfil perfil = UserSession.getPerfil();
@@ -116,11 +119,14 @@ public class Menu {
     private void menuInvitado() {
         int opcion = -1;
         do {
-            System.out.println("\nBienvenido al sistema de Gestión de peregrinos!");
+            System.out.println();
+            System.out.println("Bienvenido al sistema de Gestión de peregrinos!");
             System.out.println("Menu:");
             System.out.println("1. Iniciar sesión");
             System.out.println("2. Crear nuevo usuario");
             System.out.println("0. Salir");
+            System.out.println();
+
 
             opcion = obtenerOpcionUsuario();
             switch (opcion) {
@@ -145,10 +151,12 @@ public class Menu {
     protected void menuPeregrino() {
         int opcion = -1;
         do {
+            System.out.println();
             System.out.println("Menu Peregrino:");
             System.out.println("1. Visualizar y exportar datos del carnet");
             System.out.println("2. Cerrar Sesion");
             System.out.println("0. Salir");
+            System.out.println();
 
             opcion = obtenerOpcionUsuario();
 
@@ -174,13 +182,16 @@ public class Menu {
     protected void menuAdminParada() {
         int opcion = -1;
         do {
+            System.out.println();
             System.out.println("Menu Administrador de Parada:");
             System.out.println("1. Visualizar datos de parada");
             System.out.println("2. Exportar datos de parada");
             System.out.println("3. Recibir peregrino en parada");
-            System.out.println("4. Ver envíos realizados");
-            System.out.println("5. Cerrar Sesion");
+            System.out.println("4. Ver Carnets expedidos en Parada");
+            System.out.println("5. Ver envíos realizados");
+            System.out.println("6. Cerrar Sesion");
             System.out.println("0. Salir");
+            System.out.println();
 
             opcion = obtenerOpcionUsuario();
 
@@ -192,12 +203,14 @@ public class Menu {
                 case 1 -> mostrarDatosParadaActual();
                 case 2 -> menuExportarEstanciasFechas();
                 case 3 -> menuRecibirPeregrinoEnParada();
-                case 4 -> imprimirEnviosDesdeParada();
-                case 5 -> UserSession.cerrarSesion();
+                case 4 -> mostrarCarnetsExpedidosEnParada();
+                case 5 -> imprimirEnviosDesdeParada();
+                case 6 -> UserSession.cerrarSesion();
                 default -> System.out.println("Opción no válida. Por favor, seleccione una opción válida." + "\n");
             }
         } while (opcion != 0);
     }
+
 
 
     /**
@@ -207,12 +220,15 @@ public class Menu {
     protected void menuAdmin() {
         int opcion = -1;
         do {
+            System.out.println();
             System.out.println("Menu Administrador:");
             System.out.println("1. Registrar nueva parada");
             System.out.println("2. Nuevo Servicio");
             System.out.println("3. Editar Servicio");
-            System.out.println("4. Cerrar Sesion");
+            System.out.println("4. Realizar backup completo de carnets");
+            System.out.println("5. Cerrar Sesion");
             System.out.println("0. Salir");
+            System.out.println();
 
             opcion = obtenerOpcionUsuario();
 
@@ -224,7 +240,8 @@ public class Menu {
                 case 1 -> paradaController.nuevaParada();
                 case 2 -> servicioController.createServicio();
                 case 3 -> servicioController.updateServicio();
-                case 4 -> {
+                case 4 -> carnetService.exportarCarnets();
+                case 5 -> {
                     UserSession.cerrarSesion();
                     opcion = 0;
                 }
@@ -232,6 +249,7 @@ public class Menu {
             }
         } while (opcion != 0);
     }
+
 
     private void salir() {
         UserSession.setContinuar(false);
@@ -324,4 +342,27 @@ public class Menu {
         }
     }
 
+    private void mostrarCarnetsExpedidosEnParada() {
+        Parada paradaActual = UserSession.getParadaActual();
+        if (paradaActual == null) {
+            System.out.println("Error: No se ha seleccionado una parada válida.");
+            return;
+        }
+
+        System.out.println("Carnets expedidos en la parada " + paradaActual.getNombre() + ":");
+        List<Carnet> carnetsExpedidos = paradaController.obtenerCarnetsExpedidosEnParada(paradaActual.getId());
+
+        if (carnetsExpedidos.isEmpty()) {
+            System.out.println("No se encontraron carnets expedidos en esta parada.");
+        } else {
+            for (Carnet carnet : carnetsExpedidos) {
+                System.out.println(carnet.toString());
+            }
+        }
+    }
+
+    private void realizarBackupCarnets() {
+        carnetService.exportarCarnets();
+        System.out.println("Backup de carnets realizado con éxito.");
+    }
 }

@@ -61,6 +61,7 @@ public class UserSession {
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
     private static AdminParadaService adminParadaService;
+    private static CarnetService carnetService;
 
 
 
@@ -131,8 +132,8 @@ public class UserSession {
                 validationService,
                 servicioController,
                 envioACasaService,
-                direccionService
-                );
+                direccionService,
+                carnetService);
     }
 
     /**
