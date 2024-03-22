@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public interface ServicioService {
@@ -30,6 +29,6 @@ public interface ServicioService {
 
     List<Servicio> getAllServicios();
 
-    Set<Servicio> getServiciosDisponiblesPorParada(Optional<Parada> parada);
+    List<Servicio> getServiciosDisponiblesPorParada(Optional<Parada> parada);
 
 }

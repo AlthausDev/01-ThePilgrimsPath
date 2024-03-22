@@ -16,15 +16,6 @@ public class ObjectDBConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(ObjectDBConfig.class);
 
-    @Value("${spring.datasource.url.objectdb}")
-    private String url;
-
-    @Value("${spring.datasource.username.objectdb}")
-    private String username;
-
-    @Value("${spring.datasource.password.objectdb}")
-    private String password;
-
 
     @Bean(name = "objectdbEntityManager")
     public EntityManager entityManager() {

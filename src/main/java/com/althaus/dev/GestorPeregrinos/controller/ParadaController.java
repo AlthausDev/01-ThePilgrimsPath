@@ -65,13 +65,13 @@ public class ParadaController {
 
                 Long newIdCredencial = credencialesService.getLastId() + 1;
 
-                Parada nuevaParada = new Parada(nombreParada, regionParada, null);
+                Parada nuevaParada = new Parada(nombreParada, regionParada);
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
                 Credenciales credencial = new Credenciales(newIdCredencial, adminParada, passAdmin);
 
                 // Necesario para establecer correctamente la relación bidireccional
-                nuevaParada.setAdminParada(adminParada);
-                adminParada.setParada(nuevaParada);
+                //nuevaParada.setAdminParada(adminParada);
+                // adminParada.setParada(nuevaParada);
 
                 credencialesService.create(credencial);
                 adminParadaService.create(adminParada);

@@ -56,12 +56,12 @@ public class Parada implements Identifiable {
     @Column(name = "region", nullable = false)
     private Character region;
 
-    /**
-     * Administrador de parada asociado a la parada.
-     */
-    @OneToOne
-    @JoinColumn(name = "admin_parada_id")
-    private AdminParada adminParada;
+//    /**
+//     * Administrador de parada asociado a la parada.
+//     */
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "admin_parada_id")
+//    private AdminParada adminParada;
 
     /**
      * Lista de peregrinos asociados a la parada.
@@ -76,7 +76,7 @@ public class Parada implements Identifiable {
             joinColumns = @JoinColumn(name = "parada_id")
     )
     @Column(name = "servicio")
-    private Set<Servicio> servicios = new HashSet<>();
+    private List<Servicio> servicios = new ArrayList<>();
 
 
     /**
@@ -85,10 +85,10 @@ public class Parada implements Identifiable {
     public Parada() {
     }
 
-    public Parada(String nombre, Character region, AdminParada adminParada) {
+    public Parada(String nombre, Character region) {
         this.nombre = nombre;
         this.region = region;
-        this.adminParada = adminParada;
+        //this.adminParada = adminParada;
     }
 
     /**
@@ -97,14 +97,14 @@ public class Parada implements Identifiable {
      * @param id          Identificador único de la parada.
      * @param nombre      Nombre de la parada.
      * @param region      Región de la parada.
-     * @param adminParada Administrador de parada asociado a la parada.
+     //* @param adminParada Administrador de parada asociado a la parada.
      * @param peregrinos  Lista de peregrinos asociados a la parada.
      */
-    public Parada(Long id, String nombre, Character region, AdminParada adminParada, ArrayList<Peregrino> peregrinos) {
+    public Parada(Long id, String nombre, Character region, ArrayList<Peregrino> peregrinos) {
         this.id = id;
         this.nombre = nombre;
         this.region = region;
-        this.adminParada = adminParada;
+        //this.adminParada = adminParada;
         this.peregrinos = peregrinos;
     }
 

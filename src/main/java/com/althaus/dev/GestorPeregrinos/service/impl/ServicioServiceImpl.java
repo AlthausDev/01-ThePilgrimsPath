@@ -7,10 +7,7 @@ import com.althaus.dev.GestorPeregrinos.service.ServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ServicioServiceImpl implements ServicioService {
@@ -50,12 +47,12 @@ public class ServicioServiceImpl implements ServicioService {
     public List<Servicio> getAllServicios() {
         return servicioRepository.findAll();
     }
-    public Set<Servicio> getServiciosDisponiblesPorParada(Optional<Parada> paradaOptional) {
+    public List<Servicio> getServiciosDisponiblesPorParada(Optional<Parada> paradaOptional) {
         if (paradaOptional.isPresent()) {
             Parada parada = paradaOptional.get();
             return parada.getServicios();
         } else {
-            return new HashSet<>();
+            return new ArrayList<>();
         }
     }
 

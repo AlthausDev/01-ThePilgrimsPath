@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @EntityScan("com.althaus.dev.GestorPeregrinos.model")
 @PropertySource("classpath:application.properties")
 @Configuration
-public class StartupManager implements CommandLineRunner {
+public class StartupManager {
 
     private final CredencialesService credencialesService;
     private final ParadaService paradaService;
@@ -52,17 +52,17 @@ public class StartupManager implements CommandLineRunner {
      * @param args Argumentos de línea de comandos (no utilizados).
      * @throws Exception Posible excepción durante la ejecución.
      */
-    @Override
-    public void run(String... args) throws Exception {
-        cargarAdminGeneral();
-        cargarDatosIniciales();
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        cargarAdminGeneral();
+//        cargarDatosIniciales();
+//    }
 
     /**
      * Método transaccional para cargar datos iniciales en la base de datos.
      */
     @Transactional
-    void cargarDatosIniciales() {
+    public void cargarDatosIniciales() {
 
         List<String> nombresParada = Arrays.asList("Avilés", "León", "Madrid", "Coruña", "Santander");
         HashMap<String, String> nacionalidades = XMLReader.readPaises();
@@ -95,13 +95,13 @@ public class StartupManager implements CommandLineRunner {
 
                     Long newIdCredencial = credencialesService.getLastId() + 1;
 
-                    Parada nuevaParada = new Parada(nombreParada, regionParada, null);
+                    Parada nuevaParada = new Parada(nombreParada, regionParada);
                     AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
                     Credenciales credencial = new Credenciales(newIdCredencial, adminParada, passAdmin);
 
                     // Necesario para establecer correctamente la relación bidireccional
-                    nuevaParada.setAdminParada(adminParada);
-                    adminParada.setParada(nuevaParada);
+                    //nuevaParada.setAdminParada(adminParada);
+                    //adminParada.setParada(nuevaParada);
 
                     credencialesService.create(credencial);
                     adminParadaService.create(adminParada);
@@ -129,13 +129,15 @@ public class StartupManager implements CommandLineRunner {
 
                 Long newIdCredencial = credencialesService.getLastId() + 1;
 
-                Carnet nuevoCarnet = new Carnet(newIdCredencial, paradaAleatoria.get());
-                Peregrino nuevoPeregrino = new Peregrino(newIdCredencial, nombre, nacionalidad, nuevoCarnet, Collections.singletonList(paradaAleatoria.get()));
-                Credenciales credencial = new Credenciales(newIdCredencial, nuevoPeregrino, password);
+                if(paradaAleatoria.isPresent()) {
+                    Carnet nuevoCarnet = new Carnet(newIdCredencial, paradaAleatoria.get());
+                    Peregrino nuevoPeregrino = new Peregrino(newIdCredencial, nombre, nacionalidad, nuevoCarnet, Collections.singletonList(paradaAleatoria.get()));
+                    Credenciales credencial = new Credenciales(newIdCredencial, nuevoPeregrino, password);
 
-                credencialesService.create(credencial);
-                peregrinoService.create(nuevoPeregrino);
-                carnetService.create(nuevoCarnet);
+                    credencialesService.create(credencial);
+                    peregrinoService.create(nuevoPeregrino);
+                    carnetService.create(nuevoCarnet);
+                }
             }
         }
     }
@@ -144,7 +146,7 @@ public class StartupManager implements CommandLineRunner {
      * Carga el administrador general si no existe en la base de datos.
      */
     @Transactional
-    private void cargarAdminGeneral() {
+    public void cargarAdminGeneral() {
         Optional<Credenciales> adminCredenciales = credencialesService.read(0L);
 
         if (adminCredenciales.isEmpty()) {
