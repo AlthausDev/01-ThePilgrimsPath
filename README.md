@@ -1,9 +1,9 @@
-# Proyecto Gestor de Peregrinos con Spring Boot, JPA+Hibernate y Vistas en .NET (C#)
+# Proyecto Gestor de Peregrinos con Spring Boot y JPA+Hibernate 
 
 ## Descripción
 
 El proyecto Peregrinos es una aplicación de gestión de información sobre peregrinos y su peregrinación, desarrollada con
-Spring Boot, JPA+Hibernate y ahora incluye vistas en .NET utilizando C#. Facilita el registro de peregrinos, la
+Spring Boot, JPA+Hibernate. Facilita el registro de peregrinos, la
 administración de paradas y estancias, y proporciona una visión integral de la peregrinación en curso.
 
 ## Características Principales
@@ -18,8 +18,7 @@ administración de paradas y estancias, y proporciona una visión integral de la
     - Perfiles de usuario diferenciados: invitado, administrador de parada, peregrino y administrador general.
 - **Autenticación y Autorización:**
     - Implementa un sistema seguro de autenticación y autorización.
-- **Vistas en .NET (C#):**
-    - Añade una capa de vistas utilizando la tecnología C# en .NET.
+
 
 ## Tecnologías Utilizadas
 
@@ -31,8 +30,7 @@ administración de paradas y estancias, y proporciona una visión integral de la
     - Tecnología ORM para el mapeo objeto-relacional.
 - **XML:**
     - Utilizado para la exportación de datos.
-- **.NET (C#):**
-    - Utilizado para la creación de vistas.
+
 
 ## Instalación
 

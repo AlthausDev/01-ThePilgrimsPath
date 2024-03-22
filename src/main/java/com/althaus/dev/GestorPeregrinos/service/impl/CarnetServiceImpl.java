@@ -1,7 +1,9 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
+import com.althaus.dev.GestorPeregrinos.config.ExistDBConfig;
 import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import com.althaus.dev.GestorPeregrinos.model.CarnetBackup;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.repository.CarnetRepository;
 import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.CarnetService;
@@ -26,15 +28,32 @@ import java.util.stream.Collectors;
 @Service
 public class CarnetServiceImpl extends CoreServiceImpl<Carnet> implements CarnetService {
 
+    private final ExistDBConfig existDBConfig;
+
     private final CarnetRepository carnetRepository;
     private final MongoDBRepository mongoDBRepository;
 
     @Autowired
-    public CarnetServiceImpl(CarnetRepository carnetRepository, MongoDBRepository mongoDBRepository) {
+    public CarnetServiceImpl(CarnetRepository carnetRepository, ExistDBConfig existDBConfig, MongoDBRepository mongoDBRepository) {
         super(carnetRepository);
         this.carnetRepository = carnetRepository;
         this.mongoDBRepository = mongoDBRepository;
+        this.existDBConfig = existDBConfig;
+
     }
+
+    @Override
+    public Carnet create(Carnet entity) {
+        Carnet savedCarnet = super.create(entity);
+        Parada paradaInicial = savedCarnet.getParadaInicial();
+        if (paradaInicial != null) {
+            existDBConfig.saveCarnetParada(paradaInicial.getId(), savedCarnet);
+        } else {
+            throw new RuntimeException("No se pudo obtener la parada inicial para el carné.");
+        }
+        return savedCarnet;
+    }
+
 
     public void backupCarnets() {
         List<Carnet> carnets = carnetRepository.findAll();

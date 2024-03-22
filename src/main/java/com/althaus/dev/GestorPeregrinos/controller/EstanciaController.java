@@ -202,8 +202,8 @@ public class EstanciaController {
     @Transactional
 
     public Contratado detallesPaquete(Parada paradaActual) {
-        Set<Servicio> conjuntoServicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
-        Set<Servicio> serviciosSeleccionados = new HashSet<>();
+        List<Servicio> conjuntoServicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
+        List<Servicio> serviciosSeleccionados = new ArrayList<>();
         double precioTotal = 0;
 
         mostrarServiciosDisponibles(paradaActual);
@@ -217,7 +217,7 @@ public class EstanciaController {
     }
 
 
-    private void seleccionarServicios(Set<Servicio> conjuntoServicios, Set<Servicio> serviciosSeleccionados, double precioTotal) {
+    private void seleccionarServicios(List<Servicio> conjuntoServicios, List<Servicio> serviciosSeleccionados, double precioTotal) {
         // Mostrar la lista de servicios disponibles
         System.out.println("Servicios disponibles:");
         int contador = 1;
@@ -261,7 +261,7 @@ public class EstanciaController {
     }
 
 
-    private Servicio obtenerServicioPorIndice(Set<Servicio> conjuntoServicios, int indice) {
+    private Servicio obtenerServicioPorIndice(List<Servicio> conjuntoServicios, int indice) {
         int contador = 0;
         // Iterar sobre los servicios disponibles hasta encontrar el servicio en el índice especificado
         for (Servicio servicio : conjuntoServicios) {
@@ -294,7 +294,7 @@ public class EstanciaController {
     }
 
     public void mostrarServiciosDisponibles(Parada paradaActual) {
-        Set<Servicio> servicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
+        List<Servicio> servicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
         int contador = 1;
 
         System.out.println("Servicios disponibles:");

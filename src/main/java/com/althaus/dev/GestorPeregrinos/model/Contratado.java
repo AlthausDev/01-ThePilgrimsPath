@@ -3,7 +3,9 @@ package com.althaus.dev.GestorPeregrinos.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +19,7 @@ public class Contratado implements Identifiable {
     private double precioTotal;
     private char modoPago;
     private String extra;
-    private Set<Servicio> servicios = new HashSet<>();
+    private List<Servicio> servicios = new ArrayList<>();
 
     /**
      * Constructor por defecto de la clase ConjuntoContratado.
@@ -46,7 +48,7 @@ public class Contratado implements Identifiable {
      * @param extra       Extras del conjunto contratado.
      * @param servicios   Conjunto de servicios contratados.
      */
-    public Contratado(double precioTotal, char modoPago, String extra, Set<Servicio> servicios) {
+    public Contratado(double precioTotal, char modoPago, String extra, List<Servicio> servicios) {
         this.precioTotal = precioTotal;
         this.modoPago = modoPago;
         this.extra = extra;

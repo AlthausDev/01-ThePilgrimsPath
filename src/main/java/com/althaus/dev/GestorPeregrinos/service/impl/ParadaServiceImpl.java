@@ -1,10 +1,14 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
+import com.althaus.dev.GestorPeregrinos.config.ExistDBConfig;
+import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.ParadaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Implementación del servicio para la gestión de Paradas.
@@ -26,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements ParadaService {
 
     private final ParadaRepository paradaRepository;
+    private final ExistDBConfig existDBConfig;
 
     /**
      * Constructor para la inicialización de la implementación del servicio de Parada.
@@ -35,10 +40,20 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
      */
     @Autowired
     public ParadaServiceImpl(ParadaRepository repository,
-                             ParadaRepository paradaRepository) {
+                             ParadaRepository paradaRepository,
+                             ExistDBConfig existDBConfig) {
         super(repository);
         this.paradaRepository = paradaRepository;
+        this.existDBConfig = existDBConfig;
     }
+
+    @Override
+    public Parada create(Parada entity) {
+        Parada savedParada = super.create(entity);
+        existDBConfig.crearColeccionParaParada(savedParada.getId());
+        return savedParada;
+    }
+
 
     /**
      * Verifica si existe una parada con el nombre proporcionado.
@@ -50,4 +65,16 @@ public class ParadaServiceImpl extends CoreServiceImpl<Parada> implements Parada
     public boolean existsByNombre(String nombre) {
         return paradaRepository.existsByNombre(nombre);
     }
+
+    /**
+     * @param idParada
+     * @return
+     */
+    @Override
+    public List<Carnet> obtenerCarnetsExpedidos(Long idParada) {
+        Parada parada = paradaRepository.findById(idParada)
+                .orElseThrow(() -> new RuntimeException("Parada no encontrada"));
+        return existDBConfig.getCarnetsExpedidosEnParada(parada); // Obtener los carnets expedidos en la parada
+    }
+
 }

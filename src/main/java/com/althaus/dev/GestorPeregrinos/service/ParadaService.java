@@ -1,7 +1,10 @@
 package com.althaus.dev.GestorPeregrinos.service;
 
+import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Servicio para la gestión de Paradas.
@@ -26,4 +29,7 @@ public interface ParadaService extends CoreService<Parada> {
      * @return true si la parada existe, false de lo contrario.
      */
     boolean existsByNombre(String nombre);
+
+    List<Carnet> obtenerCarnetsExpedidos(Long idParada);
+
 }

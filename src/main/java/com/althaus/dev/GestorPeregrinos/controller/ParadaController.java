@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
 import com.althaus.dev.GestorPeregrinos.model.AdminParada;
+import com.althaus.dev.GestorPeregrinos.model.Carnet;
 import com.althaus.dev.GestorPeregrinos.model.Credenciales;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.service.AdminParadaService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Controlador encargado de gestionar las operaciones relacionadas con las paradas de peregrinos.
@@ -26,6 +28,7 @@ public class ParadaController {
     private final AdminParadaService adminParadaService;
     private final ParadaService paradaService;
     private final CredencialesService credencialesService;
+
 
     /**
      * Constructor que inicializa las dependencias del controlador.
@@ -65,13 +68,13 @@ public class ParadaController {
 
                 Long newIdCredencial = credencialesService.getLastId() + 1;
 
-                Parada nuevaParada = new Parada(nombreParada, regionParada, null);
+                Parada nuevaParada = new Parada(nombreParada, regionParada);
                 AdminParada adminParada = new AdminParada(newIdCredencial, nombreAdmin, nuevaParada);
                 Credenciales credencial = new Credenciales(newIdCredencial, adminParada, passAdmin);
 
                 // Necesario para establecer correctamente la relación bidireccional
-                nuevaParada.setAdminParada(adminParada);
-                adminParada.setParada(nuevaParada);
+                //nuevaParada.setAdminParada(adminParada);
+                // adminParada.setParada(nuevaParada);
 
                 credencialesService.create(credencial);
                 adminParadaService.create(adminParada);
@@ -87,4 +90,7 @@ public class ParadaController {
         }
     }
 
+    public List<Carnet> obtenerCarnetsExpedidosEnParada(Long idParada) {
+        return paradaService.obtenerCarnetsExpedidos(idParada);
+    }
 }
