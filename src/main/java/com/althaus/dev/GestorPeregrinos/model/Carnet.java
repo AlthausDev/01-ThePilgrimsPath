@@ -25,7 +25,7 @@ import java.time.LocalDate;
  *
  * <p>
  *
- * @author Althaus_Dev.
+ * El autor de esta clase es Althaus_Dev.
  * </p>
  * @see Parada
  * </p>

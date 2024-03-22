@@ -1,23 +1,19 @@
 package com.althaus.dev.GestorPeregrinos.config;
 
-import com.db4o.ObjectContainer;
 import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
-//import jakarta.activation.DataSource;
-//import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -1,5 +1,7 @@
-package com.althaus.dev.GestorPeregrinos.model;
+package com.althaus.dev.GestorPeregrinos.model.objectDB;
 
+import com.althaus.dev.GestorPeregrinos.model.Identifiable;
+import com.althaus.dev.GestorPeregrinos.model.Parada;
 import lombok.Getter;
 import lombok.Setter;
 

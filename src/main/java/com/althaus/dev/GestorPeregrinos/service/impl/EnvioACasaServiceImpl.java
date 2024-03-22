@@ -1,12 +1,13 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
-import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.repository.EnvioACasaRepository;
 import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 @Service

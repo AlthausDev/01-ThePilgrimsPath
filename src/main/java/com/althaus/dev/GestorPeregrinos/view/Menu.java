@@ -2,10 +2,9 @@ package com.althaus.dev.GestorPeregrinos.view;
 
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.controller.*;
-import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Perfil;
-import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.service.DireccionService;
 import com.althaus.dev.GestorPeregrinos.service.EnvioACasaService;
 import com.althaus.dev.GestorPeregrinos.service.ValidationService;

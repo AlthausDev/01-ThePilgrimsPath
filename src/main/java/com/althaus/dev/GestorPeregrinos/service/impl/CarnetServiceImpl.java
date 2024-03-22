@@ -5,12 +5,7 @@ import com.althaus.dev.GestorPeregrinos.model.CarnetBackup;
 import com.althaus.dev.GestorPeregrinos.repository.CarnetRepository;
 import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.service.CarnetService;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.el.BeanNameResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

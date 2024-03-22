@@ -1,6 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.view;
 
-import com.althaus.dev.GestorPeregrinos.model.*;
+import com.althaus.dev.GestorPeregrinos.model.Estancia;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

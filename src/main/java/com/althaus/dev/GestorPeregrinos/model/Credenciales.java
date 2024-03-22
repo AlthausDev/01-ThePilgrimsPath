@@ -41,6 +41,8 @@ import lombok.ToString;
 public class Credenciales implements Identifiable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable=false, updatable=false)
     private Long id;
 
     @Embedded

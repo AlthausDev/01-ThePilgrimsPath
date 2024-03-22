@@ -1,8 +1,8 @@
-package com.althaus.dev.GestorPeregrinos.model;
+package com.althaus.dev.GestorPeregrinos.model.objectDB;
 
+import com.althaus.dev.GestorPeregrinos.model.Identifiable;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.*;
 

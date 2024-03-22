@@ -1,11 +1,12 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
-import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.EnvioACasa;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import javax.persistence.TypedQuery;
 import java.util.List;
 

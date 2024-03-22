@@ -1,6 +1,7 @@
 package com.althaus.dev.GestorPeregrinos.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 

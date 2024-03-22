@@ -1,10 +1,11 @@
 package com.althaus.dev.GestorPeregrinos.service.impl;
 
-import com.althaus.dev.GestorPeregrinos.model.Direccion;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.Direccion;
 import com.althaus.dev.GestorPeregrinos.repository.DireccionRepository;
 import com.althaus.dev.GestorPeregrinos.service.DireccionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service

@@ -20,7 +20,7 @@ import java.time.LocalDate;
  *
  * <p>
  *
- * @author Althaus_Dev
+ * El autor de esta clase es Althaus_Dev
  * </p>
  * @see Parada
  * @see Peregrino
@@ -63,12 +63,8 @@ public class Estancia implements Identifiable {
      * Peregrino asociado a la estancia.
      */
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(name = "peregrino_id")
     private Peregrino peregrino;
-
-
-//    @Column(name = "contratado_id")
-//    private Long contratadoId;
 
     /**
      * Constructor por defecto.

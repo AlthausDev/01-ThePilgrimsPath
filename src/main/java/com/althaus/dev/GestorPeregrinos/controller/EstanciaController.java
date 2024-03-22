@@ -1,6 +1,8 @@
 package com.althaus.dev.GestorPeregrinos.controller;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.Direccion;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.view.EstanciaView;
 import com.althaus.dev.GestorPeregrinos.view.PeregrinoView;
@@ -104,6 +106,8 @@ public class EstanciaController {
     }
 
 
+    @Transactional
+
     private void gestionarAlojamiento(Parada paradaActual, Peregrino peregrino) {
         System.out.println("¿Desea alojarse en esta parada? (S/N):");
 
@@ -139,6 +143,8 @@ public class EstanciaController {
         //estancia.setContratadoId(contratado.getId());
         estanciaService.create(estancia);
     }
+
+    @Transactional
 
     private Contratado contratarServicios(Parada paradaActual) {
         System.out.println("¿Desea contratar un paquete de servicios para este peregrino? (S/N):");
@@ -193,9 +199,10 @@ public class EstanciaController {
     }
 
 
+    @Transactional
 
     public Contratado detallesPaquete(Parada paradaActual) {
-        Set<Servicio> conjuntoServicios = servicioService.getServiciosDisponiblesPorParada(paradaActual);
+        Set<Servicio> conjuntoServicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
         Set<Servicio> serviciosSeleccionados = new HashSet<>();
         double precioTotal = 0;
 
@@ -287,7 +294,7 @@ public class EstanciaController {
     }
 
     public void mostrarServiciosDisponibles(Parada paradaActual) {
-        Set<Servicio> servicios = servicioService.getServiciosDisponiblesPorParada(paradaActual);
+        Set<Servicio> servicios = servicioService.getServiciosDisponiblesPorParada(Optional.ofNullable(paradaActual));
         int contador = 1;
 
         System.out.println("Servicios disponibles:");
@@ -380,7 +387,6 @@ public class EstanciaController {
 
 
     private boolean dimensionesValidas(int[] dimensiones) {
-        // Verificar que las dimensiones sean mayores que cero
         for (int dim : dimensiones) {
             if (dim <= 0) {
                 return false;

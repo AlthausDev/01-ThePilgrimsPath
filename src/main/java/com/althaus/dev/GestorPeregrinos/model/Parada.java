@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Clase que representa una parada en el sistema.
@@ -57,13 +60,13 @@ public class Parada implements Identifiable {
      * Administrador de parada asociado a la parada.
      */
     @OneToOne
-    @JoinColumn(name = "admin_parada")
+    @JoinColumn(name = "admin_parada_id")
     private AdminParada adminParada;
 
     /**
      * Lista de peregrinos asociados a la parada.
      */
-    @ManyToMany(mappedBy = "paradas", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "paradas", fetch = FetchType.EAGER)
     private List<Peregrino> peregrinos;
 
 
@@ -72,15 +75,15 @@ public class Parada implements Identifiable {
             name = "parada_servicio",
             joinColumns = @JoinColumn(name = "parada_id")
     )
-    @Column(name = "servicio_id")
-    private Set<Long> servicioIds = new HashSet<>();
+    @Column(name = "servicio")
+    private Set<Servicio> servicios = new HashSet<>();
+
 
     /**
      * Constructor sin argumentos.
      */
     public Parada() {
     }
-
 
     public Parada(String nombre, Character region, AdminParada adminParada) {
         this.nombre = nombre;

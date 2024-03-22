@@ -16,4 +16,10 @@ public interface ServicioRepository {
     Servicio findByNombre(String nombreServicio);
 
     List<Servicio> findAll();
+
+    void deleteById(Long id);
+
+    void updatePrecio(String nombreServicio, double nuevoPrecio);
+
+    void updateNombre(String nombreServicio, String nuevoNombre);
 }

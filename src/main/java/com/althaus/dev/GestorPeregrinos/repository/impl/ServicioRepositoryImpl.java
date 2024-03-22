@@ -55,4 +55,30 @@ public class ServicioRepositoryImpl implements ServicioRepository {
     public List<Servicio> findAll() {
         return db4o.query(Servicio.class);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        Servicio servicio = findById(id);
+        if (servicio != null) {
+            delete(servicio);
+        }
+    }
+
+    @Override
+    public void updatePrecio(String nombreServicio, double nuevoPrecio) {
+        Servicio servicio = findByNombre(nombreServicio);
+        if (servicio != null) {
+            servicio.setPrecio(nuevoPrecio);
+            update(servicio);
+        }
+    }
+
+    @Override
+    public void updateNombre(String nombreServicio, String nuevoNombre) {
+        Servicio servicio = findByNombre(nombreServicio);
+        if (servicio != null) {
+            servicio.setNombre(nuevoNombre);
+            update(servicio);
+        }
+    }
 }

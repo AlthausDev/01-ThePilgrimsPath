@@ -1,10 +1,11 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
-import com.althaus.dev.GestorPeregrinos.model.Direccion;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.Direccion;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import java.util.List;
 
 @Repository

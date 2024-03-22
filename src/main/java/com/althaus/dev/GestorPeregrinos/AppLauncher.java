@@ -1,23 +1,17 @@
 package com.althaus.dev.GestorPeregrinos;
 
-import com.althaus.dev.GestorPeregrinos.app.StartupManager;
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
 import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
-//import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.persistence.EntityManagerFactory;
 
 /**
  * Clase principal que inicia la aplicación y realiza operaciones al inicio.
@@ -34,7 +28,6 @@ import javax.persistence.EntityManagerFactory;
 @Slf4j
 @SpringBootApplication
 @EnableTransactionManagement
-@Component
 public class AppLauncher implements CommandLineRunner {
 
     @Autowired
@@ -76,9 +69,6 @@ public class AppLauncher implements CommandLineRunner {
     private ServicioController servicioController;
 
 
-
-
-
     /**
      * Método principal que inicia la aplicación Spring Boot.
      *
@@ -108,7 +98,6 @@ public class AppLauncher implements CommandLineRunner {
      */
     private void inicializarSesionDeUsuario() {
 
-        // Inyectar dependencias en UserSession
         UserSession.Session(loginController,
                 paradaController,
                 peregrinoController,

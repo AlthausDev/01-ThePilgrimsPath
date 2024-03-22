@@ -1,4 +1,4 @@
-package com.althaus.dev.GestorPeregrinos.app;
+package com.althaus.dev.GestorPeregrinos;
 
 import com.althaus.dev.GestorPeregrinos.model.*;
 import com.althaus.dev.GestorPeregrinos.service.*;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @EntityScan("com.althaus.dev.GestorPeregrinos.model")
 @PropertySource("classpath:application.properties")
 @Configuration
-@Component
 public class StartupManager implements CommandLineRunner {
 
     private final CredencialesService credencialesService;
@@ -63,7 +62,7 @@ public class StartupManager implements CommandLineRunner {
      * Método transaccional para cargar datos iniciales en la base de datos.
      */
     @Transactional
-    public void cargarDatosIniciales() {
+    void cargarDatosIniciales() {
 
         List<String> nombresParada = Arrays.asList("Avilés", "León", "Madrid", "Coruña", "Santander");
         HashMap<String, String> nacionalidades = XMLReader.readPaises();
@@ -111,6 +110,7 @@ public class StartupManager implements CommandLineRunner {
             }
         }
 
+
         // Cargar peregrinos
         //TODO cargar peregrinos con varias paradas y estancias, algunas VIP y otras no.
         if (peregrinoService.readAllList().isEmpty()) {
@@ -125,7 +125,7 @@ public class StartupManager implements CommandLineRunner {
 
                 String nacionalidad = nacionalidades.get(codigoNacionalidad);
                 String password = PasswordUtils.generateRandomPassword();
-                Optional<Parada> paradaAleatoria = paradaService.read(ThreadLocalRandom.current().nextLong(1, nombresParada.size() + 1));
+                Optional<Parada> paradaAleatoria = paradaService.read(ThreadLocalRandom.current().nextLong(1, nombresParada.size() +1));
 
                 Long newIdCredencial = credencialesService.getLastId() + 1;
 

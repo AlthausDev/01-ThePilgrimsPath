@@ -1,6 +1,6 @@
 package com.althaus.dev.GestorPeregrinos.service;
 
-import com.althaus.dev.GestorPeregrinos.model.Direccion;
+import com.althaus.dev.GestorPeregrinos.model.objectDB.Direccion;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

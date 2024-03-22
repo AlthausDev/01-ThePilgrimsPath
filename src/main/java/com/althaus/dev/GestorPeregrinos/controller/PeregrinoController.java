@@ -7,10 +7,10 @@ import com.althaus.dev.GestorPeregrinos.service.ParadaService;
 import com.althaus.dev.GestorPeregrinos.service.PeregrinoService;
 import com.althaus.dev.GestorPeregrinos.util.io.XMLWriter;
 import com.althaus.dev.GestorPeregrinos.view.PeregrinoView;
-import jakarta.transaction.Transactional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;

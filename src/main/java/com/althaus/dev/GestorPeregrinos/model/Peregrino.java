@@ -46,7 +46,7 @@ public class Peregrino extends User {
      * Carnet asociado al peregrino.
      */
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "carnet_id")
     private Carnet carnet;
 
     /**

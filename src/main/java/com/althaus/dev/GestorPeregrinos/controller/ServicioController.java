@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -47,11 +48,13 @@ public class ServicioController {
 
 
     private void mostrarServiciosDisponibles() {
+        serviciosDisponibles.clear();
         System.out.println("Servicios disponibles para editar:");
-        int numeroServicio = 1;
-        for (String nombreServicio : serviciosDisponibles.values()) {
-            System.out.println(numeroServicio + ". " + nombreServicio);
-            numeroServicio++;
+        List<Servicio> servicios = servicioService.getAllServicios();
+        for (int i = 0; i < servicios.size(); i++) {
+            Servicio servicio = servicios.get(i);
+            serviciosDisponibles.put(i + 1, servicio.getNombre());
+            System.out.println((i + 1) + ". " + servicio.getNombre() + " - Precio: " + servicio.getPrecio());
         }
     }
 
