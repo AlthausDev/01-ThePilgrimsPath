@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @EntityScan("com.althaus.dev.GestorPeregrinos.model")
 @PropertySource("classpath:application.properties")
 @Configuration
+@Component
 public class StartupManager implements CommandLineRunner {
 
     private final CredencialesService credencialesService;

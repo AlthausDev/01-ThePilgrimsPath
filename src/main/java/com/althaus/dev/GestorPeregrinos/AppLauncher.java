@@ -2,10 +2,7 @@ package com.althaus.dev.GestorPeregrinos;
 
 import com.althaus.dev.GestorPeregrinos.app.StartupManager;
 import com.althaus.dev.GestorPeregrinos.app.UserSession;
-import com.althaus.dev.GestorPeregrinos.controller.EstanciaController;
-import com.althaus.dev.GestorPeregrinos.controller.LoginController;
-import com.althaus.dev.GestorPeregrinos.controller.ParadaController;
-import com.althaus.dev.GestorPeregrinos.controller.PeregrinoController;
+import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 //import jakarta.persistence.EntityManagerFactory;
@@ -75,6 +72,9 @@ public class AppLauncher implements CommandLineRunner {
     @Autowired
     private ServicioService servicioService;
 
+    @Autowired
+    private ServicioController servicioController;
+
 
 
 
@@ -118,6 +118,7 @@ public class AppLauncher implements CommandLineRunner {
                 adminParadaService,
                 envioACasaService,
                 direccionService,
-                servicioService);
+                servicioService,
+                servicioController);
     }
 }

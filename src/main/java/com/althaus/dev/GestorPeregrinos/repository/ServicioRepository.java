@@ -1,17 +1,19 @@
 package com.althaus.dev.GestorPeregrinos.repository;
 
 import com.althaus.dev.GestorPeregrinos.model.Servicio;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-//@Profile("db4o")
 public interface ServicioRepository {
     void save(Servicio servicio);
+
     void update(Servicio servicio);
-    void deleteById(Long id);
+
+    void delete(Servicio servicio);
+
     Servicio findById(Long id);
+
+    Servicio findByNombre(String nombreServicio);
+
     List<Servicio> findAll();
 }

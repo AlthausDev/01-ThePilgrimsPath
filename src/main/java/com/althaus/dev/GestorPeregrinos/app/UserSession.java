@@ -2,7 +2,6 @@ package com.althaus.dev.GestorPeregrinos.app;
 
 import com.althaus.dev.GestorPeregrinos.controller.*;
 import com.althaus.dev.GestorPeregrinos.model.*;
-import com.althaus.dev.GestorPeregrinos.repository.MongoDBRepository;
 import com.althaus.dev.GestorPeregrinos.repository.ParadaRepository;
 import com.althaus.dev.GestorPeregrinos.service.*;
 import com.althaus.dev.GestorPeregrinos.view.Menu;
@@ -54,11 +53,11 @@ public class UserSession {
     private static PeregrinoController peregrinoController;
     private static EstanciaController estanciaController;
     private static ServicioController servicioController;
+
     private static EnvioACasaService envioACasaService;
     private static DireccionService direccionService;
     private static ServicioService servicioService;
     private static EstanciaService estanciaService;
-
     private static ValidationService validationService;
     private static ParadaRepository paradaRepository;
     private static AdminParadaService adminParadaService;
@@ -76,6 +75,7 @@ public class UserSession {
      * @param paradaRepository    Repositorio de paradas.
      * @param adminParadaService  Servicio de administrador de paradas.
      * @param servicioService
+     * @param servicioController
      */
     @Autowired
     public static void Session(
@@ -88,8 +88,8 @@ public class UserSession {
             AdminParadaService adminParadaService,
             EnvioACasaService envioACasaService,
             DireccionService direccionService,
-            ServicioService servicioService
-            ) {
+            ServicioService servicioService,
+            ServicioController servicioController) {
 
         // Inicializar la sesión y realizar las operaciones necesarias
         UserSession.loginController = loginController;
@@ -102,7 +102,7 @@ public class UserSession {
         UserSession.envioACasaService = envioACasaService;
         UserSession.direccionService = direccionService;
         UserSession.servicioService = servicioService;
-
+        UserSession.servicioController = servicioController;
 
 
         do {

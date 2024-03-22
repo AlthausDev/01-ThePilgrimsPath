@@ -34,7 +34,7 @@ public class EnvioACasa implements Identifiable {
     @Column(name = "urgente")
     private boolean urgente = false;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "direccion_id", referencedColumnName = "id")
     private Direccion direccion;
 

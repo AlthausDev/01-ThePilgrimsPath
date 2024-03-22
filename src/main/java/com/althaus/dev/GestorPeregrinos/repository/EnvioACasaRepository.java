@@ -2,18 +2,30 @@ package com.althaus.dev.GestorPeregrinos.repository;
 
 import com.althaus.dev.GestorPeregrinos.model.EnvioACasa;
 import com.althaus.dev.GestorPeregrinos.model.Parada;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-@Qualifier("objectdb")
-public interface EnvioACasaRepository extends CoreRepository<EnvioACasa, Long> {
-    @Query("SELECT e FROM EnvioACasa e WHERE e.parada = :parada")
-    List<EnvioACasa> getEnviosParada(@Param("parada") Parada parada);
+public class EnvioACasaRepository {
 
+    @PersistenceContext(unitName = "objectdbEntityManager")
+    private EntityManager entityManager;
+
+    @Transactional
+    public List<EnvioACasa> getEnviosParada(Parada parada) {
+        TypedQuery<EnvioACasa> query = entityManager.createQuery("SELECT e FROM EnvioACasa e WHERE e.parada = :parada", EnvioACasa.class);
+        query.setParameter("parada", parada);
+        List<EnvioACasa> envios = query.getResultList();
+        return envios;
+    }
+
+
+    @Transactional
+    public void save(EnvioACasa envio){
+        entityManager.persist(envio);
+    }
 }

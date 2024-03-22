@@ -9,13 +9,20 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-//@Profile("db4o")
 public interface ServicioService {
+
+    void updateServicioPrecio(String nombreServicio, double nuevoPrecio);
+
+    void updateServicioNombre(String nombreServicio, String nuevoNombre);
+
+    void deleteServicioNombre(String nombreServicio);
+
+    Servicio getServicioByNombre(String nombreServicio);
     void createServicio(Servicio servicio);
 
     void updateServicio(Servicio servicio);
 
-    void deleteServicio(Long id);
+    void delete(Servicio servicio);
 
     Servicio getServicioById(Long id);
 

@@ -19,57 +19,37 @@ import java.util.Properties;
 @Configuration
 public class ObjectDBConfig {
 
-//    private static final Logger LOG = LoggerFactory.getLogger(ObjectDBConfig.class);
-//
-//    @Value("${spring.datasource.url.objectdb}")
-//    private String url;
-//
-//    @Value("${spring.datasource.username.objectdb}")
-//    private String username;
-//
-//    @Value("${spring.datasource.password.objectdb}")
-//    private String password;
-//
-//    @Value("${spring.datasource.driver-class-name.objectdb}")
-//    private String driverClassName;
-//
-//    @Value("${spring.jpa.properties.hibernate.dialect}")
-//    private String hibernateDialect;
-//
-//    @Bean("objectdbDataSource")
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(driverClassName);
-//        dataSource.setUrl(url);
-//        dataSource.setUsername(username);
-//        dataSource.setPassword(password);
-//        return dataSource;
-//    }
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectDBConfig.class);
 
-    public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("peregrinos_samuelalthaus.odb");
-    public static EntityManager em = emf.createEntityManager();
+    @Value("${spring.datasource.url.objectdb}")
+    private String url;
 
-//    @Bean(name = "objectdbEntityManagerFactory")
-//    @Qualifier("objectdb")
-//    public EntityManagerFactory entityManagerFactory() {
-//        try {
-//            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//            em.setDataSource(dataSource());
-//            em.setPackagesToScan("com.althaus.dev.GestorPeregrinos.model");
-//            em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//
-//            // Configurar propiedades de Hibernate, incluido el dialecto
-//            Properties properties = new Properties();
-//            properties.setProperty("hibernate.dialect", hibernateDialect);
-//            em.setJpaProperties(properties);
-//
-//            em.afterPropertiesSet();
-//            return (EntityManagerFactory) em.getObject();
-//        } catch (Exception e) {
-//            LOG.error("Error al crear el EntityManagerFactory para ObjectDB: {}", e.getMessage());
-//            throw new RuntimeException("Error al crear el EntityManagerFactory para ObjectDB", e);
-//        }
-//    }
+    @Value("${spring.datasource.username.objectdb}")
+    private String username;
 
+    @Value("${spring.datasource.password.objectdb}")
+    private String password;
+
+    @Value("${spring.datasource.driver-class-name.objectdb}")
+    private String driverClassName;
+
+    @Value("${spring.jpa.properties.hibernate.dialect}")
+    private String hibernateDialect;
+
+    @Bean("objectdbDataSource")
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+
+    @Bean(name = "objectdbEntityManager")
+    public EntityManager entityManager() {
+        return Persistence.createEntityManagerFactory("peregrinos_samuelalthaus.odb")
+                .createEntityManager();
+    }
 
 }

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-//@Profile("objectdb")
-public interface EnvioACasaService extends CoreService<EnvioACasa> {
+public interface EnvioACasaService {
     List<EnvioACasa> getEnviosDesdeParada(Parada parada);
 
+    void create(EnvioACasa envioACasa);
 }

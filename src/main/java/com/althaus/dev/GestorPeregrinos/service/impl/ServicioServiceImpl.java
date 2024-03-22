@@ -4,6 +4,7 @@ import com.althaus.dev.GestorPeregrinos.model.Parada;
 import com.althaus.dev.GestorPeregrinos.model.Servicio;
 import com.althaus.dev.GestorPeregrinos.repository.ServicioRepository;
 import com.althaus.dev.GestorPeregrinos.service.ServicioService;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class ServicioServiceImpl implements ServicioService {
     }
 
     @Override
-    public void deleteServicio(Long id) {
-        servicioRepository.deleteById(id);
+    public void delete(Servicio servicio) {
+        servicioRepository.delete(servicio);
     }
 
     @Override
@@ -48,8 +49,6 @@ public class ServicioServiceImpl implements ServicioService {
     @Override
     public Set<Servicio> getServiciosDisponiblesPorParada(Parada parada) {
         Set<Servicio> serviciosDisponibles = new HashSet<>();
-
-        // Obtener los IDs de los servicios asociados a la parada
         Set<Long> idsServiciosParada = parada.getServicioIds();
 
         // Iterar sobre cada ID y buscar el servicio en el repositorio
@@ -63,4 +62,40 @@ public class ServicioServiceImpl implements ServicioService {
         return serviciosDisponibles;
     }
 
+    @Override
+    public void updateServicioPrecio(String nombreServicio, double nuevoPrecio) {
+        Servicio servicio = servicioRepository.findByNombre(nombreServicio);
+        if (servicio != null) {
+            servicio.setPrecio(nuevoPrecio);
+            servicioRepository.update(servicio);
+        } else {
+            throw new ServiceException("No se encontró el servicio en la base de datos");
+        }
+    }
+
+    @Override
+    public void updateServicioNombre(String nombreServicio, String nuevoNombre) {
+        Servicio servicio = servicioRepository.findByNombre(nombreServicio);
+        if (servicio != null) {
+            servicio.setNombre(nuevoNombre);
+            servicioRepository.update(servicio);
+        } else {
+            throw new ServiceException("No se encontró el servicio en la base de datos");
+        }
+    }
+
+    @Override
+    public void deleteServicioNombre(String nombreServicio) {
+        Servicio servicio = servicioRepository.findByNombre(nombreServicio);
+        if (servicio != null) {
+            servicioRepository.delete(servicio);
+        } else {
+            throw new ServiceException("No se encontró el servicio en la base de datos");
+        }
+    }
+
+    @Override
+    public Servicio getServicioByNombre(String nombreServicio) {
+        return servicioRepository.findByNombre(nombreServicio);
+    }
 }

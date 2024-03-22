@@ -49,6 +49,12 @@ public class Servicio implements Identifiable {
         this.precio = precio;
     }
 
+    public Servicio(Long id) {
+    }
+
+    public Servicio(String nombreServicio) {
+    }
+
     /**
      * Devuelve una representación en forma de cadena del servicio.
      *
