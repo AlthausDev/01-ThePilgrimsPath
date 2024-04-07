@@ -1,10 +1,8 @@
-# Proyecto Gestor de Peregrinos con Spring Boot y JPA+Hibernate 
+# Proyecto The Pilgrim's Path con Spring Boot y JPA+Hibernate
 
 ## Descripción
 
-El proyecto Peregrinos es una aplicación de gestión de información sobre peregrinos y su peregrinación, desarrollada con
-Spring Boot, JPA+Hibernate. Facilita el registro de peregrinos, la
-administración de paradas y estancias, y proporciona una visión integral de la peregrinación en curso.
+El proyecto The Pilgrim's Path es una aplicación de gestión de información sobre peregrinos y su peregrinación, desarrollada en Java con Spring Boot y JPA+Hibernate. Facilita el registro de peregrinos, la administración de paradas y estancias, y proporciona una visión integral de la peregrinación en curso.
 
 ## Características Principales
 
@@ -19,7 +17,6 @@ administración de paradas y estancias, y proporciona una visión integral de la
 - **Autenticación y Autorización:**
     - Implementa un sistema seguro de autenticación y autorización.
 
-
 ## Tecnologías Utilizadas
 
 - **Java:**
@@ -28,16 +25,25 @@ administración de paradas y estancias, y proporciona una visión integral de la
     - Framework para el desarrollo ágil de aplicaciones Java.
 - **JPA+Hibernate:**
     - Tecnología ORM para el mapeo objeto-relacional.
+- **MySQL con MaríaDB, DB4O embebido, ObjectDB embebido, ExistDB y MongoDB:**
+    - Bases de datos utilizadas para almacenar diferentes tipos de datos.
+- **MVC (Modelo-Vista-Controlador):**
+    - Arquitectura utilizada para estructurar el proyecto.
 - **XML:**
     - Utilizado para la exportación de datos.
-
+- **WPF (Windows Presentation Foundation):**
+    - Utilizado para la ventana de login, implementada como componente de interfaz gráfica.
+- **Maven:**
+    - Herramienta de gestión de proyectos utilizada para construir y gestionar dependencias del proyecto.
 
 ## Instalación
 
 1. Clona el repositorio en tu máquina local:
 
    ```bash
-   git clone https://github.com/AlthausDev/Project.01-GestorPeregrinos.git
+      git clone https://github.com/AlthausDev/ThePilgrimsPath.git
+   ```
+
 
 ## Uso
 
@@ -50,25 +56,22 @@ administración de paradas y estancias, y proporciona una visión integral de la
 Si deseas contribuir a este proyecto, sigue estos pasos:
 
 1. Crea un "fork" del repositorio en GitHub.
-
 2. Clona tu repositorio forkeado en tu máquina local.
+3. Crea una nueva rama para tu contribución.
+4. Realiza los cambios y mejoras en tu rama.
+5. Haz "commit" de tus cambios y "push" a tu repositorio en GitHub.
+6. Abre un "pull request" en el repositorio original para que tus cambios sean revisados y fusionados.
 
-   ```bash
-    git clone https://github.com/AlthausDev/Project.01-GestorPeregrinos.git
+## Despliegue
 
-4. Crea una nueva rama para tu contribución:
+Para desplegar la aplicación en un entorno de producción, sigue estos pasos:
 
-    ```bash
-    git checkout -b mi-contribucion
-
-5. Realiza los cambios y mejoras en tu rama.
-6. Haz "commit" de tus cambios y "push" a tu repositorio en GitHub.
-
-7. Abre un "pull request" en el repositorio original para que tus cambios sean revisados y fusionados.
+1. Monta y ejecuta las bases de datos de MySQL, ExistDB y MongoDB.
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT.
+Este proyecto está bajo la [Licencia Creative Commons 4.0](LICENSE.md).
+
 
 ## Contacto
 
