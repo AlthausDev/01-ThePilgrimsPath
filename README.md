@@ -75,5 +75,4 @@ Este proyecto está bajo la [Licencia Creative Commons 4.0](LICENSE.md).
 
 ## Contacto
 
-Si tienes alguna pregunta o sugerencia, no dudes en contactarme.
-
+Para preguntas, sugerencias o colaboraciones, por favor, no dudes en [contactarme](mailto:samuelalthaus@gmail.com)
