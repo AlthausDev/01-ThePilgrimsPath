@@ -23,9 +23,15 @@ Aplicación de gestión de peregrinos, paradas y estancias desarrollada como pro
 - eXist-db
 - MVC
 
-## Contexto
+## Puntos de interés técnico
 
-El repositorio se conserva como proyecto académico y como referencia de una aplicación que integra persistencia relacional, documental y orientada a objetos dentro del mismo ejercicio.
+El proyecto concentra buena parte de su valor en comparar distintos modelos de persistencia dentro de una misma aplicación. La lógica de gestión se mantiene reconocible mientras cambian las tecnologías utilizadas para almacenar y recuperar información.
+
+También sirve como referencia de una aplicación Spring tradicional con autenticación, separación MVC y exportación de datos.
+
+## Contexto y estado
+
+El repositorio se conserva como proyecto académico y como referencia histórica. Algunas dependencias y servicios externos reflejan el entorno utilizado durante el desarrollo original y pueden requerir configuración adicional para reproducirlo hoy.
 
 ## Puesta en marcha
 
@@ -34,8 +40,6 @@ Clona el repositorio y construye el proyecto con Maven usando la configuración 
 ```bash
 git clone https://github.com/AlthausDev/01-ThePilgrimsPath.git
 ```
-
-Algunas dependencias y servicios externos reflejan el entorno utilizado durante el desarrollo original y pueden requerir configuración adicional.
 
 ## Licencia
 
