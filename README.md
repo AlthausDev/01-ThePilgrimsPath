@@ -1,78 +1,44 @@
-# Proyecto The Pilgrim's Path con Spring Boot y JPA+Hibernate
+# The Pilgrim's Path
 
-## Descripción
+Aplicación de gestión de peregrinos, paradas y estancias desarrollada como proyecto formativo con **Java, Spring Boot y JPA/Hibernate**.
 
-El proyecto The Pilgrim's Path es una aplicación de gestión de información sobre peregrinos y su peregrinación, desarrollada en Java con Spring Boot y JPA+Hibernate. Facilita el registro de peregrinos, la administración de paradas y estancias, y proporciona una visión integral de la peregrinación en curso.
+## Qué incluye
 
-## Características Principales
+- Registro y gestión de peregrinos.
+- Administración de paradas, estancias e itinerarios.
+- Perfiles diferenciados para invitados, peregrinos, administradores de parada y administración general.
+- Autenticación y autorización.
+- Persistencia con varios motores y modelos de datos utilizados durante el ejercicio.
+- Exportación de información en XML.
 
-- **Registro de Peregrinos:**
-    - Utiliza Spring Boot y JPA+Hibernate para un manejo eficiente de la información.
-- **Gestión Avanzada de Paradas y Estancias:**
-    - Nuevas funcionalidades mejoran la administración de paradas y estancias.
-- **Detalles Ampliados de Peregrinaciones:**
-    - Proporciona información detallada y actualizada sobre cada peregrinación.
-- **Administración de Usuarios con Perfiles:**
-    - Perfiles de usuario diferenciados: invitado, administrador de parada, peregrino y administrador general.
-- **Autenticación y Autorización:**
-    - Implementa un sistema seguro de autenticación y autorización.
+## Stack
 
-## Tecnologías Utilizadas
+- Java
+- Spring Boot
+- JPA / Hibernate
+- Maven
+- MySQL / MariaDB
+- MongoDB
+- ObjectDB / DB4O
+- eXist-db
+- MVC
 
-- **Java:**
-    - Lenguaje de programación principal.
-- **Spring Boot:**
-    - Framework para el desarrollo ágil de aplicaciones Java.
-- **JPA+Hibernate:**
-    - Tecnología ORM para el mapeo objeto-relacional.
-- **MySQL con MaríaDB, DB4O embebido, ObjectDB embebido, ExistDB y MongoDB:**
-    - Bases de datos utilizadas para almacenar diferentes tipos de datos.
-- **MVC (Modelo-Vista-Controlador):**
-    - Arquitectura utilizada para estructurar el proyecto.
-- **XML:**
-    - Utilizado para la exportación de datos.
-- **WPF (Windows Presentation Foundation):**
-    - Utilizado para la ventana de login, implementada como componente de interfaz gráfica.
-- **Maven:**
-    - Herramienta de gestión de proyectos utilizada para construir y gestionar dependencias del proyecto.
+## Contexto
 
-## Instalación
+El repositorio se conserva como proyecto académico y como referencia de una aplicación que integra persistencia relacional, documental y orientada a objetos dentro del mismo ejercicio.
 
-1. Clona el repositorio en tu máquina local:
+## Puesta en marcha
 
-   ```bash
-      git clone https://github.com/AlthausDev/ThePilgrimsPath.git
-   ```
+Clona el repositorio y construye el proyecto con Maven usando la configuración correspondiente a las bases de datos que quieras probar:
 
+```bash
+git clone https://github.com/AlthausDev/01-ThePilgrimsPath.git
+```
 
-## Uso
-
-1. Inicia la aplicación.
-
-2. Sigue las instrucciones en pantalla para registrar peregrinos, administrar paradas y realizar otras acciones.
-
-## Contribución
-
-Si deseas contribuir a este proyecto, sigue estos pasos:
-
-1. Crea un "fork" del repositorio en GitHub.
-2. Clona tu repositorio forkeado en tu máquina local.
-3. Crea una nueva rama para tu contribución.
-4. Realiza los cambios y mejoras en tu rama.
-5. Haz "commit" de tus cambios y "push" a tu repositorio en GitHub.
-6. Abre un "pull request" en el repositorio original para que tus cambios sean revisados y fusionados.
-
-## Despliegue
-
-Para desplegar la aplicación en un entorno de producción, sigue estos pasos:
-
-1. Monta y ejecuta las bases de datos de MySQL, ExistDB y MongoDB.
+Algunas dependencias y servicios externos reflejan el entorno utilizado durante el desarrollo original y pueden requerir configuración adicional.
 
 ## Licencia
 
-Este proyecto está bajo la [Licencia Creative Commons 4.0](LICENSE.md).
+Este proyecto está publicado bajo **Creative Commons Attribution-NonCommercial 4.0 International**. Consulta [`LICENSE.md`](LICENSE.md).
 
-
-## Contacto
-
-Para preguntas, sugerencias o colaboraciones, por favor, no dudes en [contactarme](mailto:samuelalthaus@gmail.com)
+Si reutilizas contenido original, conserva la atribución a **Sam Althaus / AlthausDev** según los términos de la licencia.
