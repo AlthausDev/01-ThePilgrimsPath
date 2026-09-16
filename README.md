@@ -39,6 +39,7 @@ Clona el repositorio y construye el proyecto con Maven usando la configuración 
 
 ```bash
 git clone https://github.com/AlthausDev/01-ThePilgrimsPath.git
+cd 01-ThePilgrimsPath
 ```
 
 ## Licencia
