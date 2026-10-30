@@ -88,6 +88,13 @@
         </dependency>
 
 
+        <!-- db4o: biblioteca legada distribuida en lib/; instalada localmente por CI. -->
+        <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o</artifactId>
+            <version>8.0.224.15975</version>
+        </dependency>
+
         <!-- Dependencia de la Base de Datos de Objetos -->
         <dependency>
             <groupId>com.objectdb</groupId>
