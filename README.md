@@ -42,6 +42,20 @@ git clone https://github.com/AlthausDev/01-ThePilgrimsPath.git
 cd 01-ThePilgrimsPath
 ```
 
+### Compilación reproducible (Java 21)
+
+El código utiliza la biblioteca legada db4o. El JAR ya se encuentra en `lib/`, pero no está publicado como dependencia Maven del proyecto. Instálalo **desde ese archivo local** antes de compilar:
+
+```bash
+mvn -B org.apache.maven.plugins:maven-install-plugin:3.1.4:install-file \\
+  -Dfile=lib/db4o-8.0.224.15975-core-java5.jar \\
+  -DgroupId=com.db4o -DartifactId=db4o -Dversion=8.0.224.15975 \\
+  -Dpackaging=jar -DgeneratePom=true
+mvn -B verify
+```
+
+La CI realiza estos mismos pasos. La compilación correcta no garantiza que los motores de persistencia antiguos funcionen con Java 21 en producción; requieren pruebas de integración específicas. El JAR db4o es de terceros y sus condiciones de distribución deben revisarse por separado de la licencia del código del repositorio.
+
 ## Licencia
 
 Este proyecto está publicado bajo **Creative Commons Attribution-NonCommercial 4.0 International**. Consulta [`LICENSE.md`](LICENSE.md).
