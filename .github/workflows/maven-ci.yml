@@ -17,5 +17,11 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
+      - name: Install bundled legacy db4o JAR into Maven local repository
+        run: >-
+          mvn -B -ntp org.apache.maven.plugins:maven-install-plugin:3.1.4:install-file
+          -Dfile=lib/db4o-8.0.224.15975-core-java5.jar
+          -DgroupId=com.db4o -DartifactId=db4o -Dversion=8.0.224.15975
+          -Dpackaging=jar -DgeneratePom=true
       - name: Compile and run tests
         run: mvn -B -ntp verify
